@@ -1,0 +1,142 @@
+import AppKit
+import SwiftUI
+
+struct SupportCenterView: View {
+    @EnvironmentObject private var battery: BatteryMonitor
+    @AppStorage("onboardingCompleted") private var onboardingCompleted = false
+    @State private var message: String?
+    @State private var showResetConfirmation = false
+    @State private var showClearHistoryConfirmation = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            introCard
+            helpCard
+            diagnosticsCard
+            dataCard
+            aboutCard
+        }
+    }
+
+    private var introCard: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack {
+                Label("Başlangıç rehberi", systemImage: "sparkles").font(.headline)
+                Spacer()
+                if onboardingCompleted { Label("Tamamlandı", systemImage: "checkmark.circle.fill").foregroundStyle(.green).font(.caption) }
+            }
+            HStack(alignment: .top, spacing: 10) {
+                guideStep(1, "Ölçümleri oku", "Kaynak ve tazelik doğrulanmıyorsa değer yerine — gösterilir.", "waveform.path.ecg")
+                guideStep(2, "Limitin sınırı", "Yerel limit yalnız macOS’un sunduğu değerlerde ve açık Uygula eylemiyle değişir.", "battery.100percent")
+                guideStep(3, "Kontrol yetenekleri", "Pause, discharge ve kalibrasyon doğrulanana kadar kapalı kalır; başka denetleyici varsa işlem yapılmaz.", "shield.lefthalf.filled")
+            }
+            HStack {
+                Text("Başla yalnız izlemeyi sürdürür; şarj kontrolünü veya otomasyonu etkinleştirmez.")
+                    .font(.caption).foregroundStyle(.secondary)
+                Spacer()
+                Button(onboardingCompleted ? "Rehberi yeniden tamamla" : "Başla") {
+                    battery.start()
+                    onboardingCompleted = true
+                    message = "İzleme etkin. Hiçbir şarj kontrolü açılmadı."
+                }.chargeMateButtonStyle()
+            }
+        }.chargeCard()
+    }
+
+    private func guideStep(_ number: Int, _ title: String, _ detail: String, _ icon: String) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack { Image(systemName: icon).foregroundStyle(.blue); Text("\(number). \(title)").font(.subheadline.weight(.semibold)) }
+            Text(detail).font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+        }.frame(maxWidth: .infinity, alignment: .leading).padding(12)
+            .background(Color.primary.opacity(0.055), in: RoundedRectangle(cornerRadius: 11))
+    }
+
+    private var helpCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Yerel yardım", systemImage: "questionmark.circle").font(.headline)
+            DisclosureGroup("Neden bazı değerler — görünüyor?") {
+                Text("Sensör yoksa, veri geçersizse veya ölçüm 10 saniyeden eskiyse Cellkeep tahmin üretmez.")
+                    .font(.caption).foregroundStyle(.secondary).padding(.top, 6)
+            }
+            DisclosureGroup("Neden bazı kontroller kapalı?") {
+                Text("Bu Mac’te fiziksel etkisi ayrı olarak doğrulanmayan şarj durdurma, boşaltma ve kalibrasyon eylemleri güvenlik nedeniyle etkinleştirilmez.")
+                    .font(.caption).foregroundStyle(.secondary).padding(.top, 6)
+            }
+            DisclosureGroup("Başka bir şarj uygulaması açıksa ne olur?") {
+                Text("Cellkeep başka bir pil denetleyicisi algıladığında donanım değişikliğini kilitler; izleme ve geçmiş çalışmaya devam eder.")
+                    .font(.caption).foregroundStyle(.secondary).padding(.top, 6)
+            }
+        }.chargeCard()
+    }
+
+    private var diagnosticsCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Tanılama", systemImage: "stethoscope").font(.headline)
+            Text("Rapor yalnız uygulama/OS/model, ölçüm kalitesi, yetenek özeti ve hata var/yok bilgisini içerir. Seri numarası, kullanıcı adı, dosya yolu ve süreç listesi eklenmez.")
+                .font(.caption).foregroundStyle(.secondary)
+            HStack {
+                Button { exportDiagnostics() } label: { Label("Tanılama raporunu kaydet", systemImage: "square.and.arrow.down") }
+                    .chargeMateButtonStyle()
+                Spacer()
+                if let message { Text(message).font(.caption).foregroundStyle(.secondary) }
+            }
+        }.chargeCard()
+    }
+
+    private var dataCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Veriler ve sıfırlama", systemImage: "externaldrive").font(.headline)
+            Text("Arayüz sıfırlama; geçmişi, macOS’un şarj hedefini ve kontrol işlem kayıtlarını değiştirmez. Geçmiş temizleme ayrı ve geri alınabilir bir işlemdir.")
+                .font(.caption).foregroundStyle(.secondary)
+            HStack {
+                Button("Arayüz ayarlarını sıfırla") { showResetConfirmation = true }
+                Button("Geçmişi temizle", role: .destructive) { showClearHistoryConfirmation = true }
+                if battery.historyBackupAvailable {
+                    Button("Son geçmiş yedeğini geri al") { battery.restoreHistoryBackup { message = $0 } }
+                }
+            }.chargeMateButtonStyle()
+            .confirmationDialog("Yalnız Cellkeep arayüz ayarları sıfırlansın mı?", isPresented: $showResetConfirmation) {
+                Button("Arayüz ayarlarını sıfırla", role: .destructive) {
+                    ChargeMatePreferences.resetUI(in: .standard)
+                    message = "Arayüz ayarları sıfırlandı; geçmiş ve sistem limiti korundu."
+                }
+            }
+            .confirmationDialog("Geçmiş temizlensin mi? Önce yerel yedek oluşturulur.", isPresented: $showClearHistoryConfirmation) {
+                Button("Yedekle ve geçmişi temizle", role: .destructive) { battery.clearHistoryWithBackup { message = $0 } }
+            }
+        }.chargeCard()
+    }
+
+    private var aboutCard: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "bolt.shield.fill").font(.system(size: 46)).foregroundStyle(.blue.gradient)
+            Text("Cellkeep").font(.title.bold())
+            Text("Sürüm \(version) (\(build)) · bağımsız macOS uygulaması.")
+                .font(.caption).foregroundStyle(.secondary)
+            DisclosureGroup("Uygulamayı kaldırma") {
+                Text("Önce Oturum açılışında başlat seçeneğini kapatın, Cellkeep’ten çıkın ve Applications içindeki Cellkeep’i Çöp Sepeti’ne taşıyın. Bu düğme sistem dosyalarını kendiliğinden silmez.")
+                    .font(.caption).foregroundStyle(.secondary).padding(.top, 6)
+            }.frame(maxWidth: 520)
+        }.frame(maxWidth: .infinity).padding(.vertical, 12).chargeCard()
+    }
+
+    private var version: String { Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—" }
+    private var build: String { Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "—" }
+
+    private func exportDiagnostics() {
+        let panel = NSSavePanel()
+        panel.nameFieldStringValue = "Cellkeep-Tanilama.txt"
+        panel.allowedContentTypes = [.plainText]
+        panel.canCreateDirectories = true
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        let report = ChargeMateDiagnostics.report(snapshot: battery.snapshot, nativeLimit: battery.nativeLimit,
+            currentSystemLimit: battery.currentSystemLimit, nativeLimits: battery.nativeLimits,
+            otherControllerRunning: battery.otherControllerRunning, applyingLimit: battery.applyingLimit,
+            recoveryRequired: battery.controlRecoveryRequired, historyCount: battery.history.count,
+            historyError: battery.historyError != nil, energyState: battery.energySampleState)
+        do {
+            try report.data(using: .utf8)!.write(to: url, options: .atomic)
+            message = "Tanılama raporu kaydedildi."
+        } catch { message = "Rapor kaydedilemedi: \(error.localizedDescription)" }
+    }
+}

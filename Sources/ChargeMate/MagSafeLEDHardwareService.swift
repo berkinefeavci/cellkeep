@@ -1,0 +1,210 @@
+import Foundation
+import Darwin
+
+/// Authorized settings and manual control; a root-owned service maintains the policy.
+/// The installed executable is root-owned and accepts only four fixed ACLC values.
+final class MagSafeLEDHardwareService {
+    static let shared = MagSafeLEDHardwareService()
+    static let installedPath = "/Library/PrivilegedHelperTools/io.github.berkinefeavci.cellkeep.led"
+    /// Root helper/daemon identity installed by versions of this app published as "ChargeMate".
+    static let legacyInstalledPath = "/Library/PrivilegedHelperTools/com.chargemate.ledctl"
+    static let legacyLaunchDaemonLabel = "local.chargemate.led"
+    private static let legacySocketPath = "/var/run/local.chargemate.led.sock"
+
+    enum ServiceError: Error, LocalizedError {
+        case helperMissing
+        case helperNotTrusted
+        case unsupportedValue
+        case commandFailed(String)
+
+        var errorDescription: String? {
+            switch self {
+            case .helperMissing: return "LED yardımcısı kurulmamış. Önce denetimi etkinleştirin."
+            case .helperNotTrusted: return "LED yardımcısı yöneticiye ait değil; kullanılamaz."
+            case .unsupportedValue: return "Bu ışık çıkışı desteklenmiyor."
+            case .commandFailed(let detail): return "LED komutu tamamlanamadı: \(detail)"
+            }
+        }
+    }
+
+    private let journal: URL
+    private lazy var coordinator = makeCoordinator()
+    private func makeCoordinator() -> MagSafeLEDControlCoordinator {
+        let backend = MagSafeLEDControlCoordinator.Backend(
+            supportedOutputs: [.system, .green, .orange, .off],
+            read: { try Self.readLED() },
+            write: { try Self.writeLED($0) }
+        )
+        return MagSafeLEDControlCoordinator(journal: journal, backend: backend)
+    }
+
+    private init() {
+        let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        journal = support.appendingPathComponent("Cellkeep/magsafe-led-session.json")
+    }
+
+    static func installed() -> Bool {
+        trusted(atPath: installedPath, socketPath: "/var/run/io.github.berkinefeavci.cellkeep.led.sock")
+    }
+
+    /// True when a helper installed by the previous "ChargeMate" identity is present, root-owned.
+    static func legacyInstalled() -> Bool {
+        trusted(atPath: legacyInstalledPath, socketPath: legacySocketPath)
+    }
+
+    private static func trusted(atPath path: String, socketPath: String) -> Bool {
+        let attributes = try? FileManager.default.attributesOfItem(atPath: path)
+        let owner = (attributes?[.ownerAccountID] as? NSNumber)?.intValue
+        let mode = (attributes?[.posixPermissions] as? NSNumber)?.intValue
+        return HelperInstallState.isTrusted(ownerUID: owner, posixPermissions: mode,
+                                             socketExists: FileManager.default.fileExists(atPath: socketPath))
+    }
+
+    /// True when the legacy helper is present but the current one is not yet — the one-time
+    /// install/upgrade flow should replace it.
+    static func updateRequired() -> Bool { legacyInstalled() && !installed() }
+
+    static func install() throws {
+        guard let executable = Bundle.main.executableURL else { throw ServiceError.helperMissing }
+        let bundled = executable.deletingLastPathComponent().deletingLastPathComponent()
+            .appendingPathComponent("Resources/CellkeepLEDHelper")
+        guard FileManager.default.fileExists(atPath: bundled.path) else { throw ServiceError.helperMissing }
+        let legacyCleanup = legacyInstalled()
+            ? "(/bin/launchctl bootout system/\(legacyLaunchDaemonLabel) 2>/dev/null || true) && " +
+              "/bin/rm -f \(shellQuote(legacyInstalledPath)) /Library/LaunchDaemons/\(legacyLaunchDaemonLabel).plist && "
+            : ""
+        let command = legacyCleanup +
+            "/usr/bin/install -d -o root -g wheel -m 755 /Library/PrivilegedHelperTools && " +
+            "/usr/bin/install -o root -g wheel -m 755 \(shellQuote(bundled.path)) \(shellQuote(installedPath)) && " +
+            "/usr/bin/install -o root -g wheel -m 644 \(shellQuote(bundled.deletingLastPathComponent().appendingPathComponent("io.github.berkinefeavci.cellkeep.led.plist").path)) /Library/LaunchDaemons/io.github.berkinefeavci.cellkeep.led.plist && " +
+            "\(shellQuote(installedPath)) --authorize-uid \(getuid()) && " +
+            "(/bin/launchctl bootout system/io.github.berkinefeavci.cellkeep.led 2>/dev/null || true) && " +
+            "/bin/launchctl bootstrap system /Library/LaunchDaemons/io.github.berkinefeavci.cellkeep.led.plist"
+        try authorized(command)
+        guard installed() else { throw ServiceError.helperNotTrusted }
+    }
+
+    func apply(_ output: MagSafeLEDOutput) -> MagSafeLEDControlCoordinator.Outcome {
+        guard Self.installed() else { return .blocked("LED yardımcısı kurulmamış.") }
+        if coordinator.requiresRecovery {
+            let result = coordinator.restore()
+            guard result == .restored || result == .unchanged else { return result }
+        }
+        return coordinator.apply(output)
+    }
+
+    func restore() -> MagSafeLEDControlCoordinator.Outcome {
+        guard Self.installed() else { return .blocked("LED yardımcısı kurulmamış.") }
+        return coordinator.restore()
+    }
+
+    var requiresRecovery: Bool { coordinator.requiresRecovery }
+
+    static func configure(policy: MagSafeLEDPolicy, start: Int, end: Int) throws {
+        guard (0..<1440).contains(start), (0..<1440).contains(end) else { throw ServiceError.unsupportedValue }
+        let mode: Int
+        switch policy {
+        case .system: mode = 0
+        case .alwaysOff: mode = 1
+        case .scheduled: mode = 2
+        case .status: throw ServiceError.unsupportedValue
+        }
+        try request("P \(mode) \(start) \(end)")
+        // An explicit policy selection transfers ownership from a manual test.
+        // Its old baseline must not later overwrite the newly selected policy.
+        if FileManager.default.fileExists(atPath: shared.journal.path) {
+            try FileManager.default.removeItem(at: shared.journal)
+        }
+        shared.coordinator = shared.makeCoordinator()
+    }
+
+    static func savedPolicy() -> (MagSafeLEDPolicy, Int, Int)? {
+        guard let text = try? String(contentsOfFile: "/Library/Application Support/CellkeepLED/policy"),
+              text.split(whereSeparator: { $0.isWhitespace }).count == 3 else { return nil }
+        let values = text.split(whereSeparator: { $0.isWhitespace }).compactMap { Int($0) }
+        guard values.count == 3, (0..<1440).contains(values[1]), (0..<1440).contains(values[2]) else { return nil }
+        let policy: MagSafeLEDPolicy
+        switch values[0] { case 0: policy = .system; case 1: policy = .alwaysOff; case 2: policy = .scheduled; default: return nil }
+        return (policy, values[1], values[2])
+    }
+
+    private static func readLED() throws -> MagSafeLEDOutput {
+        let value = try SMCReader.shared.read("ACLC")
+        guard value.type == "ui8 ", value.bytes.count == 1,
+              let output = MagSafeLEDRawCodec.decode(value.bytes[0]) else {
+            throw ServiceError.unsupportedValue
+        }
+        return output
+    }
+
+    private static func writeLED(_ output: MagSafeLEDOutput) throws {
+        guard installed() else { throw ServiceError.helperNotTrusted }
+        guard let value = MagSafeLEDRawCodec.encode(output) else { throw ServiceError.unsupportedValue }
+        try request("W \(value)")
+    }
+
+    static func verifyConnection() throws { try request("PING") }
+
+    private static func request(_ command: String) throws {
+        let fd = socket(AF_UNIX, SOCK_STREAM, 0)
+        guard fd >= 0 else { throw ServiceError.helperMissing }
+        defer { close(fd) }
+        var timeout = timeval(tv_sec: 30, tv_usec: 0)
+        setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, &timeout, socklen_t(MemoryLayout<timeval>.size))
+        setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO, &timeout, socklen_t(MemoryLayout<timeval>.size))
+        var noSignal: Int32 = 1
+        setsockopt(fd, SOL_SOCKET, SO_NOSIGPIPE, &noSignal, socklen_t(MemoryLayout<Int32>.size))
+        var address = sockaddr_un()
+        address.sun_family = sa_family_t(AF_UNIX)
+        let path = "/var/run/io.github.berkinefeavci.cellkeep.led.sock"
+        withUnsafeMutableBytes(of: &address.sun_path) { target in
+            path.utf8CString.withUnsafeBytes { source in target.copyBytes(from: source) }
+        }
+        let connected = withUnsafePointer(to: &address) { pointer in
+            pointer.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                Darwin.connect(fd, $0, socklen_t(MemoryLayout<sockaddr_un>.size))
+            }
+        }
+        guard connected == 0 else { throw ServiceError.helperMissing }
+        var uid: uid_t = 0, gid: gid_t = 0
+        guard getpeereid(fd, &uid, &gid) == 0, uid == 0 else { throw ServiceError.helperNotTrusted }
+        let bytes = Array((command + "\n").utf8)
+        var sent = 0
+        while sent < bytes.count {
+            let count = bytes.withUnsafeBytes { Darwin.write(fd, $0.baseAddress!.advanced(by: sent), bytes.count - sent) }
+            guard count > 0 else { throw ServiceError.commandFailed("Yardımcıya ulaşılamadı.") }
+            sent += count
+        }
+        var response = [UInt8]()
+        while response.count < 16 {
+            var byte: UInt8 = 0
+            guard Darwin.read(fd, &byte, 1) == 1 else { throw ServiceError.commandFailed("Yardımcı yanıt vermedi.") }
+            if byte == 10 { break }
+            response.append(byte)
+        }
+        guard String(bytes: response, encoding: .utf8) == "0" else {
+            throw ServiceError.commandFailed("İşlem tamamlanamadı. Yardımcı güncellemesi veya ışığın yeniden denetlenmesi gerekiyor.")
+        }
+    }
+
+    private static func authorized(_ command: String) throws {
+        let escaped = command.replacingOccurrences(of: "\\", with: "\\\\")
+            .replacingOccurrences(of: "\"", with: "\\\"")
+        let script = "do shell script \"\(escaped)\" with administrator privileges"
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/osascript")
+        process.arguments = ["-e", script]
+        let output = Pipe()
+        process.standardOutput = output
+        process.standardError = output
+        try process.run()
+        process.waitUntilExit()
+        let detail = String(data: output.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)?
+            .trimmingCharacters(in: .whitespacesAndNewlines) ?? "Bilinmeyen hata"
+        guard process.terminationStatus == 0 else { throw ServiceError.commandFailed(detail) }
+    }
+
+    private static func shellQuote(_ value: String) -> String {
+        "'" + value.replacingOccurrences(of: "'", with: "'\\''") + "'"
+    }
+}

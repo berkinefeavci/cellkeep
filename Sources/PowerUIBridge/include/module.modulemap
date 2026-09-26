@@ -1,0 +1,4 @@
+module PowerUIBridge {
+    header "PowerUIBridge.h"
+    export *
+}

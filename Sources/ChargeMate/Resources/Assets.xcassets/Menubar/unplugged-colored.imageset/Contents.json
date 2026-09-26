@@ -1,0 +1,7 @@
+{
+  "images" : [
+    { "filename" : "menubar_unplugged_colored.png", "idiom" : "mac", "scale" : "1x", "size" : "24x16" },
+    { "filename" : "menubar_unplugged_colored@2x.png", "idiom" : "mac", "scale" : "2x", "size" : "24x16" }
+  ],
+  "info" : { "author" : "Cellkeep", "version" : 1 }
+}

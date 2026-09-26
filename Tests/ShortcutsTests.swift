@@ -1,0 +1,109 @@
+import Foundation
+
+@main enum ShortcutsTests {
+    static func main() throws {
+        var assertions = 0
+        func check(_ condition: Bool, _ label: String) {
+            precondition(condition, label)
+            assertions += 1
+        }
+        func expects(_ expected: ChargeMateShortcutError, _ label: String,
+                     _ operation: () throws -> Void) {
+            do {
+                try operation()
+                preconditionFailure(label)
+            } catch let error as ChargeMateShortcutError {
+                check(error == expected, label)
+            } catch {
+                preconditionFailure("\(label): unexpected \(error)")
+            }
+        }
+
+        let now = Date(timeIntervalSinceReferenceDate: 1_000)
+        let fresh = ChargeMateShortcutSnapshot(
+            sampledAt: now.addingTimeInterval(-2),
+            macOSPercentage: 83,
+            hardwarePercentage: 81,
+            temperatureC: 35.5,
+            committedLimit: 85,
+            nativeManualLimit: 90,
+            nativeCurrentLimit: 95,
+            state: .charging
+        )
+        let reader = ChargeMateShortcutReader(snapshot: fresh, now: now)
+        check(try reader.percentage(.macOS) == 83, "macOS percentage stays numeric")
+        check(try reader.percentage(.hardware) == 81, "hardware percentage is independent")
+        check(try reader.temperatureCelsius() == 35.5, "temperature stays numeric Celsius")
+        check(try reader.limit(.committed) == 85, "committed limit is explicit")
+        check(try reader.limit(.nativeManual) == 90, "native manual limit is explicit")
+        check(try reader.limit(.nativeCurrent) == 95, "native current limit is explicit")
+        check(try reader.state() == .charging, "state uses stable external enum")
+
+        var missingHardware = fresh
+        missingHardware.hardwarePercentage = nil
+        expects(.measurementUnavailable("Donanım pil yüzdesi"), "missing hardware is an error, not zero") {
+            _ = try ChargeMateShortcutReader(snapshot: missingHardware, now: now).percentage(.hardware)
+        }
+        var missingTemperature = fresh
+        missingTemperature.temperatureC = nil
+        expects(.measurementUnavailable("Batarya sıcaklığı"), "missing temperature is an error") {
+            _ = try ChargeMateShortcutReader(snapshot: missingTemperature, now: now).temperatureCelsius()
+        }
+        var stale = fresh
+        stale.sampledAt = now.addingTimeInterval(-5.1)
+        expects(.staleMeasurement, "older than five seconds is rejected") {
+            _ = try ChargeMateShortcutReader(snapshot: stale, now: now).percentage(.macOS)
+        }
+        var future = fresh
+        future.sampledAt = now.addingTimeInterval(0.1)
+        expects(.staleMeasurement, "future timestamp is rejected") {
+            _ = try ChargeMateShortcutReader(snapshot: future, now: now).percentage(.macOS)
+        }
+
+        check(ChargeMateShortcutState.resolve(available: false, controlState: "charging",
+                                              policyState: "idle", isCharging: true,
+                                              externalConnected: true) == .unavailable,
+              "unavailable telemetry wins")
+        check(ChargeMateShortcutState.resolve(available: true, controlState: "topUp",
+                                              policyState: "topUpCharging", isCharging: true,
+                                              externalConnected: true) == .topUp,
+              "Top Up state stays stable")
+        check(ChargeMateShortcutState.resolve(available: true, controlState: "heatProtect",
+                                              policyState: "idle", isCharging: false,
+                                              externalConnected: true) == .heatProtect,
+              "heat state stays stable")
+        check(ChargeMateShortcutState.resolve(available: true, controlState: "sailing",
+                                              policyState: "idle", isCharging: false,
+                                              externalConnected: true) == .sailing,
+              "sailing state stays stable")
+        check(ChargeMateShortcutState.resolve(available: true, controlState: "idle",
+                                              policyState: "recoveryRequired", isCharging: false,
+                                              externalConnected: true) == .error,
+              "recovery is an explicit error state")
+        check(ChargeMateShortcutState.resolve(available: true, controlState: "idle",
+                                              policyState: "idle", isCharging: false,
+                                              externalConnected: false) == .discharging,
+              "battery operation resolves to discharging")
+
+        var commands: [ChargeMateShortcutCommand] = []
+        let runner = ChargeMateShortcutCommandRunner(
+            supportedLimits: { [80, 85, 90, 95, 100] },
+            execute: { commands.append($0); return "ok" }
+        )
+        expects(.unsupportedChargeLimit(79), "unsupported target never reaches writer") {
+            _ = try runner.run(.setChargeLimit(79))
+        }
+        check(commands.isEmpty, "unsupported target writer zero")
+        check(try runner.run(.setChargeLimit(85)) == "ok", "supported limit returns writer result")
+        check(commands == [.setChargeLimit(85)], "supported limit dispatches exactly once")
+        _ = try runner.run(.startTopUp)
+        _ = try runner.run(.cancelTopUp)
+        _ = try runner.run(.setPowerMode(.lowPower))
+        _ = try runner.run(.setMagSafe(.off))
+        check(commands == [.setChargeLimit(85), .startTopUp, .cancelTopUp,
+                           .setPowerMode(.lowPower), .setMagSafe(.off)],
+              "commands preserve typed values and order")
+
+        print("Shortcuts contract: \(assertions) assertions passed; writer fake only.")
+    }
+}

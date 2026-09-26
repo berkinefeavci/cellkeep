@@ -1,0 +1,38 @@
+name: Build
+
+# This targets the public repo layout: Sources/, Tests/, check.sh, and build.sh
+# live at the repo root (the former `project/` contents), not under a `project/` folder.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          # Cellkeep is developed against Xcode 27. Hosted GitHub runners may not have it
+          # yet (macOS 27 / Xcode 27 are recent) — if selection fails, this step (and the
+          # job) will fail loudly rather than silently building with a mismatched toolchain.
+          # See: https://github.com/actions/runner-images for the Xcode versions available
+          # on macos-latest at the time this job runs.
+          latest_xcode="$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -n1)"
+          if [ -z "$latest_xcode" ]; then
+            echo "No Xcode installation found on this runner." >&2
+            exit 1
+          fi
+          echo "Selecting: $latest_xcode"
+          sudo xcode-select -s "$latest_xcode/Contents/Developer"
+          xcodebuild -version
+
+      - name: Run checks
+        run: ./check.sh
+
+      - name: Build
+        run: ./build.sh

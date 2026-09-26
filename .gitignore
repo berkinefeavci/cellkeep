@@ -1,0 +1,9 @@
+.build/
+.build-*/
+work/
+*.log
+dist/
+
+*.app
+*.dmg
+.DS_Store

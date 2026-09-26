@@ -1,0 +1,8 @@
+{
+  "images" : [
+    { "filename" : "menubar_paused_bold.png", "idiom" : "mac", "scale" : "1x", "size" : "24x16" },
+    { "filename" : "menubar_paused_bold@2x.png", "idiom" : "mac", "scale" : "2x", "size" : "24x16" }
+  ],
+  "info" : { "author" : "Cellkeep", "version" : 1 },
+  "properties" : { "template-rendering-intent" : "template" }
+}
