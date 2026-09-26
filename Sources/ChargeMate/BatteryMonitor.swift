@@ -245,10 +245,11 @@ struct BatteryHistoryPoint: Identifiable, Codable {
     var temperatureSource: String? = nil
     var measurementMetadata: [String: MeasurementMetadata]? = nil
     var hasValidMeasurement: Bool {
-        [percentage.map(Double.init), wattage, temperatureC, systemWatts, healthPercent,
-         cycleCount.map(Double.init), hardwarePercentage.map(Double.init), batteryCurrentMA,
-         batteryVoltageV, remainingCapacityMAh.map(Double.init), fullCapacityMAh.map(Double.init)]
-            .contains { $0?.isFinite == true }
+        // Explicitly typed: older compilers time out inferring this mixed Int?/Double? literal.
+        let values: [Double?] = [percentage.map(Double.init), wattage, temperatureC, systemWatts, healthPercent,
+                                 cycleCount.map(Double.init), hardwarePercentage.map(Double.init), batteryCurrentMA,
+                                 batteryVoltageV, remainingCapacityMAh.map(Double.init), fullCapacityMAh.map(Double.init)]
+        return values.contains { $0?.isFinite == true }
     }
 }
 
