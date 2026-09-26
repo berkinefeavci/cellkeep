@@ -8,10 +8,7 @@ MacBook'unuzun bataryasına göz kulak olan bir macOS menü çubuğu uygulaması
 
 ## Ekran görüntüleri
 
-<!-- TODO: docs/screenshots/menu-bar-panel.png ekle -->
-<!-- TODO: docs/screenshots/power-flow.png ekle -->
-<!-- TODO: docs/screenshots/history-charts.png ekle -->
-<!-- TODO: docs/screenshots/settings-charge-control.png ekle -->
+<p align="center"><img src="docs/screenshots/menu-bar-panel.png" alt="Cellkeep menü çubuğu paneli: şarj barı, güç modları ve canlı güç akışı" width="420"></p>
 
 ## Özellikler
 

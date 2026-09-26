@@ -8,10 +8,7 @@ A macOS menu-bar app that helps you look after your MacBook's battery: a native 
 
 ## Screenshots
 
-<!-- TODO: add docs/screenshots/menu-bar-panel.png -->
-<!-- TODO: add docs/screenshots/power-flow.png -->
-<!-- TODO: add docs/screenshots/history-charts.png -->
-<!-- TODO: add docs/screenshots/settings-charge-control.png -->
+<p align="center"><img src="docs/screenshots/menu-bar-panel.png" alt="Cellkeep menu bar panel: charge bar, power modes and live power flow" width="420"></p>
 
 ## Features
 
