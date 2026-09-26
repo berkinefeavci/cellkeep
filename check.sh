@@ -25,7 +25,7 @@ xcrun clang -Wall -Wextra -Werror Tests/MagSafeTimeWindowTests.c -o .build/check
 # PowerUI writes belong only to the timeout-bounded helper process.
 ! grep -q 'CMPowerLimit\.apply' Sources/ChargeMate/BatteryMonitor.swift
 ! grep -q 'CMPowerLimit\.apply' Sources/ChargeMate/ChargeControlCoordinator.swift
-test "$(rg -l 'CMPowerLimit\.apply' Sources | wc -l | tr -d ' ')" = "1"
+test "$(grep -rl 'CMPowerLimit\.apply' Sources | wc -l | tr -d ' ')" = "1"
 ! grep -Eq 'evaluateActions|performActionWrite|#if SWIFT_PACKAGE' Sources/ChargeMate/BatteryMonitor.swift
 # Source-level UI regression guard, not a substitute for a real pointer/keyboard visual test.
 # These custom focusable visualizations must not recreate the reported blue frame.
@@ -62,7 +62,7 @@ xcrun swiftc Sources/NativeChargeHelper/NativeChargeHelperProtocol.swift Tests/N
 xcrun swiftc -I .build/checks Sources/NativeChargeHelper/*.swift .build/checks/PowerUIBridge.o \
   -o .build/checks/native-charge-helper
 .build/checks/native-charge-helper --self-test
-test "$(rg -l 'CMPowerLimit\.apply' Sources/NativeChargeHelper | wc -l | tr -d ' ')" = "1"
+test "$(grep -rl 'CMPowerLimit\.apply' Sources/NativeChargeHelper | wc -l | tr -d ' ')" = "1"
 xcrun swiftc Sources/ChargeMate/NativeChargeBackend.swift Tests/NativeChargeBackendTests.swift \
   -o .build/checks/native-charge-backend-tests
 .build/checks/native-charge-backend-tests
