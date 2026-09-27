@@ -52,20 +52,17 @@ Bunlar arayüzde kilitli/devre dışı görünür veya hiç yoktur. Bunlar **ça
 Xcode 27 gerektirir.
 
 ```sh
-cd project
 ./check.sh
 ./build.sh
 ```
 
-`check.sh` saf mantık test paketini çalıştırır. `build.sh` `project/.build/ChargeMate.app` dosyasını üretir.
+`check.sh` saf mantık test paketini çalıştırır. `build.sh` `.build/Cellkeep.app` dosyasını üretir.
 
 ## Kaldırma
 
 Uygulama içinden (önerilen): Ayarlar → Genel → **"Cellkeep'i kaldır"**. Tek bir yönetici onayıyla yardımcıları ve arka plan servislerini kaldırır, giriş öğesini siler, isterseniz macOS şarj sınırını %100'e döndürür (varsayılan açık) ve Cellkeep verilerini siler (varsayılan kapalı). Ardından `Cellkeep.app`'i Çöp Sepeti'ne sürükleyin.
 
 Elle kaldırma:
-
-Manuel adımlar:
 
 1. Önce Cellkeep'ten çıkın ve Ayarlar'da "Oturum açılışında başlat"ı kapatın.
 2. `Cellkeep.app`'i `/Applications`'tan Çöp Kutusu'na taşıyın.

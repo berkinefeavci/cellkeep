@@ -52,19 +52,17 @@ These are visible in the UI as locked/disabled, or not present at all. They are 
 Requires Xcode 27.
 
 ```sh
-cd project
 ./check.sh
 ./build.sh
 ```
 
-`check.sh` runs the pure-logic test suite. `build.sh` produces `project/.build/ChargeMate.app`.
+`check.sh` runs the pure-logic test suite. `build.sh` produces `.build/Cellkeep.app`.
 
 ## Uninstall
 
 In-app (recommended): Settings → General → **"Cellkeep'i kaldır"** (Remove Cellkeep). After one administrator prompt it removes the helpers and launch daemons, unregisters the login item, can reset the macOS charge limit to 100% (on by default) and can delete Cellkeep's data (off by default). Then drag `Cellkeep.app` to the Trash.
 
 Manual alternative:
-
 
 1. Quit Cellkeep and turn off "Start at login" in Settings first.
 2. Move `Cellkeep.app` from `/Applications` to the Trash.
