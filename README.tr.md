@@ -28,7 +28,7 @@ MacBook'unuzun bataryasına göz kulak olan bir macOS menü çubuğu uygulaması
 
 ### Planlanan; donanımda doğrulama gerekiyor
 
-Bunlar arayüzde kilitli/devre dışı görünür veya hiç yoktur. Bunlar **çalışan özellikler değildir** — henüz bir şey yapmalarını beklemeyin:
+Bunlar arayüzde kilitli olarak ve **"Yakında"** etiketiyle görünür. Bunlar **çalışan özellikler değildir** — henüz bir şey yapmalarını beklemeyin:
 
 - **Deşarj / otomatik deşarj** — bu donanımda bataryayı zorla deşarj etmenin doğrulanmış bir yolu yok.
 - **Sailing** (bir aralıkta salınım) — bulunamayan çalışan bir duraklat/devam ettir (pause/resume) ilkeli gerektiriyor.

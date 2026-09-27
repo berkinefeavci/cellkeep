@@ -28,7 +28,7 @@ A macOS menu-bar app that helps you look after your MacBook's battery: a native 
 
 ### Planned; needs hardware verification
 
-These are visible in the UI as locked/disabled, or not present at all. They are **not working features** — do not expect them to do anything yet:
+These are shown in the UI as locked and marked **"Yakında"** (Coming soon). They are **not working features** — do not expect them to do anything yet:
 
 - **Discharge / auto-discharge** — no verified way to force the battery to discharge on this hardware.
 - **Sailing** (oscillate within a range) — needs a working pause/resume primitive that hasn't been found.
