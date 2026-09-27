@@ -7,9 +7,8 @@ Thanks for considering a contribution to Cellkeep.
 Requires Xcode 27, Apple Silicon Mac.
 
 ```sh
-cd project
 ./check.sh   # pure-logic test suite, no hardware writes
-./build.sh   # produces project/.build/ChargeMate.app
+./build.sh   # produces .build/Cellkeep.app
 ```
 
 Read `check.sh` and `build.sh` before running them — they're plain shell scripts, not a black box.
