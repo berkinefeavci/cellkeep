@@ -57,8 +57,8 @@ struct PopoverView: View {
                             }
                         }
                             .popoverToolbarButtonStyle().disabled(true)
-                            .accessibilityLabel("Deşarj kullanılamıyor")
-                            .help("Güvenli bataryadan çalışma kontrolü henüz doğrulanmadı")
+                            .accessibilityLabel("Deşarj yakında; henüz kullanılamıyor")
+                            .help("Yakında · güvenli bataryadan çalışma kontrolü henüz doğrulanmadı")
                         Button {
                             battery.topUpActive ? battery.stopTopUp() : battery.startTopUp()
                         } label: {
