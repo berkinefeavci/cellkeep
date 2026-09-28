@@ -594,7 +594,7 @@ struct SettingsView: View {
                 }.padding(.horizontal, 12).padding(.top, 43).padding(.bottom, 13)
                 sidebarButton(.dashboard)
                 sidebarGroup(String(localized: "PİL BAKIMI"), pages: [.charge, .sleep, .energy])
-                sidebarGroup("OTOMASYONLAR", pages: [.schedule, .shortcuts])
+                sidebarGroup(String(localized: "OTOMASYONLAR"), pages: [.schedule, .shortcuts])
                 sidebarGroup(String(localized: "GÖRÜNÜM"), pages: [.popover, .menubar])
                 sidebarGroup(String(localized: "DİĞER"), pages: [.general, .magsafeLED, .about])
                 Spacer()

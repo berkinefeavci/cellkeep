@@ -38,7 +38,7 @@ struct BatteryReading {
     func text(digits: Int = 1) -> String {
         guard let value = validValue else { return "—" }
         let number = String(format: "%.*f", digits, value)
-        if metadata.unit == "%" { return "%" + number }
+        if metadata.unit == "%" { return String(localized: "%\(number)") }
         return number + (metadata.unit.isEmpty ? "" : " " + metadata.unit)
     }
 }
@@ -1438,11 +1438,11 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
     }
 
     var temperatureText: String { snapshot.reading(.temperature).text() }
-    /// Turkish percent style (`%100`, not `100 %`) — used wherever the charge bar and its
-    /// accessibility value show battery percentage.
+    /// Percent in the UI language's order (`%100` in Turkish, `100%` in English) — used wherever
+    /// the charge bar and its accessibility value show battery percentage.
     var percentageText: String {
         guard let value = snapshot.reading(.percentage).validValue else { return "—" }
-        return "%\(Int(value.rounded()))"
+        return String(localized: "%\(Int(value.rounded()))")
     }
     var statusSentence: String {
         guard snapshot.available else { return String(localized: "Batarya verisi bekleniyor.") }
