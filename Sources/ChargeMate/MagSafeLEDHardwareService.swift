@@ -10,6 +10,9 @@ final class MagSafeLEDHardwareService {
     static let legacyInstalledPath = "/Library/PrivilegedHelperTools/com.chargemate.ledctl"
     static let legacyLaunchDaemonLabel = "local.chargemate.led"
     private static let legacySocketPath = "/var/run/local.chargemate.led.sock"
+    /// Matches LED_HELPER_VERSION in Tools/LEDControllers.h. Version 2 also backs off for Battery
+    /// Toolkit, BatFi and batt, not just AlDente; older helpers show as not installed so the user reinstalls.
+    private static let minimumHelperVersion = 2
 
     enum ServiceError: Error, LocalizedError {
         case helperMissing
@@ -44,12 +47,27 @@ final class MagSafeLEDHardwareService {
     }
 
     static func installed() -> Bool {
-        trusted(atPath: installedPath, socketPath: "/var/run/io.github.berkinefeavci.cellkeep.led.sock")
+        guard (helperVersion() ?? 0) >= minimumHelperVersion else { return false }
+        return trusted(atPath: installedPath, socketPath: "/var/run/io.github.berkinefeavci.cellkeep.led.sock")
     }
 
     /// True when a helper installed by the previous "ChargeMate" identity is present, root-owned.
     static func legacyInstalled() -> Bool {
         trusted(atPath: legacyInstalledPath, socketPath: legacySocketPath)
+    }
+
+    private static func helperVersion() -> Int? {
+        let process = Process()
+        let pipe = Pipe()
+        process.executableURL = URL(fileURLWithPath: installedPath)
+        process.arguments = ["--version"]
+        process.standardOutput = pipe
+        process.standardError = pipe
+        guard (try? process.run()) != nil else { return nil }
+        process.waitUntilExit()
+        guard process.terminationStatus == 0,
+              let output = String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8) else { return nil }
+        return Int(output.trimmingCharacters(in: .whitespacesAndNewlines))
     }
 
     private static func trusted(atPath path: String, socketPath: String) -> Bool {
