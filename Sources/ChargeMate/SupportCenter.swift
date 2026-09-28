@@ -113,6 +113,7 @@ struct SupportCenterView: View {
             Text("Cellkeep").font(.title.bold())
             Text("Sürüm \(version) (\(build)) · bağımsız macOS uygulaması.")
                 .font(.caption).foregroundStyle(.secondary)
+            UpdateCheckSection()
             DisclosureGroup("Uygulamayı kaldırma") {
                 Text("Önce Oturum açılışında başlat seçeneğini kapatın, Cellkeep’ten çıkın ve Applications içindeki Cellkeep’i Çöp Sepeti’ne taşıyın. Bu düğme sistem dosyalarını kendiliğinden silmez.")
                     .font(.caption).foregroundStyle(.secondary).padding(.top, 6)

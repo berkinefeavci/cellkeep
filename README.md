@@ -24,6 +24,7 @@ A macOS menu-bar app that helps you look after your MacBook's battery: a native 
 - **Schedules.** Recurring or one-off actions (apply a limit, switch power mode, and more) with a filterable execution history.
 - **Apple Shortcuts actions.** Eight App Intents to read battery percentage, temperature, and status, and to apply a limit, start/cancel Top Up, switch power mode, or set the MagSafe LED.
 - **High-energy apps, with Quit.** The energy list groups helper processes under their owning app, shows a real icon, and lets you quit an app straight from the list.
+- **Optional update notice.** Off by default. When turned on in Settings → About, Cellkeep asks GitHub for the latest release number at most once a week and links to its page. Nothing is downloaded or sent; see [PRIVACY.md](PRIVACY.md).
 - **Customizable panel.** Drag to reorder, add or remove cards, and pick square or wide widgets.
 
 ### Planned; needs hardware verification
@@ -87,7 +88,7 @@ Everywhere else, the same rule applies: if a number can't be measured, Cellkeep 
 
 ## Privacy
 
-Cellkeep runs entirely on your Mac. There is no network access, no telemetry, no analytics, and no account. Diagnostics you export are saved to a local file you choose and are never sent anywhere automatically.
+Cellkeep runs entirely on your Mac. There is no telemetry, no analytics, and no account. The only network request is the optional, off-by-default release check described in [PRIVACY.md](PRIVACY.md). Diagnostics you export are saved to a local file you choose and are never sent anywhere automatically.
 
 See [PRIVACY.md](PRIVACY.md).
 

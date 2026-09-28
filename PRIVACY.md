@@ -1,8 +1,9 @@
 # Privacy
 
-Cellkeep is a local-only macOS app. Short version: nothing leaves your Mac.
+Cellkeep is a local-only macOS app. Short version: nothing about you or your Mac leaves it.
 
-- **No network access.** Cellkeep makes no network requests — no update checks, no telemetry, no crash reporting, no ads.
+- **No network access by default.** Cellkeep makes no network requests out of the box — no telemetry, no crash reporting, no ads.
+- **Optional release check (off by default).** If you turn on "Haftada bir yeni sürüm denetle" or press "Şimdi denetle" in Settings → About, Cellkeep sends one plain HTTPS GET to `api.github.com/repos/berkinefeavci/cellkeep/releases/latest`, at most once a week. It sends no identifier, settings, battery data or anything else; GitHub sees only what any web request shows (your IP address and a generic macOS user agent). Cellkeep never downloads or installs anything — a newer version is only shown with a link to its GitHub release page.
 - **No analytics, no accounts.** There is no sign-in, no user identifier, no usage tracking of any kind.
 - **No data collection by the developer.** The developer never receives any information from your installation.
 - **Local storage only.** Preferences, charge history, and schedules are stored in standard macOS locations (`UserDefaults`, local application-support files) on your Mac only.

@@ -112,6 +112,8 @@ xcrun swiftc Sources/ChargeMate/PowerMode.swift Sources/ChargeMate/HelperInstall
 
 xcrun swiftc Sources/ChargeMate/HelperInstallState.swift Tests/HelperInstallStateTests.swift -o .build/checks/helper-install-state-tests
 .build/checks/helper-install-state-tests
+xcrun swiftc Sources/ChargeMate/UpdateCheck.swift Tests/UpdateCheckTests.swift -o .build/checks/update-check-tests
+.build/checks/update-check-tests
 
 xcrun swiftc Sources/ChargeMate/IdentityMigration.swift Tests/IdentityMigrationTests.swift -o .build/checks/identity-migration-tests
 .build/checks/identity-migration-tests
