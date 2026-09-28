@@ -14,6 +14,7 @@
 "%80, %85, %90, %95 veya %100" = "%80, %85, %90, %95 veya %100";
 "%85" = "%85";
 "%90" = "%90";
+"%90 ve üstünde geçen süre" = "%90 ve üstünde geçen süre";
 "%95" = "%95";
 "%@ aşağı" = "%@ aşağı";
 "%@ boyutunu %@ yap" = "%@ boyutunu %@ yap";
@@ -23,6 +24,7 @@
 "%@ grafiği" = "%@ grafiği";
 "%@ kaldır" = "%@ kaldır";
 "%@ profili: %@" = "%@ profili: %@";
+"%@ puan" = "%@ puan";
 "%@ saati" = "%@ saati";
 "%@ seçildi." = "%@ seçildi.";
 "%@ uygulamasını kapat" = "%@ uygulamasını kapat";
@@ -40,6 +42,7 @@
 "%lld bozuk çalışma kaydı atlandı; özgün dosya yedeklendi." = "%lld bozuk çalışma kaydı atlandı; özgün dosya yedeklendi.";
 "%lld cihaz" = "%lld cihaz";
 "%lld gerçek ölçüm · Veri birikiyor" = "%lld gerçek ölçüm · Veri birikiyor";
+"%lld günlük kayıt" = "%lld günlük kayıt";
 "%lld kayıt" = "%lld kayıt";
 "%lld sa %lld dk" = "%lld sa %lld dk";
 "%lld ölçüm · Son %lld saat" = "%lld ölçüm · Son %lld saat";
@@ -247,9 +250,11 @@
 "Düşük Güç Modunu değiştir — henüz kullanılamıyor" = "Düşük Güç Modunu değiştir — henüz kullanılamıyor";
 "Düşük etki" = "Düşük etki";
 "DİĞER" = "DİĞER";
+"Eklenen döngü" = "Eklenen döngü";
 "Ekran" = "Ekran";
 "Elle başlatılan işlem öncelikli olduğu için görev atlandı." = "Elle başlatılan işlem öncelikli olduğu için görev atlandı.";
 "En yüksek etkinliğe sahip uygulamalar" = "En yüksek etkinliğe sahip uygulamalar";
+"En yüksek sıcaklık" = "En yüksek sıcaklık";
 "Enerji Kullanımı" = "Enerji Kullanımı";
 "Enerji kullanan uygulamalar ve sistem" = "Enerji kullanan uygulamalar ve sistem";
 "Etki seviyesi macOS ölçümünden gelir; watt değeri değildir." = "Etki seviyesi macOS ölçümünden gelir; watt değeri değildir.";
@@ -273,6 +278,8 @@
 "Gerçek ölçümler, bu Mac’te 24 saat saklanır. Grafiğin üzerine gelerek ölçüm inceleyebilirsiniz." = "Gerçek ölçümler, bu Mac’te 24 saat saklanır. Grafiğin üzerine gelerek ölçüm inceleyebilirsiniz.";
 "Geçerli bir saat dilimi seçin." = "Geçerli bir saat dilimi seçin.";
 "Geçmiş değiştirilmedi: yedek oluşturulamadı." = "Geçmiş değiştirilmedi: yedek oluşturulamadı.";
+"Geçmiş dışa aktarılamadı: %@" = "Geçmiş dışa aktarılamadı: %@";
+"Geçmiş dışa aktarıldı: %lld ölçüm." = "Geçmiş dışa aktarıldı: %lld ölçüm.";
 "Geçmiş filtresi" = "Geçmiş filtresi";
 "Geçmiş kaydedilemiyor: %@" = "Geçmiş kaydedilemiyor: %@";
 "Geçmiş okunamadı; özgün dosya korunuyor. Yeni ölçümler bu oturumda bellekte tutuluyor." = "Geçmiş okunamadı; özgün dosya korunuyor. Yeni ölçümler bu oturumda bellekte tutuluyor.";
@@ -281,6 +288,7 @@
 "Geçmiş yedeği geri alınamadı; yedek dosya korundu." = "Geçmiş yedeği geri alınamadı; yedek dosya korundu.";
 "Geçmiş yedeği geri alındı." = "Geçmiş yedeği geri alındı.";
 "Geçmiş yerel olarak tutulur, en fazla 24 saat; veri uygulama açıkken birikir. 24 saatten uzun aralık sunulmaz." = "Geçmiş yerel olarak tutulur, en fazla 24 saat; veri uygulama açıkken birikir. 24 saatten uzun aralık sunulmaz.";
+"Geçmişi CSV olarak dışa aktar" = "Geçmişi CSV olarak dışa aktar";
 "Geçmişi temizle" = "Geçmişi temizle";
 "Giriş Öğeleri ayarlarını aç" = "Giriş Öğeleri ayarlarını aç";
 "Giriş öğesi bulunamadı. Uygulamayı Applications içinden açıp tekrar deneyin." = "Giriş öğesi bulunamadı. Uygulamayı Applications içinden açıp tekrar deneyin.";
@@ -305,12 +313,17 @@
 "Gösterilecek etki" = "Gösterilecek etki";
 "Gösterilen ayar değişti, okunamadı veya başka bir şarj uygulaması açık. Güncel durumu yeniden inceleyin." = "Gösterilen ayar değişti, okunamadı veya başka bir şarj uygulaması açık. Güncel durumu yeniden inceleyin.";
 "Gözlenen sonuç" = "Gözlenen sonuç";
+"Gün" = "Gün";
 "Güncel ayar okunamadı: %@" = "Güncel ayar okunamadı: %@";
 "Güncel batarya ölçümü 5 saniye içinde alınamadı." = "Güncel batarya ölçümü 5 saniye içinde alınamadı.";
 "Güncel değil · %@" = "Güncel değil · %@";
 "Güncel güç durumu bilinmiyor" = "Güncel güç durumu bilinmiyor";
 "Güncel güç ölçümü bekleniyor." = "Güncel güç ölçümü bekleniyor.";
 "Güncel şarj durumunun açıklaması" = "Güncel şarj durumunun açıklaması";
+"Günlük batarya sağlığı grafiği" = "Günlük batarya sağlığı grafiği";
+"Günlük özetler bu Mac’te 400 güne kadar saklanır; yalnızca Cellkeep açıkken kaydedilen ölçümlerden hesaplanır." = "Günlük özetler bu Mac’te 400 güne kadar saklanır; yalnızca Cellkeep açıkken kaydedilen ölçümlerden hesaplanır.";
+"Günlük özetler dışa aktarıldı: %lld gün." = "Günlük özetler dışa aktarıldı: %lld gün.";
+"Günlük özetleri CSV olarak dışa aktar" = "Günlük özetleri CSV olarak dışa aktar";
 "Güç" = "Güç";
 "Güç Modunu Ayarla" = "Güç Modunu Ayarla";
 "Güç adaptörü" = "Güç adaptörü";
@@ -462,6 +475,7 @@
 "Oku" = "Oku";
 "Okunan limit veya kontrol sahibi değişti." = "Okunan limit veya kontrol sahibi değişti.";
 "Orta etki" = "Orta etki";
+"Ortalama doluluk" = "Ortalama doluluk";
 "Otomatik" = "Otomatik";
 "Otomatik güç modu kullanılamıyor." = "Otomatik güç modu kullanılamıyor.";
 "Otomatik güç moduna dön" = "Otomatik güç moduna dön";
@@ -500,6 +514,8 @@
 "Sağ tık" = "Sağ tık";
 "Sağa taşı" = "Sağa taşı";
 "Sağlık" = "Sağlık";
+"Sağlık değişimi" = "Sağlık değişimi";
+"Sağlık eğilimi için en az iki günlük ölçüm gerekiyor. Cellkeep açık kaldıkça her gün bir özet kaydedilir." = "Sağlık eğilimi için en az iki günlük ölçüm gerekiyor. Cellkeep açık kaldıkça her gün bir özet kaydedilir.";
 "Sekiz yerel eylem. Okumalar güncel veri döndürür; denetimler Cellkeep'in güvenli işlem hattını kullanır." = "Sekiz yerel eylem. Okumalar güncel veri döndürür; denetimler Cellkeep'in güvenli işlem hattını kullanır.";
 "Sensör yoksa, veri geçersizse veya ölçüm 10 saniyeden eskiyse Cellkeep tahmin üretmez." = "Sensör yoksa, veri geçersizse veya ölçüm 10 saniyeden eskiyse Cellkeep tahmin üretmez.";
 "Ses cihazı" = "Ses cihazı";
@@ -520,6 +536,8 @@
 "Sistem yükü" = "Sistem yükü";
 "Sistem, yeşil, turuncu veya kapalı" = "Sistem, yeşil, turuncu veya kapalı";
 "Sola taşı" = "Sola taşı";
+"Son 30 gün" = "Son 30 gün";
+"Son 7 gün" = "Son 7 gün";
 "Son geçmiş yedeğini geri al" = "Son geçmiş yedeğini geri al";
 "Son ölçüm: %@%@" = "Son ölçüm: %@%@";
 "Spotlight indeksleme" = "Spotlight indeksleme";
@@ -590,6 +608,7 @@
 "Uyku davranışını macOS yönetiyor." = "Uyku davranışını macOS yönetiyor.";
 "Uyku engeli oluşturulamadı (%d)." = "Uyku engeli oluşturulamadı (%d).";
 "Uyku sırasında şarjı durdur" = "Uyku sırasında şarjı durdur";
+"Uzun vadeli sağlık" = "Uzun vadeli sağlık";
 "Vazgeç" = "Vazgeç";
 "Veriler ve sıfırlama" = "Veriler ve sıfırlama";
 "Yakında · donanım doğrulaması bekliyor" = "Yakında · donanım doğrulaması bekliyor";

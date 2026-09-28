@@ -14,6 +14,7 @@
 "%80, %85, %90, %95 veya %100" = "80%, 85%, 90%, 95% or 100%";
 "%85" = "85%";
 "%90" = "90%";
+"%90 ve üstünde geçen süre" = "Time at 90% or above";
 "%95" = "95%";
 "%@ aşağı" = "%@ down";
 "%@ boyutunu %@ yap" = "Make %@ %@";
@@ -23,6 +24,7 @@
 "%@ grafiği" = "%@ chart";
 "%@ kaldır" = "Remove %@";
 "%@ profili: %@" = "%@ profile: %@";
+"%@ puan" = "%@ points";
 "%@ saati" = "%@ hour";
 "%@ seçildi." = "%@ selected.";
 "%@ uygulamasını kapat" = "Quit %@";
@@ -40,6 +42,7 @@
 "%lld bozuk çalışma kaydı atlandı; özgün dosya yedeklendi." = "Skipped %lld corrupt run records; the original file was backed up.";
 "%lld cihaz" = "%lld devices";
 "%lld gerçek ölçüm · Veri birikiyor" = "%lld real readings · Data is building up";
+"%lld günlük kayıt" = "%lld days recorded";
 "%lld kayıt" = "%lld records";
 "%lld sa %lld dk" = "%lld h %lld min";
 "%lld ölçüm · Son %lld saat" = "%lld readings · Last %lld hours";
@@ -247,9 +250,11 @@
 "Düşük Güç Modunu değiştir — henüz kullanılamıyor" = "Toggle Low Power Mode — not available yet";
 "Düşük etki" = "Low impact";
 "DİĞER" = "OTHER";
+"Eklenen döngü" = "Cycles added";
 "Ekran" = "Display";
 "Elle başlatılan işlem öncelikli olduğu için görev atlandı." = "The task was skipped because a manually started operation takes priority.";
 "En yüksek etkinliğe sahip uygulamalar" = "Apps with the highest activity";
+"En yüksek sıcaklık" = "Peak temperature";
 "Enerji Kullanımı" = "Energy Usage";
 "Enerji kullanan uygulamalar ve sistem" = "Apps and system using energy";
 "Etki seviyesi macOS ölçümünden gelir; watt değeri değildir." = "The impact level comes from macOS measurements; it is not a wattage.";
@@ -273,6 +278,8 @@
 "Gerçek ölçümler, bu Mac’te 24 saat saklanır. Grafiğin üzerine gelerek ölçüm inceleyebilirsiniz." = "Real readings, kept on this Mac for 24 hours. Hover over the chart to inspect a reading.";
 "Geçerli bir saat dilimi seçin." = "Choose a valid time zone.";
 "Geçmiş değiştirilmedi: yedek oluşturulamadı." = "History was not changed: a backup could not be created.";
+"Geçmiş dışa aktarılamadı: %@" = "History could not be exported: %@";
+"Geçmiş dışa aktarıldı: %lld ölçüm." = "History exported: %lld readings.";
 "Geçmiş filtresi" = "History filter";
 "Geçmiş kaydedilemiyor: %@" = "History cannot be saved: %@";
 "Geçmiş okunamadı; özgün dosya korunuyor. Yeni ölçümler bu oturumda bellekte tutuluyor." = "History could not be read; the original file is kept. New readings are held in memory for this session.";
@@ -281,6 +288,7 @@
 "Geçmiş yedeği geri alınamadı; yedek dosya korundu." = "The history backup could not be restored; the backup file was kept.";
 "Geçmiş yedeği geri alındı." = "The history backup was restored.";
 "Geçmiş yerel olarak tutulur, en fazla 24 saat; veri uygulama açıkken birikir. 24 saatten uzun aralık sunulmaz." = "History is kept locally for up to 24 hours and builds up while the app is open. Ranges longer than 24 hours are not offered.";
+"Geçmişi CSV olarak dışa aktar" = "Export history as CSV";
 "Geçmişi temizle" = "Clear history";
 "Giriş Öğeleri ayarlarını aç" = "Open Login Items settings";
 "Giriş öğesi bulunamadı. Uygulamayı Applications içinden açıp tekrar deneyin." = "Login item not found. Open the app from Applications and try again.";
@@ -305,12 +313,17 @@
 "Gösterilecek etki" = "Impact to show";
 "Gösterilen ayar değişti, okunamadı veya başka bir şarj uygulaması açık. Güncel durumu yeniden inceleyin." = "The displayed setting changed, could not be read, or another charging app is open. Review the current state again.";
 "Gözlenen sonuç" = "Observed result";
+"Gün" = "Day";
 "Güncel ayar okunamadı: %@" = "The current setting could not be read: %@";
 "Güncel batarya ölçümü 5 saniye içinde alınamadı." = "A current battery reading could not be taken within 5 seconds.";
 "Güncel değil · %@" = "Not current · %@";
 "Güncel güç durumu bilinmiyor" = "Current power state unknown";
 "Güncel güç ölçümü bekleniyor." = "Waiting for a current power reading.";
 "Güncel şarj durumunun açıklaması" = "Description of the current charging state";
+"Günlük batarya sağlığı grafiği" = "Daily battery health chart";
+"Günlük özetler bu Mac’te 400 güne kadar saklanır; yalnızca Cellkeep açıkken kaydedilen ölçümlerden hesaplanır." = "Daily summaries are kept on this Mac for up to 400 days and are calculated only from readings recorded while Cellkeep was open.";
+"Günlük özetler dışa aktarıldı: %lld gün." = "Daily summaries exported: %lld days.";
+"Günlük özetleri CSV olarak dışa aktar" = "Export daily summaries as CSV";
 "Güç" = "Power";
 "Güç Modunu Ayarla" = "Set Power Mode";
 "Güç adaptörü" = "Power adapter";
@@ -462,6 +475,7 @@
 "Oku" = "Read";
 "Okunan limit veya kontrol sahibi değişti." = "The read limit or the controlling owner changed.";
 "Orta etki" = "Medium impact";
+"Ortalama doluluk" = "Average charge";
 "Otomatik" = "Automatic";
 "Otomatik güç modu kullanılamıyor." = "Automatic power mode is unavailable.";
 "Otomatik güç moduna dön" = "Return to automatic power mode";
@@ -500,6 +514,8 @@
 "Sağ tık" = "Right-click";
 "Sağa taşı" = "Move right";
 "Sağlık" = "Health";
+"Sağlık değişimi" = "Health change";
+"Sağlık eğilimi için en az iki günlük ölçüm gerekiyor. Cellkeep açık kaldıkça her gün bir özet kaydedilir." = "The health trend needs readings from at least two days. While Cellkeep is open, a summary is saved every day.";
 "Sekiz yerel eylem. Okumalar güncel veri döndürür; denetimler Cellkeep'in güvenli işlem hattını kullanır." = "Eight local actions. Reads return current data; controls use Cellkeep's safe operation path.";
 "Sensör yoksa, veri geçersizse veya ölçüm 10 saniyeden eskiyse Cellkeep tahmin üretmez." = "If there is no sensor, the data is invalid or the reading is older than 10 seconds, Cellkeep does not estimate a value.";
 "Ses cihazı" = "Audio device";
@@ -520,6 +536,8 @@
 "Sistem yükü" = "System load";
 "Sistem, yeşil, turuncu veya kapalı" = "System, green, orange or off";
 "Sola taşı" = "Move left";
+"Son 30 gün" = "Last 30 days";
+"Son 7 gün" = "Last 7 days";
 "Son geçmiş yedeğini geri al" = "Restore the last history backup";
 "Son ölçüm: %@%@" = "Last reading: %@%@";
 "Spotlight indeksleme" = "Spotlight indexing";
@@ -590,6 +608,7 @@
 "Uyku davranışını macOS yönetiyor." = "macOS is managing sleep behavior.";
 "Uyku engeli oluşturulamadı (%d)." = "The sleep assertion could not be created (%d).";
 "Uyku sırasında şarjı durdur" = "Pause charging during sleep";
+"Uzun vadeli sağlık" = "Long-term health";
 "Vazgeç" = "Cancel";
 "Veriler ve sıfırlama" = "Data and reset";
 "Yakında · donanım doğrulaması bekliyor" = "Coming soon · awaiting hardware verification";

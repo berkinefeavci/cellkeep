@@ -90,6 +90,10 @@ struct SupportCenterView: View {
                 .font(.caption).foregroundStyle(.secondary)
             HStack {
                 Button("Arayüz ayarlarını sıfırla") { showResetConfirmation = true }
+                Button("Geçmişi CSV olarak dışa aktar") { exportHistoryCSV() }
+                    .disabled(battery.history.isEmpty)
+                Button("Günlük özetleri CSV olarak dışa aktar") { exportDailyCSV() }
+                    .disabled(battery.dailySummaries.isEmpty)
                 Button("Geçmişi temizle", role: .destructive) { showClearHistoryConfirmation = true }
                 if battery.historyBackupAvailable {
                     Button("Son geçmiş yedeğini geri al") { battery.restoreHistoryBackup { message = $0 } }
@@ -123,6 +127,38 @@ struct SupportCenterView: View {
 
     private var version: String { Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—" }
     private var build: String { Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "—" }
+
+    private func exportHistoryCSV() {
+        let panel = NSSavePanel()
+        panel.nameFieldStringValue = "Cellkeep-History.csv"
+        panel.allowedContentTypes = [.commaSeparatedText]
+        panel.canCreateDirectories = true
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        let rows = battery.history.map { point in
+            HistoryCSV.Row(date: point.date, percentage: point.percentage, hardwarePercentage: point.hardwarePercentage,
+                           batteryWatts: point.wattage, systemWatts: point.systemWatts, temperatureC: point.temperatureC,
+                           healthPercent: point.healthPercent, cycleCount: point.cycleCount,
+                           batteryCurrentMA: point.batteryCurrentMA, batteryVoltageV: point.batteryVoltageV,
+                           remainingCapacityMAh: point.remainingCapacityMAh, fullCapacityMAh: point.fullCapacityMAh)
+        }
+        do {
+            try Data(HistoryCSV.make(rows).utf8).write(to: url, options: .atomic)
+            message = String(localized: "Geçmiş dışa aktarıldı: \(rows.count) ölçüm.")
+        } catch { message = String(localized: "Geçmiş dışa aktarılamadı: \(error.localizedDescription)") }
+    }
+
+    private func exportDailyCSV() {
+        let panel = NSSavePanel()
+        panel.nameFieldStringValue = "Cellkeep-Daily.csv"
+        panel.allowedContentTypes = [.commaSeparatedText]
+        panel.canCreateDirectories = true
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        let days = battery.dailySummaries
+        do {
+            try Data(HistoryCSV.makeDaily(days).utf8).write(to: url, options: .atomic)
+            message = String(localized: "Günlük özetler dışa aktarıldı: \(days.count) gün.")
+        } catch { message = String(localized: "Geçmiş dışa aktarılamadı: \(error.localizedDescription)") }
+    }
 
     private func exportDiagnostics() {
         let panel = NSSavePanel()

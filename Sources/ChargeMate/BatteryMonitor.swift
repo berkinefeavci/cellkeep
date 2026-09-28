@@ -402,6 +402,8 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
     @Published private(set) var cancellationRequested = false
     @Published var snapshot = BatterySnapshot()
     @Published var history: [BatteryHistoryPoint] = []
+    /// Daily summaries kept for months (see LongTermHistory); the detailed history keeps 24 hours.
+    @Published private(set) var dailySummaries: [DailySummary] = []
     @Published private(set) var limitEvents: [LimitEvent] = []
     @Published private(set) var historyError: String?
     @Published private(set) var historyBackupAvailable = false
@@ -976,6 +978,7 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
         do {
             let archive = try HistoryArchive.read(historyURL)
             history = archive.measurements; limitEvents = archive.limitEvents
+            dailySummaries = LongTermHistory.read(dailySummaryURL)
         } catch {
             historyWritable = false
             historyError = String(localized: "Geçmiş okunamadı; özgün dosya korunuyor. Yeni ölçümler bu oturumda bellekte tutuluyor.")
@@ -986,6 +989,23 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
     }
 
     func stop() { timer?.invalidate(); timer = nil }
+
+    private var dailySummaryURL: URL {
+        historyURL.deletingLastPathComponent().appendingPathComponent("daily-summary.json")
+    }
+
+    /// Recomputes today's (and, while still in the 24-hour window, yesterday's) summary from the
+    /// detailed history and merges it into the long-term record.
+    private func updateDailySummaries(now: Date) {
+        let samples = history.map { point in
+            LongTermHistory.Sample(date: point.date, percentage: point.percentage, healthPercent: point.healthPercent,
+                                   fullCapacityMAh: point.fullCapacityMAh, cycleCount: point.cycleCount,
+                                   temperatureC: point.temperatureC)
+        }
+        dailySummaries = LongTermHistory.merge(stored: dailySummaries,
+                                               fresh: LongTermHistory.summarize(samples, calendar: .current),
+                                               newestDay: LongTermHistory.dayKey(now, calendar: .current))
+    }
 
     /// User-initiated only. Serialize behind pending history writes, create a local backup,
     /// then replace the archive atomically. Charging preferences and native state are untouched.
@@ -1153,7 +1173,10 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
                     let baseline = self.limitEvents.last { $0.date < lower }
                     self.limitEvents = (baseline.map { [$0] } ?? []) + self.limitEvents.filter { $0.date >= lower }
                     let archive = HistoryArchive(schemaVersion: 2, measurements: self.history, limitEvents: self.limitEvents)
+                    self.updateDailySummaries(now: now)
+                    let summaries = self.dailySummaries
                     if self.historyWritable { self.readerQueue.async {
+                        try? LongTermHistory.write(summaries, to: self.dailySummaryURL)
                         do {
                             try archive.write(self.historyURL)
                             DispatchQueue.main.async { self.historyError = nil }
