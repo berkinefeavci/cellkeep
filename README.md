@@ -18,7 +18,13 @@
 
 ## Screenshots
 
-<p align="center"><img src="docs/screenshots/menu-bar-panel.png" alt="Cellkeep menu bar panel: charge bar, power modes and live power flow" width="420"></p>
+<p align="center"><img src="docs/screenshots/demo.gif" alt="Cellkeep menu bar panel updating live: charge bar and power flow from battery to processor, display and other" width="400"></p>
+
+<table>
+<tr><td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/panel-dark.png"><img src="docs/screenshots/panel-light.png" alt="Menu bar panel: charge bar, limit, Top Up and live power flow" width="100%"></picture></td><td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/dashboard-dark.png"><img src="docs/screenshots/dashboard-light.png" alt="Dashboard: battery, health and adapter details with battery history charts" width="100%"></picture></td></tr>
+<tr><td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/charge-dark.png"><img src="docs/screenshots/charge-light.png" alt="Charge Control: macOS charge limit from 80 to 100%, Top Up and locked advanced modes" width="100%"></picture></td><td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/energy-dark.png"><img src="docs/screenshots/energy-light.png" alt="Energy Usage: apps and system processes ranked by macOS energy impact" width="100%"></picture></td></tr>
+<tr><td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/magsafe-dark.png"><img src="docs/screenshots/magsafe-light.png" alt="MagSafe Light: let macOS manage it, always off, or off during a time range" width="100%"></picture></td><td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/general-dark.png"><img src="docs/screenshots/general-light.png" alt="General settings: login, panel shortcut, app language and uninstall" width="100%"></picture></td></tr>
+</table>
 
 > Cellkeep was previously developed under the name "ChargeMate"; a few file paths still use the old name.
 

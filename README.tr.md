@@ -18,7 +18,13 @@
 
 ## Ekran görüntüleri
 
-<p align="center"><img src="docs/screenshots/menu-bar-panel.png" alt="Cellkeep menü çubuğu paneli: şarj barı, güç modları ve canlı güç akışı" width="420"></p>
+<p align="center"><img src="docs/screenshots/demo.gif" alt="Cellkeep menü çubuğu paneli canlı güncelleniyor: şarj barı ve bataryadan işlemci, ekran ve diğerine güç akışı" width="400"></p>
+
+<table>
+<tr><td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/panel-dark.png"><img src="docs/screenshots/panel-light.png" alt="Menü çubuğu paneli: şarj barı, sınır, Doldur ve canlı güç akışı" width="100%"></picture></td><td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/dashboard-dark.png"><img src="docs/screenshots/dashboard-light.png" alt="Gösterge Tablosu: batarya, sağlık ve adaptör bilgileri ile batarya geçmişi grafikleri" width="100%"></picture></td></tr>
+<tr><td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/charge-dark.png"><img src="docs/screenshots/charge-light.png" alt="Şarj Kontrolü: %80–100 arası macOS şarj sınırı, Doldur ve kilitli gelişmiş modlar" width="100%"></picture></td><td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/energy-dark.png"><img src="docs/screenshots/energy-light.png" alt="Enerji Kullanımı: macOS enerji etkisine göre sıralanmış uygulamalar ve sistem süreçleri" width="100%"></picture></td></tr>
+<tr><td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/magsafe-dark.png"><img src="docs/screenshots/magsafe-light.png" alt="MagSafe Işığı: macOS yönetsin, hep kapalı ya da belirli saatlerde kapalı" width="100%"></picture></td><td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/general-dark.png"><img src="docs/screenshots/general-light.png" alt="Genel ayarlar: oturum açılışı, panel kısayolu, uygulama dili ve kaldırma" width="100%"></picture></td></tr>
+</table>
 
 > Cellkeep daha önce "ChargeMate" adıyla geliştirildi; birkaç dosya yolu hâlâ eski adı kullanıyor.
 
