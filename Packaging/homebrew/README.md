@@ -27,6 +27,7 @@ brew upgrade --cask cellkeep
 4. Optionally check it: `brew audit --cask --strict berkinefeavci/cellkeep/cellkeep` and
    `brew install --cask berkinefeavci/cellkeep/cellkeep` on a clean Mac.
 
-`brew uninstall --cask cellkeep` quits the app and removes its helpers and launch daemons;
-`--zap` also removes its data and preferences. The macOS charge limit itself is a system setting
-and is left as it was.
+`brew upgrade` runs the old version's `uninstall` step, so that step only quits the app; the root
+helpers and their launch daemons stay installed across upgrades. `brew uninstall --zap --cask cellkeep`
+also removes the helpers, launch daemons, data and preferences, as does Settings → General →
+Uninstall Cellkeep. The macOS charge limit itself is a system setting and is left as it was.
