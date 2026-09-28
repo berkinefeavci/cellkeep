@@ -2,13 +2,25 @@
 
 🇹🇷 [Türkçe README](README.tr.md)
 
-A macOS menu-bar app that helps you look after your MacBook's battery: a native charge limit, live power-flow readout, and history — without a background daemon watching everything.
+**Free, open-source battery care for Apple Silicon MacBooks.** Keep your battery at 80–100% with macOS's own charge-limit control, see where every watt goes, and watch your battery's health over months — from a small menu-bar app with no subscription, no account and no telemetry.
 
-> Cellkeep was previously developed under the name "ChargeMate." Some file paths, labels, and screenshots below are still transitioning to the new name.
+<p align="center">
+  <a href="../../releases/latest"><img alt="Download the latest release" src="https://img.shields.io/github/v/release/berkinefeavci/cellkeep?label=Download&style=for-the-badge"></a>
+  <img alt="Apple Silicon" src="https://img.shields.io/badge/Apple%20Silicon-arm64-black?style=for-the-badge&logo=apple">
+  <img alt="MIT license" src="https://img.shields.io/github/license/berkinefeavci/cellkeep?style=for-the-badge">
+</p>
+
+- **Charge limit** 80–100% and one-click **Top Up** to 100% for a trip.
+- **Live power flow**: adapter, battery, CPU, display — measured, never guessed.
+- **Long-term health**: daily summaries for up to 400 days, CSV export.
+- **Signed and notarized** by Apple, **open source** (MIT), data stays on your Mac ([PRIVACY.md](PRIVACY.md)).
+- English, Türkçe, Deutsch, Français, Español.
 
 ## Screenshots
 
 <p align="center"><img src="docs/screenshots/menu-bar-panel.png" alt="Cellkeep menu bar panel: charge bar, power modes and live power flow" width="420"></p>
+
+> Cellkeep was previously developed under the name "ChargeMate"; a few file paths still use the old name.
 
 ## Features
 
