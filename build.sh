@@ -44,7 +44,11 @@ else
       export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
     fi
   fi
-  swift build -c release "$@"
+  # The compiler also writes every localizable string key it sees (Text("…"), String(localized:), …)
+  # so Tools/check-localizations.swift can verify each language covers them.
+  rm -rf .build/localized-strings
+  swift build -c release -Xswiftc -emit-localized-strings \
+    -Xswiftc -emit-localized-strings-path -Xswiftc "$PWD/.build/localized-strings" "$@"
   extract_intents=true
   executable=.build/release/Cellkeep
   native_charge_helper=.build/release/CellkeepNativeChargeHelper
@@ -83,6 +87,14 @@ else
   exit 1
 fi
 cp Packaging/Info.plist "$app_path/Contents/Info.plist"
+# SwiftUI Text and String(localized:) look up Bundle.main, i.e. Contents/Resources/<lang>.lproj.
+rm -rf "$app_path/Contents/Resources/"*.lproj
+for lproj in Localization/*.lproj; do
+  [ -d "$lproj" ] && cp -R "$lproj" "$app_path/Contents/Resources/"
+done
+if [ -d .build/localized-strings ]; then
+  xcrun swift Tools/check-localizations.swift .build/localized-strings Localization ${CELLKEEP_L10N_DUMP:+--dump}
+fi
 if $extract_intents; then
   intent_objects=".build/out/Intermediates.noindex/Cellkeep.build/Release/Cellkeep-p.build/Objects-normal/$(uname -m)"
   intent_sources="$intent_objects/Cellkeep.SwiftFileList"
