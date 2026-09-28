@@ -16,6 +16,8 @@ struct GeneralSettingsView: View {
     @State private var uninstallError: String?
     @AppStorage(HotKeyChoice.storageKey) private var hotKey = HotKeyChoice.off.rawValue
     @State private var hotKeyFailed = false
+    @State private var language = AppLanguage.current
+    @State private var languageChanged = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: SettingsLayout.cardSpacing) {
@@ -69,6 +71,31 @@ struct GeneralSettingsView: View {
                                   : String(localized: "Uygulama açıkken her yerden çalışır. Erişilebilirlik izni gerekmez; Cellkeep yalnızca bu tuş birleşimini görür."))
                     .font(.caption)
                     .foregroundStyle(hotKeyFailed ? Color.orange : Color.secondary)
+            }
+            .chargeCard()
+
+            VStack(alignment: .leading, spacing: 14) {
+                Label("Dil", systemImage: "globe").font(.headline)
+                HStack {
+                    Text("Uygulama dili")
+                    Spacer()
+                    Picker("Uygulama dili", selection: $language) {
+                        Text("Sistem").tag(AppLanguage.system)
+                        ForEach(AppLanguage.choices, id: \.self) { code in
+                            Text(verbatim: AppLanguage.name(code)).tag(code)
+                        }
+                    }
+                    .labelsHidden().fixedSize()
+                    .onChange(of: language) { value in
+                        AppLanguage.set(value)
+                        languageChanged = true
+                    }
+                }
+                Text("Yeni dil, Cellkeep yeniden başlayınca geçerli olur.")
+                    .font(.caption).foregroundStyle(.secondary)
+                if languageChanged {
+                    Button("Şimdi yeniden başlat") { AppLanguage.relaunch() }
+                }
             }
             .chargeCard()
 

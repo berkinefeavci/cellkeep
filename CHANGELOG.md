@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.0
+
+- Languages: English, German, French and Spanish, plus a language picker in Settings → General.
+- Optional system-wide shortcut (⌃⌥⌘B or ⌃⌥⌘C) that opens and closes the menu bar panel.
+- Long-term battery health trend, charging statistics, and CSV export of history and daily summaries.
+- Detects other charge-limit tools (AlDente, Battery Toolkit, BatFi, batt, battery, bclm), not just AlDente; the MagSafe LED helper also steps aside for them. Existing LED helpers ask to be reinstalled once.
+- Optional, off-by-default check for a newer release.
+- Homebrew: `brew install --cask berkinefeavci/cellkeep/cellkeep`.
+
 ## 1.0.0 — first public release
 
 First public release, under the name Cellkeep (previously developed internally as "ChargeMate").
