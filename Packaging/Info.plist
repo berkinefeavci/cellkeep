@@ -8,6 +8,9 @@
 	<array>
 		<string>en</string>
 		<string>tr</string>
+		<string>de</string>
+		<string>fr</string>
+		<string>es</string>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>Cellkeep</string>
