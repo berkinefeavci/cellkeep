@@ -809,3 +809,7 @@
 "Şu anda ne oluyor?" = "What is happening right now?";
 "—" = "—";
 "“%@” silindi." = "“%@” was deleted.";
+"Dil" = "Language";
+"Uygulama dili" = "App language";
+"Yeni dil, Cellkeep yeniden başlayınca geçerli olur." = "The new language takes effect when Cellkeep restarts.";
+"Şimdi yeniden başlat" = "Restart now";
