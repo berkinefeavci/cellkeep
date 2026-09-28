@@ -12,6 +12,7 @@
 #include <time.h>
 #include <libproc.h>
 #include "LEDTimeWindow.h"
+#include "LEDControllers.h"
 
 #define POLICY_DIR "/Library/Application Support/CellkeepLED"
 #define POLICY_FILE POLICY_DIR "/policy"
@@ -22,7 +23,7 @@ static int otherControllerRunning(void) {
     if (bytes <= 0 || bytes >= (int)sizeof(processes)) return 1;
     for (int index = 0; index < bytes / (int)sizeof(pid_t); index++) {
         char name[256] = {0};
-        if (proc_name(processes[index], name, sizeof(name)) > 0 && strncmp(name, "AlDente", 7) == 0) return 1;
+        if (proc_name(processes[index], name, sizeof(name)) > 0 && isOtherControllerName(name)) return 1;
     }
     return 0;
 }
@@ -90,6 +91,7 @@ static int readLED(uint8_t *value) {
 }
 
 int main(int argc, char **argv) {
+    if (argc == 2 && !strcmp(argv[1], "--version")) { printf("%d\n", LED_HELPER_VERSION); return 0; }
     if (argc == 3 && !strcmp(argv[1], "--authorize-uid")) {
         char *tail; long uid = strtol(argv[2], &tail, 10);
         return *argv[2] && !*tail && uid >= 0 && uid <= INT_MAX ? authorizeUID((uid_t)uid) : 2;

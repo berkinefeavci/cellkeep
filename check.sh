@@ -20,6 +20,8 @@ xcrun swiftc -parse-as-library Sources/ChargeMate/ChargeMateShortcuts.swift Test
 grep -Fq 'SystemPowerModeService.applyInstalled' Sources/ChargeMate/ChargeMateIntents.swift
 grep -Fq 'BatteryMonitor.shared.applyShortcutLimit' Sources/ChargeMate/ChargeMateIntents.swift
 xcrun clang -Wall -Wextra -Werror Tests/MagSafeTimeWindowTests.c -o .build/checks/magsafe-time-tests
+xcrun clang -Wall -Wextra -Werror Tests/LEDControllersTests.c -o .build/checks/led-controllers-tests
+.build/checks/led-controllers-tests
 .build/checks/magsafe-time-tests
 
 # PowerUI writes belong only to the timeout-bounded helper process.
