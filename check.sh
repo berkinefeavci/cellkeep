@@ -116,6 +116,8 @@ xcrun swiftc Sources/ChargeMate/UpdateCheck.swift Tests/UpdateCheckTests.swift -
 .build/checks/update-check-tests
 xcrun swiftc Sources/ChargeMate/ChargeControllerDetector.swift Tests/ChargeControllerDetectorTests.swift -o .build/checks/charge-controller-detector-tests
 .build/checks/charge-controller-detector-tests
+xcrun swiftc Sources/ChargeMate/HistoryCSV.swift Tests/HistoryCSVTests.swift -o .build/checks/history-csv-tests
+.build/checks/history-csv-tests
 
 xcrun swiftc Sources/ChargeMate/IdentityMigration.swift Tests/IdentityMigrationTests.swift -o .build/checks/identity-migration-tests
 .build/checks/identity-migration-tests

@@ -273,6 +273,8 @@
 "Gerçek ölçümler, bu Mac’te 24 saat saklanır. Grafiğin üzerine gelerek ölçüm inceleyebilirsiniz." = "Echte Messwerte, 24 Stunden auf diesem Mac gespeichert. Fahre über das Diagramm, um einen Messwert anzusehen.";
 "Geçerli bir saat dilimi seçin." = "Wähle eine gültige Zeitzone.";
 "Geçmiş değiştirilmedi: yedek oluşturulamadı." = "Der Verlauf wurde nicht geändert: Es konnte keine Sicherung erstellt werden.";
+"Geçmiş dışa aktarılamadı: %@" = "Verlauf konnte nicht exportiert werden: %@";
+"Geçmiş dışa aktarıldı: %lld ölçüm." = "Verlauf exportiert: %lld Messwerte.";
 "Geçmiş filtresi" = "Verlaufsfilter";
 "Geçmiş kaydedilemiyor: %@" = "Verlauf kann nicht gespeichert werden: %@";
 "Geçmiş okunamadı; özgün dosya korunuyor. Yeni ölçümler bu oturumda bellekte tutuluyor." = "Der Verlauf konnte nicht gelesen werden; die Originaldatei bleibt erhalten. Neue Messwerte werden für diese Sitzung im Speicher gehalten.";
@@ -281,6 +283,7 @@
 "Geçmiş yedeği geri alınamadı; yedek dosya korundu." = "Die Verlaufssicherung konnte nicht wiederhergestellt werden; die Sicherungsdatei bleibt erhalten.";
 "Geçmiş yedeği geri alındı." = "Die Verlaufssicherung wurde wiederhergestellt.";
 "Geçmiş yerel olarak tutulur, en fazla 24 saat; veri uygulama açıkken birikir. 24 saatten uzun aralık sunulmaz." = "Der Verlauf wird lokal bis zu 24 Stunden gespeichert und wächst, während die App geöffnet ist. Zeiträume über 24 Stunden werden nicht angeboten.";
+"Geçmişi CSV olarak dışa aktar" = "Verlauf als CSV exportieren";
 "Geçmişi temizle" = "Verlauf löschen";
 "Giriş Öğeleri ayarlarını aç" = "Einstellungen für Anmeldeobjekte öffnen";
 "Giriş öğesi bulunamadı. Uygulamayı Applications içinden açıp tekrar deneyin." = "Anmeldeobjekt nicht gefunden. Öffne die App aus dem Ordner „Programme“ und versuche es erneut.";

@@ -273,6 +273,8 @@
 "Gerçek ölçümler, bu Mac’te 24 saat saklanır. Grafiğin üzerine gelerek ölçüm inceleyebilirsiniz." = "Mesures réelles, conservées 24 heures sur ce Mac. Survolez le graphique pour inspecter une mesure.";
 "Geçerli bir saat dilimi seçin." = "Choisissez un fuseau horaire valide.";
 "Geçmiş değiştirilmedi: yedek oluşturulamadı." = "L’historique n’a pas été modifié : aucune sauvegarde n’a pu être créée.";
+"Geçmiş dışa aktarılamadı: %@" = "L’historique n’a pas pu être exporté : %@";
+"Geçmiş dışa aktarıldı: %lld ölçüm." = "Historique exporté : %lld mesures.";
 "Geçmiş filtresi" = "Filtre de l’historique";
 "Geçmiş kaydedilemiyor: %@" = "L’historique ne peut pas être enregistré : %@";
 "Geçmiş okunamadı; özgün dosya korunuyor. Yeni ölçümler bu oturumda bellekte tutuluyor." = "L’historique n’a pas pu être lu ; le fichier d’origine est conservé. Les nouvelles mesures sont gardées en mémoire pour cette session.";
@@ -281,6 +283,7 @@
 "Geçmiş yedeği geri alınamadı; yedek dosya korundu." = "La sauvegarde de l’historique n’a pas pu être restaurée ; le fichier de sauvegarde a été conservé.";
 "Geçmiş yedeği geri alındı." = "La sauvegarde de l’historique a été restaurée.";
 "Geçmiş yerel olarak tutulur, en fazla 24 saat; veri uygulama açıkken birikir. 24 saatten uzun aralık sunulmaz." = "L’historique est conservé localement jusqu’à 24 heures et s’accumule tant que l’app est ouverte. Les périodes de plus de 24 heures ne sont pas proposées.";
+"Geçmişi CSV olarak dışa aktar" = "Exporter l’historique en CSV";
 "Geçmişi temizle" = "Effacer l’historique";
 "Giriş Öğeleri ayarlarını aç" = "Ouvrir les réglages des éléments d’ouverture";
 "Giriş öğesi bulunamadı. Uygulamayı Applications içinden açıp tekrar deneyin." = "Élément d’ouverture introuvable. Ouvrez l’app depuis Applications et réessayez.";

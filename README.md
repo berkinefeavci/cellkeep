@@ -16,7 +16,7 @@ A macOS menu-bar app that helps you look after your MacBook's battery: a native 
 - **Top Up.** Temporarily charge to 100% for a trip, then Cellkeep restores your usual limit afterward.
 - **Live power flow.** A diagram of adapter, battery, CPU, display, and "other" power, in watts. CPU and display watts are read from Apple's SMC sensors; the total system draw comes from the battery controller. Nothing here is estimated or invented — if a value can't be measured, it shows as "—" instead of a guess.
 - **Connected device power.** When exactly one USB device is drawing power on exactly one active port, Cellkeep shows its wattage (read-only, from the battery controller's port telemetry). With more than one device or port, it shows "—" rather than a guess.
-- **History charts.** 1 hour / 6 hour / 24 hour views of charge level, power draw, and battery health.
+- **History charts.** 1 hour / 6 hour / 24 hour views of charge level, power draw, and battery health. The recorded readings can be exported as CSV from Settings → About.
 - **Battery health.** A maximum-capacity chart, smoothed to hourly medians so day-to-day sensor noise doesn't look like a real health swing.
 - **Power modes per source.** Automatic / High Power (Turbo) / Low Power (Battery Saver), tracked separately for "on battery" and "on adapter," backed by macOS's own `pmset` power profiles through a narrowly scoped, allowlisted helper.
 - **Sleep behavior.** Optional: while charging below your target with the adapter connected, Cellkeep holds a public macOS idle-sleep assertion so your Mac keeps charging instead of going to sleep. It has an 8-hour safety cutoff and never touches lid-close or screen sleep. It does not pause charging by itself during sleep — see Limitations.

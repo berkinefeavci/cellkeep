@@ -273,6 +273,8 @@
 "Gerçek ölçümler, bu Mac’te 24 saat saklanır. Grafiğin üzerine gelerek ölçüm inceleyebilirsiniz." = "Lecturas reales, guardadas 24 horas en este Mac. Pasa el puntero por el gráfico para inspeccionar una lectura.";
 "Geçerli bir saat dilimi seçin." = "Elige una zona horaria válida.";
 "Geçmiş değiştirilmedi: yedek oluşturulamadı." = "El historial no se modificó: no se pudo crear una copia.";
+"Geçmiş dışa aktarılamadı: %@" = "No se pudo exportar el historial: %@";
+"Geçmiş dışa aktarıldı: %lld ölçüm." = "Historial exportado: %lld lecturas.";
 "Geçmiş filtresi" = "Filtro del historial";
 "Geçmiş kaydedilemiyor: %@" = "No se puede guardar el historial: %@";
 "Geçmiş okunamadı; özgün dosya korunuyor. Yeni ölçümler bu oturumda bellekte tutuluyor." = "No se pudo leer el historial; el archivo original se conserva. Las nuevas lecturas se guardan en memoria durante esta sesión.";
@@ -281,6 +283,7 @@
 "Geçmiş yedeği geri alınamadı; yedek dosya korundu." = "No se pudo restaurar la copia del historial; el archivo de copia se conservó.";
 "Geçmiş yedeği geri alındı." = "Se restauró la copia del historial.";
 "Geçmiş yerel olarak tutulur, en fazla 24 saat; veri uygulama açıkken birikir. 24 saatten uzun aralık sunulmaz." = "El historial se guarda localmente hasta 24 horas y se acumula mientras la app está abierta. No se ofrecen rangos de más de 24 horas.";
+"Geçmişi CSV olarak dışa aktar" = "Exportar historial como CSV";
 "Geçmişi temizle" = "Borrar historial";
 "Giriş Öğeleri ayarlarını aç" = "Abrir ajustes de ítems de inicio";
 "Giriş öğesi bulunamadı. Uygulamayı Applications içinden açıp tekrar deneyin." = "No se encontró el ítem de inicio. Abre la app desde Aplicaciones e inténtalo de nuevo.";

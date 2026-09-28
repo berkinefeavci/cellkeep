@@ -273,6 +273,8 @@
 "Gerçek ölçümler, bu Mac’te 24 saat saklanır. Grafiğin üzerine gelerek ölçüm inceleyebilirsiniz." = "Gerçek ölçümler, bu Mac’te 24 saat saklanır. Grafiğin üzerine gelerek ölçüm inceleyebilirsiniz.";
 "Geçerli bir saat dilimi seçin." = "Geçerli bir saat dilimi seçin.";
 "Geçmiş değiştirilmedi: yedek oluşturulamadı." = "Geçmiş değiştirilmedi: yedek oluşturulamadı.";
+"Geçmiş dışa aktarılamadı: %@" = "Geçmiş dışa aktarılamadı: %@";
+"Geçmiş dışa aktarıldı: %lld ölçüm." = "Geçmiş dışa aktarıldı: %lld ölçüm.";
 "Geçmiş filtresi" = "Geçmiş filtresi";
 "Geçmiş kaydedilemiyor: %@" = "Geçmiş kaydedilemiyor: %@";
 "Geçmiş okunamadı; özgün dosya korunuyor. Yeni ölçümler bu oturumda bellekte tutuluyor." = "Geçmiş okunamadı; özgün dosya korunuyor. Yeni ölçümler bu oturumda bellekte tutuluyor.";
@@ -281,6 +283,7 @@
 "Geçmiş yedeği geri alınamadı; yedek dosya korundu." = "Geçmiş yedeği geri alınamadı; yedek dosya korundu.";
 "Geçmiş yedeği geri alındı." = "Geçmiş yedeği geri alındı.";
 "Geçmiş yerel olarak tutulur, en fazla 24 saat; veri uygulama açıkken birikir. 24 saatten uzun aralık sunulmaz." = "Geçmiş yerel olarak tutulur, en fazla 24 saat; veri uygulama açıkken birikir. 24 saatten uzun aralık sunulmaz.";
+"Geçmişi CSV olarak dışa aktar" = "Geçmişi CSV olarak dışa aktar";
 "Geçmişi temizle" = "Geçmişi temizle";
 "Giriş Öğeleri ayarlarını aç" = "Giriş Öğeleri ayarlarını aç";
 "Giriş öğesi bulunamadı. Uygulamayı Applications içinden açıp tekrar deneyin." = "Giriş öğesi bulunamadı. Uygulamayı Applications içinden açıp tekrar deneyin.";

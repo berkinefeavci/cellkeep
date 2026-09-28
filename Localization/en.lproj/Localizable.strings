@@ -273,6 +273,8 @@
 "Gerçek ölçümler, bu Mac’te 24 saat saklanır. Grafiğin üzerine gelerek ölçüm inceleyebilirsiniz." = "Real readings, kept on this Mac for 24 hours. Hover over the chart to inspect a reading.";
 "Geçerli bir saat dilimi seçin." = "Choose a valid time zone.";
 "Geçmiş değiştirilmedi: yedek oluşturulamadı." = "History was not changed: a backup could not be created.";
+"Geçmiş dışa aktarılamadı: %@" = "History could not be exported: %@";
+"Geçmiş dışa aktarıldı: %lld ölçüm." = "History exported: %lld readings.";
 "Geçmiş filtresi" = "History filter";
 "Geçmiş kaydedilemiyor: %@" = "History cannot be saved: %@";
 "Geçmiş okunamadı; özgün dosya korunuyor. Yeni ölçümler bu oturumda bellekte tutuluyor." = "History could not be read; the original file is kept. New readings are held in memory for this session.";
@@ -281,6 +283,7 @@
 "Geçmiş yedeği geri alınamadı; yedek dosya korundu." = "The history backup could not be restored; the backup file was kept.";
 "Geçmiş yedeği geri alındı." = "The history backup was restored.";
 "Geçmiş yerel olarak tutulur, en fazla 24 saat; veri uygulama açıkken birikir. 24 saatten uzun aralık sunulmaz." = "History is kept locally for up to 24 hours and builds up while the app is open. Ranges longer than 24 hours are not offered.";
+"Geçmişi CSV olarak dışa aktar" = "Export history as CSV";
 "Geçmişi temizle" = "Clear history";
 "Giriş Öğeleri ayarlarını aç" = "Open Login Items settings";
 "Giriş öğesi bulunamadı. Uygulamayı Applications içinden açıp tekrar deneyin." = "Login item not found. Open the app from Applications and try again.";
