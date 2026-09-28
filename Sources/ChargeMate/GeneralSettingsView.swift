@@ -124,9 +124,7 @@ private struct UninstallConfirmationView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Label("Cellkeep'i kaldır", systemImage: "trash").font(.title3.bold())
-            Text("Yönetici izniyle yardımcı süreçler ve arka plan servisleri (yeni ve varsa eski ChargeMate "
-                + String(localized: "sürümünden kalanlar) kaldırılır, giriş öğesi kayıttan silinir. Tek bir yönetici onayı istenir. ")
-                + String(localized: "İşlem bitince uygulamayı Çöp Sepeti'ne sürüklemeniz istenir. Bu adım geri alınamaz."))
+            Text("Yönetici izniyle yardımcı süreçler ve arka plan servisleri (yeni ve varsa eski ChargeMate sürümünden kalanlar) kaldırılır, giriş öğesi kayıttan silinir. Tek bir yönetici onayı istenir. İşlem bitince uygulamayı Çöp Sepeti'ne sürüklemeniz istenir. Bu adım geri alınamaz.")
                 .font(.callout).foregroundStyle(.secondary)
             Toggle("Native şarj limitini %100'e sıfırla", isOn: $resetLimit)
             Toggle("Uygulama verilerini de sil (geçmiş, program, günlük)", isOn: $removeData)

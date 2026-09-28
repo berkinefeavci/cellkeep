@@ -3,7 +3,7 @@
 // Compares the localizable keys the Swift compiler extracted from the sources
 // (`-emit-localized-strings`, one .stringsdata file per source file) with every
 // Localization/<lang>.lproj/Localizable.strings. Fails when a language misses a key, or when a
-// translation's format specifiers differ from its key's (a mismatch can crash at runtime).
+// translation of a key with arguments uses different format specifiers (a mismatch can crash at runtime).
 // Keys that no longer occur in the sources are reported but do not fail the check.
 import Foundation
 
@@ -72,7 +72,10 @@ for file in languages {
     }
     let missing = keys.subtracting(table.keys).sorted()
     let stale = Set(table.keys).subtracting(keys).sorted()
-    let mismatched = table.filter { keys.contains($0.key) && specifiers($0.key).sorted() != specifiers($0.value).sorted() }
+    // Keys without arguments are looked up but never passed through String(format:), so a literal
+    // "%" in their translation is fine; only keys that carry arguments must match specifier for specifier.
+    let mismatched = table.filter { keys.contains($0.key) && !specifiers($0.key).isEmpty
+        && specifiers($0.key).sorted() != specifiers($0.value).sorted() }
         .map(\.key).sorted()
     print("check-localizations: \(language): \(table.count) entries, \(missing.count) missing, \(mismatched.count) specifier mismatches, \(stale.count) unused")
     for key in missing { print("MISSING\t\(language)\t" + key.replacingOccurrences(of: "\n", with: "\\n")) }
