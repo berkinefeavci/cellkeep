@@ -41,7 +41,8 @@ static int openServer(void) {
     return fd;
 }
 
-// Only the registered app's signed code and user can call this endpoint.
+// Only processes running as the registered user (UID written by --authorize-uid) can call
+// this endpoint; the peer's code signature is not checked.
 // Commands map to fixed argv; neither shell strings nor arbitrary paths are accepted.
 static void serveIPC(int server) {
     fd_set ready; FD_ZERO(&ready); FD_SET(server, &ready);

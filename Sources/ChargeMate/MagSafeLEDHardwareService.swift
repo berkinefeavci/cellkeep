@@ -76,7 +76,10 @@ final class MagSafeLEDHardwareService {
         let command = legacyCleanup +
             "/usr/bin/install -d -o root -g wheel -m 755 /Library/PrivilegedHelperTools && " +
             "/usr/bin/install -o root -g wheel -m 755 \(shellQuote(bundled.path)) \(shellQuote(installedPath)) && " +
-            "/usr/bin/install -o root -g wheel -m 644 \(shellQuote(bundled.deletingLastPathComponent().appendingPathComponent("io.github.berkinefeavci.cellkeep.led.plist").path)) /Library/LaunchDaemons/io.github.berkinefeavci.cellkeep.led.plist && " +
+            HelperInstallState.signatureCheckCommand(installedPath: installedPath,
+                                                     teamIdentifier: HelperInstallState.currentTeamIdentifier()) + " && " +
+            HelperInstallState.writeLaunchDaemonPlistCommand(label: "io.github.berkinefeavci.cellkeep.led",
+                                                             helperPath: installedPath) + " && " +
             "\(shellQuote(installedPath)) --authorize-uid \(getuid()) && " +
             "(/bin/launchctl bootout system/io.github.berkinefeavci.cellkeep.led 2>/dev/null || true) && " +
             "/bin/launchctl bootstrap system /Library/LaunchDaemons/io.github.berkinefeavci.cellkeep.led.plist"

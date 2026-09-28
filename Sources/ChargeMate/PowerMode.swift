@@ -173,10 +173,8 @@ enum SystemPowerModeService {
         guard let executable = Bundle.main.executableURL else { throw WriteError.helperMissing }
         let resources = executable.deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent("Resources")
         let bundled = resources.appendingPathComponent("CellkeepPowerModeHelper")
-        let plist = resources.appendingPathComponent("io.github.berkinefeavci.cellkeep.powermode.plist")
-        guard FileManager.default.fileExists(atPath: bundled.path), FileManager.default.fileExists(atPath: plist.path) else {
-            throw WriteError.helperMissing
-        }
+        guard FileManager.default.fileExists(atPath: bundled.path) else { throw WriteError.helperMissing }
+        let label = "io.github.berkinefeavci.cellkeep.powermode"
         let legacyCleanup = legacyInstalled()
             ? "(/bin/launchctl bootout system/\(legacyLaunchDaemonLabel) 2>/dev/null || true) && " +
               "/bin/rm -f \(shellQuote(legacyHelperPath)) /Library/LaunchDaemons/\(legacyLaunchDaemonLabel).plist && "
@@ -184,7 +182,9 @@ enum SystemPowerModeService {
         let command = legacyCleanup +
             "/usr/bin/install -d -o root -g wheel -m 755 /Library/PrivilegedHelperTools && " +
             "/usr/bin/install -o root -g wheel -m 755 \(shellQuote(bundled.path)) \(shellQuote(helperPath)) && " +
-            "/usr/bin/install -o root -g wheel -m 644 \(shellQuote(plist.path)) /Library/LaunchDaemons/io.github.berkinefeavci.cellkeep.powermode.plist && " +
+            HelperInstallState.signatureCheckCommand(installedPath: helperPath,
+                                                     teamIdentifier: HelperInstallState.currentTeamIdentifier()) + " && " +
+            HelperInstallState.writeLaunchDaemonPlistCommand(label: label, helperPath: helperPath) + " && " +
             "\(shellQuote(helperPath)) --authorize-uid \(getuid()) && " +
             "(/bin/launchctl bootout system/io.github.berkinefeavci.cellkeep.powermode 2>/dev/null || true) && " +
             "/bin/launchctl bootstrap system /Library/LaunchDaemons/io.github.berkinefeavci.cellkeep.powermode.plist"

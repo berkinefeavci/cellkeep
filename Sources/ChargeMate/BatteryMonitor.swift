@@ -659,13 +659,16 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
             return .failure(EnergySampleFailure(message: "macOS etkinlik örneklemesi tamamlanamadı (\(process.terminationStatus))."))
         }
         let runningApplications = NSWorkspace.shared.runningApplications.filter { $0.activationPolicy == .regular }
-        let applications = Dictionary(uniqueKeysWithValues: runningApplications.map { application in
+        // A terminating app can still be listed with pid -1; duplicate keys would trap in
+        // `uniqueKeysWithValues`, so skip pid-less entries and keep the first of any repeat.
+        let runningWithPID = runningApplications.filter { $0.processIdentifier > 0 }
+        let applications = Dictionary(runningWithPID.map { application in
             (Int(application.processIdentifier), application.localizedName ?? application.bundleIdentifier ?? "Uygulama")
-        })
-        let applicationIconPaths = Dictionary(uniqueKeysWithValues: runningApplications.compactMap { application -> (Int, String)? in
+        }, uniquingKeysWith: { first, _ in first })
+        let applicationIconPaths = Dictionary(runningWithPID.compactMap { application -> (Int, String)? in
             guard let path = application.bundleURL?.path else { return nil }
             return (Int(application.processIdentifier), path)
-        })
+        }, uniquingKeysWith: { first, _ in first })
         // top already bounds this to -n 100 rows.
         let candidatePIDs = parseEnergyApps(output, applicationNames: applications, excludingPID: Int(getpid())).map(\.pid)
         let resolvedInfo = resolveHelperInfo(pids: candidatePIDs, skipping: applications)
