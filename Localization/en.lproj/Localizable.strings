@@ -211,6 +211,7 @@
 "Deşarj" = "Discharge";
 "Deşarj ve Kalibrasyon, doğrulanmış motorları tamamlanmadan Kestirmeler'e eklenmez." = "Discharge and Calibration will not be added to Shortcuts until their verified engines are complete.";
 "Deşarj yakında; henüz kullanılamıyor" = "Discharge coming soon; not available yet";
+"Dil" = "Language";
 "Disk artık aynı bağlantıda bulunamadı; çıkarma yapılmadı." = "The disk is no longer on the same connection; it was not ejected.";
 "Disk çıkarılamadı: %@" = "The disk could not be ejected: %@";
 "Disk çıkarılamadı; açık dosyaları kapatıp yeniden deneyin." = "The disk could not be ejected; close any open files and try again.";
@@ -555,7 +556,7 @@
 "Sıcaklık: %@" = "Temperature: %@";
 "Sıfırla" = "Reset";
 "Sınır %%%lld" = "Limit %lld%%";
-"Sınır:%lld%%" = "Limit: %lld%%";
+"Sınır: %%%lld" = "Limit: %lld%%";
 "Takvim" = "Schedule";
 "Tam doldur" = "Charge to full";
 "Tam doluma kalan" = "Time to full";
@@ -600,6 +601,7 @@
 "Uygula" = "Apply";
 "Uygulama" = "App";
 "Uygulama açıkken her yerden çalışır. Erişilebilirlik izni gerekmez; Cellkeep yalnızca bu tuş birleşimini görür." = "Works from anywhere while the app is running. No Accessibility permission is needed; Cellkeep only sees this key combination.";
+"Uygulama dili" = "App language";
 "Uygulama erişimi" = "App access";
 "Uygulama etkinliği" = "App activity";
 "Uygulama listesi dakikada bir, bağlı cihazlar birkaç saniyede bir yenilenir. Kapalı pencerelerde uygulama ölçümü tercihe bağlıdır." = "The app list refreshes every minute, connected devices every few seconds. Measuring apps while windows are closed is optional.";
@@ -627,6 +629,7 @@
 "Yedekle ve geçmişi temizle" = "Back up and clear history";
 "Yelken" = "Sailing";
 "Yelken modu" = "Sailing mode";
+"Yeni dil, Cellkeep yeniden başlayınca geçerli olur." = "The new language takes effect when Cellkeep restarts.";
 "Yeni görev" = "New task";
 "Yeni sürüm var: %@" = "New version available: %@";
 "Yeni çalışma %@ kimliğiyle kaydedildi. Doğrulanmış writer olmadığı için sistem ayarı değiştirilmedi." = "A new run was saved with ID %@. The system setting was not changed because there is no verified writer.";
@@ -805,11 +808,8 @@
 "Şarjı başlat / durdur — henüz kullanılamıyor" = "Start / stop charging — not available yet";
 "Şarjı duraklat" = "Pause charging";
 "Şimdi denetle" = "Check now";
+"Şimdi yeniden başlat" = "Restart now";
 "Şu anda USB üzerinden tanınan cihaz yok." = "No devices are currently recognized over USB.";
 "Şu anda ne oluyor?" = "What is happening right now?";
 "—" = "—";
 "“%@” silindi." = "“%@” was deleted.";
-"Dil" = "Language";
-"Uygulama dili" = "App language";
-"Yeni dil, Cellkeep yeniden başlayınca geçerli olur." = "The new language takes effect when Cellkeep restarts.";
-"Şimdi yeniden başlat" = "Restart now";

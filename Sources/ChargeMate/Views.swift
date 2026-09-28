@@ -44,7 +44,7 @@ struct PopoverView: View {
                         Button {
                             withAnimation(.easeOut(duration: 0.16)) { limitEditor.toggle() }
                         } label: {
-                            Text("Sınır:\(Int(battery.chargeLimit))%")
+                            Text("Sınır: %\(Int(battery.chargeLimit))")
                         }
                         .popoverToolbarButtonStyle(active: limitEditor)
                         .help(limitEditor ? String(localized: "Şarj hedefi düzenleyicisini kapat") : String(localized: "Şarj hedefini düzenle"))

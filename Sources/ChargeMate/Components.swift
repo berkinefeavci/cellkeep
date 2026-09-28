@@ -234,10 +234,14 @@ private struct PopoverToolbarButtonBody: View {
     private var highlighted: Bool { enabled && (active || hovering) }
 
     var body: some View {
+        // One line always: when a translation is long the label shrinks a little instead of
+        // wrapping mid-word inside the pill.
         configuration.label
             .font(.system(size: 13, weight: .semibold))
+            .lineLimit(1)
+            .minimumScaleFactor(0.75)
             .frame(width: iconOnly ? 36 : nil, height: 36)
-            .padding(.horizontal, iconOnly ? 0 : 13)
+            .padding(.horizontal, iconOnly ? 0 : 11)
             .foregroundStyle(highlighted ? Color.accentColor : Color.primary)
             .background {
                 // A hairline border drawn as `Shape.stroke`/`strokeBorder` alongside a separate

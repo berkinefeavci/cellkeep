@@ -211,6 +211,7 @@
 "Deşarj" = "Descargar";
 "Deşarj ve Kalibrasyon, doğrulanmış motorları tamamlanmadan Kestirmeler'e eklenmez." = "Descarga y Calibración no se añadirán a Atajos hasta que sus motores verificados estén terminados.";
 "Deşarj yakında; henüz kullanılamıyor" = "Descarga próximamente; aún no disponible";
+"Dil" = "Idioma";
 "Disk artık aynı bağlantıda bulunamadı; çıkarma yapılmadı." = "El disco ya no está en la misma conexión; no se expulsó.";
 "Disk çıkarılamadı: %@" = "No se pudo expulsar el disco: %@";
 "Disk çıkarılamadı; açık dosyaları kapatıp yeniden deneyin." = "No se pudo expulsar el disco; cierra los archivos abiertos e inténtalo de nuevo.";
@@ -221,7 +222,7 @@
 "Diğer şarj uygulamasını normal şekilde kapatır; ardından Cellkeep denetimi devralır." = "Cierra la otra app de carga de forma normal; después Cellkeep toma el control.";
 "Diğerini kapat" = "Cerrar la otra app";
 "Dock simgesini göster" = "Mostrar icono en el Dock";
-"Doldur" = "Carga completa";
+"Doldur" = "Cargar";
 "Doldur (Top Up)" = "Carga completa";
 "Doldurma sürüyor" = "Carga completa en curso";
 "Doldurmayı başlat" = "Iniciar la carga completa";
@@ -555,7 +556,7 @@
 "Sıcaklık: %@" = "Temperatura: %@";
 "Sıfırla" = "Restablecer";
 "Sınır %%%lld" = "Límite %lld %%";
-"Sınır:%lld%%" = "Límite: %lld %%";
+"Sınır: %%%lld" = "Límite: %lld %%";
 "Takvim" = "Calendario";
 "Tam doldur" = "Cargar por completo";
 "Tam doluma kalan" = "Tiempo hasta carga completa";
@@ -600,6 +601,7 @@
 "Uygula" = "Aplicar";
 "Uygulama" = "App";
 "Uygulama açıkken her yerden çalışır. Erişilebilirlik izni gerekmez; Cellkeep yalnızca bu tuş birleşimini görür." = "Funciona desde cualquier lugar mientras la app está abierta. No requiere permiso de accesibilidad; Cellkeep solo ve esta combinación de teclas.";
+"Uygulama dili" = "Idioma de la app";
 "Uygulama erişimi" = "Acceso de apps";
 "Uygulama etkinliği" = "Actividad de apps";
 "Uygulama listesi dakikada bir, bağlı cihazlar birkaç saniyede bir yenilenir. Kapalı pencerelerde uygulama ölçümü tercihe bağlıdır." = "La lista de apps se actualiza cada minuto y los dispositivos conectados cada pocos segundos. Medir apps con las ventanas cerradas es opcional.";
@@ -627,6 +629,7 @@
 "Yedekle ve geçmişi temizle" = "Hacer copia y borrar el historial";
 "Yelken" = "Navegación";
 "Yelken modu" = "Modo navegación";
+"Yeni dil, Cellkeep yeniden başlayınca geçerli olur." = "El nuevo idioma se aplica al reiniciar Cellkeep.";
 "Yeni görev" = "Nueva tarea";
 "Yeni sürüm var: %@" = "Nueva versión disponible: %@";
 "Yeni çalışma %@ kimliğiyle kaydedildi. Doğrulanmış writer olmadığı için sistem ayarı değiştirilmedi." = "Se guardó una nueva ejecución con el ID %@. El ajuste del sistema no se modificó porque no hay un escritor verificado.";
@@ -805,11 +808,8 @@
 "Şarjı başlat / durdur — henüz kullanılamıyor" = "Iniciar / detener la carga — aún no disponible";
 "Şarjı duraklat" = "Pausar la carga";
 "Şimdi denetle" = "Comprobar ahora";
+"Şimdi yeniden başlat" = "Reiniciar ahora";
 "Şu anda USB üzerinden tanınan cihaz yok." = "Actualmente no se reconoce ningún dispositivo por USB.";
 "Şu anda ne oluyor?" = "¿Qué está pasando ahora?";
 "—" = "—";
 "“%@” silindi." = "Se eliminó «%@».";
-"Dil" = "Idioma";
-"Uygulama dili" = "Idioma de la app";
-"Yeni dil, Cellkeep yeniden başlayınca geçerli olur." = "El nuevo idioma se aplica al reiniciar Cellkeep.";
-"Şimdi yeniden başlat" = "Reiniciar ahora";
