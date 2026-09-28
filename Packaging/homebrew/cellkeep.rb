@@ -17,26 +17,30 @@ cask "cellkeep" do
 
   app "Cellkeep.app"
 
-  uninstall quit:      "io.github.berkinefeavci.cellkeep",
-            launchctl: [
-              "io.github.berkinefeavci.cellkeep.led",
-              "io.github.berkinefeavci.cellkeep.powermode",
-            ],
-            delete:    [
-              "/Library/Application Support/CellkeepLED",
-              "/Library/Application Support/CellkeepPowerMode",
-              "/Library/LaunchDaemons/io.github.berkinefeavci.cellkeep.led.plist",
-              "/Library/LaunchDaemons/io.github.berkinefeavci.cellkeep.powermode.plist",
-              "/Library/PrivilegedHelperTools/io.github.berkinefeavci.cellkeep.led",
-              "/Library/PrivilegedHelperTools/io.github.berkinefeavci.cellkeep.powermode",
-            ]
+  # `brew upgrade` runs `uninstall` too, so it only quits the app. Removing the root helpers there
+  # would ask for a password on every upgrade and turn off the LED and power-mode helpers.
+  uninstall quit: "io.github.berkinefeavci.cellkeep"
 
-  zap trash: [
-    "~/Library/Application Support/Cellkeep",
-    "~/Library/Preferences/io.github.berkinefeavci.cellkeep.plist",
-  ]
+  zap launchctl: [
+        "io.github.berkinefeavci.cellkeep.led",
+        "io.github.berkinefeavci.cellkeep.powermode",
+      ],
+      delete:    [
+        "/Library/Application Support/CellkeepLED",
+        "/Library/Application Support/CellkeepPowerMode",
+        "/Library/LaunchDaemons/io.github.berkinefeavci.cellkeep.led.plist",
+        "/Library/LaunchDaemons/io.github.berkinefeavci.cellkeep.powermode.plist",
+        "/Library/PrivilegedHelperTools/io.github.berkinefeavci.cellkeep.led",
+        "/Library/PrivilegedHelperTools/io.github.berkinefeavci.cellkeep.powermode",
+      ],
+      trash:     [
+        "~/Library/Application Support/Cellkeep",
+        "~/Library/Preferences/io.github.berkinefeavci.cellkeep.plist",
+      ]
 
   caveats <<~EOS
+    Upgrades keep Cellkeep's helpers. To remove them, use Settings → General → Uninstall
+    Cellkeep first, or `brew uninstall --zap --cask cellkeep`.
     Cellkeep's charge limit uses macOS's own charge-limit setting, which stays as it was
     after uninstalling. Reset it in System Settings → Battery if you want to.
   EOS
