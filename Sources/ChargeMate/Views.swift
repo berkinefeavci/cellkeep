@@ -103,6 +103,10 @@ struct PopoverView: View {
                         HStack { ReadOnlyBadge(); Spacer(); HistoryRangePicker() }
                         Text("Cellkeep \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "") · Bu Mac’te saklanır")
                             .font(.system(size: 10)).foregroundStyle(.secondary)
+                        if let update = UpdateCheck.rememberedUpdate() {
+                            Button("Yeni sürüm var: \(update.version)") { NSWorkspace.shared.open(update.pageURL) }
+                                .buttonStyle(.link).font(.system(size: 10))
+                        }
                         Divider()
                         HStack(spacing: 8) {
                             if editing {

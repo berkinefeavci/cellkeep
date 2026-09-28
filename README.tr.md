@@ -24,6 +24,7 @@ MacBook'unuzun bataryasına göz kulak olan bir macOS menü çubuğu uygulaması
 - **Zamanlamalar (Schedules).** Bir sınır uygulama, güç modu değiştirme ve benzeri için tekrarlı veya tek seferlik eylemler; filtrelenebilir çalıştırma geçmişiyle.
 - **Apple Kısayolları (Shortcuts) eylemleri.** Pil yüzdesi, sıcaklık ve durum okuma; sınır uygulama, Doldur başlatma/iptal etme, güç modu değiştirme veya MagSafe LED ayarlama için sekiz App Intent.
 - **Çıkış ile yüksek enerjili uygulamalar.** Enerji listesi yardımcı süreçleri sahibi uygulama altında toplar, gerçek ikonu gösterir ve listeden doğrudan bir uygulamayı kapatmanıza izin verir.
+- **İsteğe bağlı güncelleme haberi.** Varsayılan olarak kapalıdır. Ayarlar → Hakkında'dan açılırsa Cellkeep haftada en fazla bir kez GitHub'dan son sürüm numarasını sorar ve sayfasına bağlantı verir. Hiçbir şey indirilmez veya gönderilmez; bkz. [PRIVACY.md](PRIVACY.md).
 - **Özelleştirilebilir panel.** Sürükleyerek sıralama, kart ekleme/çıkarma, kare veya geniş widget seçimi.
 
 ### Planlanan; donanımda doğrulama gerekiyor
@@ -87,7 +88,7 @@ Her yerde aynı kural geçerlidir: bir değer ölçülemiyorsa Cellkeep onu uydu
 
 ## Gizlilik
 
-Cellkeep tamamen Mac'inizde çalışır. Ağ erişimi, telemetri, analitik veya hesap yoktur. Dışa aktardığınız tanılama raporları yalnızca seçtiğiniz yerel bir dosyaya kaydedilir ve hiçbir yere otomatik gönderilmez.
+Cellkeep tamamen Mac'inizde çalışır. Telemetri, analitik veya hesap yoktur. Tek ağ isteği, varsayılan olarak kapalı olan isteğe bağlı sürüm denetimidir; bkz. [PRIVACY.md](PRIVACY.md). Dışa aktardığınız tanılama raporları yalnızca seçtiğiniz yerel bir dosyaya kaydedilir ve hiçbir yere otomatik gönderilmez.
 
 Bkz. [PRIVACY.md](PRIVACY.md).
 

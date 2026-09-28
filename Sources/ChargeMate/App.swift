@@ -99,6 +99,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
                     ?? .init(operationID: UUID(), status: .rejected, state: nil, message: "Cellkeep kullanılamıyor.")
             })
         scheduleRuntime?.start()
+        // Opt-in only; a no-op unless the user enabled the weekly release check.
+        Task { await UpdateCheck.checkIfDue() }
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         item.autosaveName = "Cellkeep"
         statusItem = item
