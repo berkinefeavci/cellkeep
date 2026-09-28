@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2
+
+- English, German, French and Spanish: percentages read "62%" (or "62 %") instead of the Turkish "%62", chart ranges and durations use h/min, and the "Automations" sidebar heading is translated.
+
 ## 1.1.1
 
 - Menu bar panel: toolbar labels stay on one line instead of wrapping mid-word; the limit reads "Sınır: %80" in Turkish, and the French and Spanish Top Up labels are shorter.

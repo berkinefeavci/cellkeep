@@ -813,3 +813,9 @@
 "Şu anda ne oluyor?" = "¿Qué está pasando ahora?";
 "—" = "—";
 "“%@” silindi." = "Se eliminó «%@».";
+"OTOMASYONLAR" = "AUTOMATIZACIONES";
+"%%%@" = "%@ %%";
+"%lld dk" = "%lld min";
+"%@ sa" = "%@ h";
+"%lld sa" = "%lld h";
+"%%%lld CPU" = "%lld %% CPU";

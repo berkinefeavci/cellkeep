@@ -7,13 +7,14 @@ enum HistoryCoverage {
     static func durationText(_ seconds: Double) -> String {
         guard seconds.isFinite, seconds > 0 else { return "—" }
         let minutes = Int((seconds / 60).rounded(.down))
-        if minutes < 60 { return "\(max(1, minutes)) dk" }
+        if minutes < 60 { return String(localized: "\(max(1, minutes)) dk") }
         let hours = seconds / 3600
         if hours < 24 {
-            let text = String(format: "%.1f", min(hours, 23.9)).replacingOccurrences(of: ".", with: ",")
-            return "\(text) sa"
+            let language = Bundle.main.preferredLocalizations.first ?? "tr"
+            let text = String(format: "%.1f", min(hours, 23.9))
+            return String(localized: "\(language == "en" ? text : text.replacingOccurrences(of: ".", with: ",")) sa")
         }
-        return "24 sa"
+        return String(localized: "\(24) sa")
     }
     static func text(count: Int, oldestDate: Date?, now: Date, rangeHours: Int) -> String {
         guard count > 0, let oldest = oldestDate else { return String(localized: "Ölçüm toplanıyor…") }
@@ -1085,7 +1086,7 @@ struct EnergyAppRow: View {
             Text(EnergyPresentation.impact(for: app.power))
                 .fontWeight(.semibold)
                 .help(String(format: String(localized: "macOS POWER puanı: %.1f"), app.power))
-            Text(String(format: "%%%.0f CPU", app.cpu))
+            Text(String(localized: "%\(Int(app.cpu.rounded())) CPU"))
                 .font(.system(size: 10)).foregroundStyle(.secondary).monospacedDigit()
                 .help("Birden çok çekirdek kullanıldığında yüzde 100'ü aşabilir.")
             EnergyQuitControl(target: quitTarget, ownerName: ownerName, revealed: hovering)
@@ -1302,7 +1303,7 @@ private struct AnimatedHistoryPlot: View, Animatable {
 struct HistoryRangePicker: View {
     @AppStorage("historyHours") private var hours = ChartRange.defaultHours
     @Environment(\.colorScheme) private var scheme
-    private let ranges = [(1, "1 sa"), (6, "6 sa"), (24, "24 sa")]
+    private let ranges = [1, 6, 24].map { ($0, String(localized: "\($0) sa")) }
 
     // One plain segmented capsule: glass chips inside a stroked capsule read as clutter.
     var body: some View {
