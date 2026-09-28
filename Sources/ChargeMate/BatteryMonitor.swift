@@ -465,7 +465,7 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
         let helper = Bundle.main.resourceURL?.appendingPathComponent("CellkeepNativeChargeHelper")
             ?? URL(fileURLWithPath: "/missing/CellkeepNativeChargeHelper")
         let backend = NativeChargeBackend.production(helperURL: helper)
-        let rival = { Self.alDenteRunning }
+        let rival = { !ChargeControllerDetector.current().isEmpty }
         let coordinator = ChargeControlCoordinator(journal: directory.appendingPathComponent("control-session.json"),
                                                     backend: backend, rival: rival)
         let policyController = ChargePolicyController(
@@ -477,7 +477,7 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
                   policyController: policyController,
                   historyURL: directory.appendingPathComponent("history.json"),
                   batteryReader: { Self.readBattery() }, nativeReader: { try? backend.readState() },
-                  controllerRunning: { Self.alDenteRunning }, energyReader: { Self.readEnergyAppsResult() },
+                  controllerRunning: { !ChargeControllerDetector.current().isEmpty }, energyReader: { Self.readEnergyAppsResult() },
                   connectedDeviceReader: { ConnectedDeviceReader.read() },
                   powerModeReader: { SystemPowerModeService.readProfiles() })
     }
@@ -767,12 +767,14 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
         }
     }
 
-    /// User-initiated only: graceful `terminate()` of the competing charge controller app, then a
-    /// re-check so the write controls unlock without waiting for the next refresh.
+    /// User-initiated only: graceful `terminate()` of competing charge controller apps, then a
+    /// re-check so the write controls unlock without waiting for the next refresh. Background
+    /// daemons and boot-time launchd jobs of such tools cannot be quit from here and keep the lock.
     func quitOtherChargeController() {
         precondition(Thread.isMainThread)
+        let prefixes = ChargeControllerDetector.quittableBundlePrefixes(home: FileManager.default.homeDirectoryForCurrentUser.path)
         for app in NSWorkspace.shared.runningApplications
-        where app.bundleIdentifier?.hasPrefix("com.apphousekitchen.aldente") == true {
+        where prefixes.contains(where: { app.bundleIdentifier?.hasPrefix($0) == true }) {
             app.terminate()
         }
         for delay in [1.5, 4.0] {
@@ -781,10 +783,6 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
                 self.otherControllerRunning = self.controllerRunning()
             }
         }
-    }
-
-    private static var alDenteRunning: Bool {
-        NSWorkspace.shared.runningApplications.contains { $0.bundleIdentifier?.hasPrefix("com.apphousekitchen.aldente") == true }
     }
 
     func startTopUp(originExecutionID: UUID? = nil) {
