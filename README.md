@@ -47,10 +47,18 @@ These are shown in the UI as locked and marked **"Yakında"** (Coming soon). The
 
 ## Install
 
-1. Download the latest `.dmg` from [Releases](../../releases).
+1. Download the latest `.dmg` from [Releases](../../releases). Release builds are signed with Developer ID and notarized by Apple.
 2. Open it and drag Cellkeep to Applications.
-3. On first launch, macOS may warn that the app is from an unidentified developer if it isn't notarized yet — open System Settings → Privacy & Security and allow it.
+3. A build you made yourself with `./build.sh` is only ad-hoc signed; macOS will warn about it on first launch — open System Settings → Privacy & Security and allow it.
 4. The first time you use a feature that needs a privileged helper (power-mode switching or MagSafe LED control), macOS will ask for administrator approval once for that helper. No password is stored by Cellkeep.
+
+### With Homebrew
+
+Once the `berkinefeavci/homebrew-cellkeep` tap is published (see [Packaging/homebrew](Packaging/homebrew/README.md)):
+
+```sh
+brew install --cask berkinefeavci/cellkeep/cellkeep
+```
 
 ## Build from source
 

@@ -47,10 +47,18 @@ Bunlar arayüzde kilitli olarak ve **"Yakında"** etiketiyle görünür. Bunlar 
 
 ## Kurulum
 
-1. En son `.dmg` dosyasını [Releases](../../releases)'tan indirin.
+1. En son `.dmg` dosyasını [Releases](../../releases)'tan indirin. Yayınlanan sürümler Developer ID ile imzalanır ve Apple tarafından notarize edilir.
 2. Açın ve Cellkeep'i Applications'a sürükleyin.
-3. İlk açılışta, uygulama henüz notarize edilmediyse macOS bilinmeyen geliştirici uyarısı verebilir — Sistem Ayarları → Gizlilik ve Güvenlik'ten izin verin.
+3. `./build.sh` ile kendiniz derlediğiniz bir kopya yalnızca geçici (ad-hoc) imzalıdır; ilk açılışta macOS uyarı verir — Sistem Ayarları → Gizlilik ve Güvenlik'ten izin verin.
 4. Ayrıcalıklı bir yardımcı gerektiren bir özelliği (güç modu değiştirme veya MagSafe LED denetimi) ilk kullandığınızda, macOS o yardımcı için bir kez yönetici onayı ister. Cellkeep parola saklamaz.
+
+### Homebrew ile
+
+`berkinefeavci/homebrew-cellkeep` deposu yayınlandığında (bkz. [Packaging/homebrew](Packaging/homebrew/README.md)):
+
+```sh
+brew install --cask berkinefeavci/cellkeep/cellkeep
+```
 
 ## Kaynaktan derleme
 
