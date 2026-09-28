@@ -27,6 +27,7 @@ A macOS menu-bar app that helps you look after your MacBook's battery: a native 
 - **High-energy apps, with Quit.** The energy list groups helper processes under their owning app, shows a real icon, and lets you quit an app straight from the list.
 - **Optional update notice.** Off by default. When turned on in Settings → About, Cellkeep asks GitHub for the latest release number at most once a week and links to its page. Nothing is downloaded or sent; see [PRIVACY.md](PRIVACY.md).
 - **Conflict guard.** When another charge-limit tool is running or installed (AlDente, Battery Toolkit, BatFi, batt, battery, bclm), Cellkeep keeps monitoring but locks its own limit writes, so two apps never fight over the same setting.
+- **Global shortcut (optional).** Off by default. Pick ⌃⌥⌘B or ⌃⌥⌘C in Settings → General to open or close the panel from anywhere; it needs no Accessibility permission and sees only that key combination.
 - **Languages.** English, Türkçe, Deutsch, Français and Español; Cellkeep follows your macOS language and falls back to English.
 - **Customizable panel.** Drag to reorder, add or remove cards, and pick square or wide widgets.
 

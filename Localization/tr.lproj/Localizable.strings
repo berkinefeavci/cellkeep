@@ -422,6 +422,7 @@
 "Koyu" = "Koyu";
 "Kullanılamıyor" = "Kullanılamıyor";
 "Kurulum gerekli" = "Kurulum gerekli";
+"Kısayol kaydedilemedi; başka bir uygulama kullanıyor olabilir. Diğer seçeneği deneyin." = "Kısayol kaydedilemedi; başka bir uygulama kullanıyor olabilir. Diğer seçeneği deneyin.";
 "Kısayollar" = "Kısayollar";
 "LED anahtarı okunuyor. Manuel deneme için aşağıdaki yardımcının kurulması gerekiyor." = "LED anahtarı okunuyor. Manuel deneme için aşağıdaki yardımcının kurulması gerekiyor.";
 "LED denetimi bağlı. Kalıcı ayarı veya aşağıdaki manuel düğmeleri kullanabilirsiniz." = "LED denetimi bağlı. Kalıcı ayarı veya aşağıdaki manuel düğmeleri kullanabilirsiniz.";
@@ -486,6 +487,7 @@
 "Panel boyutu" = "Panel boyutu";
 "Panel yüksekliği seçilen moda ve ekrana göre sınırlanır; kartlar içeride kaydırılır." = "Panel yüksekliği seçilen moda ve ekrana göre sınırlanır; kartlar içeride kaydırılır.";
 "Paneli aç / kapat" = "Paneli aç / kapat";
+"Paneli aç/kapat kısayolu" = "Paneli aç/kapat kısayolu";
 "Pause, discharge ve kalibrasyon doğrulanana kadar kapalı kalır; başka denetleyici varsa işlem yapılmaz." = "Pause, discharge ve kalibrasyon doğrulanana kadar kapalı kalır; başka denetleyici varsa işlem yapılmaz.";
 "Pazartesi tam dolum" = "Pazartesi tam dolum";
 "Pencereler kapalıyken uygulama etkinliğini yenile" = "Pencereler kapalıyken uygulama etkinliğini yenile";
@@ -597,6 +599,7 @@
 "Uyanınca son kaçırılan çalışmayı değerlendir" = "Uyanınca son kaçırılan çalışmayı değerlendir";
 "Uygula" = "Uygula";
 "Uygulama" = "Uygulama";
+"Uygulama açıkken her yerden çalışır. Erişilebilirlik izni gerekmez; Cellkeep yalnızca bu tuş birleşimini görür." = "Uygulama açıkken her yerden çalışır. Erişilebilirlik izni gerekmez; Cellkeep yalnızca bu tuş birleşimini görür.";
 "Uygulama erişimi" = "Uygulama erişimi";
 "Uygulama etkinliği" = "Uygulama etkinliği";
 "Uygulama listesi dakikada bir, bağlı cihazlar birkaç saniyede bir yenilenir. Kapalı pencerelerde uygulama ölçümü tercihe bağlıdır." = "Uygulama listesi dakikada bir, bağlı cihazlar birkaç saniyede bir yenilenir. Kapalı pencerelerde uygulama ölçümü tercihe bağlıdır.";

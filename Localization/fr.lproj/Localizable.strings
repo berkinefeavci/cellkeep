@@ -422,6 +422,7 @@
 "Koyu" = "Sombre";
 "Kullanılamıyor" = "Indisponible";
 "Kurulum gerekli" = "Configuration requise";
+"Kısayol kaydedilemedi; başka bir uygulama kullanıyor olabilir. Diğer seçeneği deneyin." = "Le raccourci n’a pas pu être enregistré ; une autre app l’utilise peut-être. Essayez l’autre option.";
 "Kısayollar" = "Raccourcis";
 "LED anahtarı okunuyor. Manuel deneme için aşağıdaki yardımcının kurulması gerekiyor." = "Lecture de la clé LED. L’assistant ci-dessous doit être installé pour les tests manuels.";
 "LED denetimi bağlı. Kalıcı ayarı veya aşağıdaki manuel düğmeleri kullanabilirsiniz." = "Le contrôle LED est connecté. Vous pouvez utiliser le réglage permanent ou les boutons manuels ci-dessous.";
@@ -486,6 +487,7 @@
 "Panel boyutu" = "Taille du panneau";
 "Panel yüksekliği seçilen moda ve ekrana göre sınırlanır; kartlar içeride kaydırılır." = "La hauteur du panneau est limitée par le mode choisi et l’écran ; les cartes défilent à l’intérieur.";
 "Paneli aç / kapat" = "Ouvrir / fermer le panneau";
+"Paneli aç/kapat kısayolu" = "Raccourci pour ouvrir/fermer le panneau";
 "Pause, discharge ve kalibrasyon doğrulanana kadar kapalı kalır; başka denetleyici varsa işlem yapılmaz." = "Pause, décharge et calibrage restent désactivés jusqu’à vérification ; rien n’est fait tant qu’un autre contrôleur est présent.";
 "Pazartesi tam dolum" = "Charge complète le lundi";
 "Pencereler kapalıyken uygulama etkinliğini yenile" = "Actualiser l’activité des apps quand les fenêtres sont fermées";
@@ -597,6 +599,7 @@
 "Uyanınca son kaçırılan çalışmayı değerlendir" = "Évaluer la dernière exécution manquée au réveil";
 "Uygula" = "Appliquer";
 "Uygulama" = "App";
+"Uygulama açıkken her yerden çalışır. Erişilebilirlik izni gerekmez; Cellkeep yalnızca bu tuş birleşimini görür." = "Fonctionne partout tant que l’app est ouverte. Aucune autorisation d’accessibilité n’est requise ; Cellkeep ne voit que cette combinaison de touches.";
 "Uygulama erişimi" = "Accès des apps";
 "Uygulama etkinliği" = "Activité des apps";
 "Uygulama listesi dakikada bir, bağlı cihazlar birkaç saniyede bir yenilenir. Kapalı pencerelerde uygulama ölçümü tercihe bağlıdır." = "La liste des apps est actualisée chaque minute, les appareils connectés toutes les quelques secondes. La mesure des apps fenêtres fermées est facultative.";

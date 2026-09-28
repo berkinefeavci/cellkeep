@@ -120,6 +120,8 @@ xcrun swiftc Sources/ChargeMate/LongTermHistory.swift Sources/ChargeMate/History
 .build/checks/history-csv-tests
 xcrun swiftc Sources/ChargeMate/LongTermHistory.swift Tests/LongTermHistoryTests.swift -o .build/checks/long-term-history-tests
 .build/checks/long-term-history-tests
+xcrun swiftc Sources/ChargeMate/GlobalHotKey.swift Tests/GlobalHotKeyTests.swift -o .build/checks/global-hot-key-tests
+.build/checks/global-hot-key-tests
 
 xcrun swiftc Sources/ChargeMate/IdentityMigration.swift Tests/IdentityMigrationTests.swift -o .build/checks/identity-migration-tests
 .build/checks/identity-migration-tests
