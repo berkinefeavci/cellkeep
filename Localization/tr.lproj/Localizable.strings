@@ -211,6 +211,7 @@
 "Deşarj" = "Deşarj";
 "Deşarj ve Kalibrasyon, doğrulanmış motorları tamamlanmadan Kestirmeler'e eklenmez." = "Deşarj ve Kalibrasyon, doğrulanmış motorları tamamlanmadan Kestirmeler'e eklenmez.";
 "Deşarj yakında; henüz kullanılamıyor" = "Deşarj yakında; henüz kullanılamıyor";
+"Dil" = "Dil";
 "Disk artık aynı bağlantıda bulunamadı; çıkarma yapılmadı." = "Disk artık aynı bağlantıda bulunamadı; çıkarma yapılmadı.";
 "Disk çıkarılamadı: %@" = "Disk çıkarılamadı: %@";
 "Disk çıkarılamadı; açık dosyaları kapatıp yeniden deneyin." = "Disk çıkarılamadı; açık dosyaları kapatıp yeniden deneyin.";
@@ -555,7 +556,7 @@
 "Sıcaklık: %@" = "Sıcaklık: %@";
 "Sıfırla" = "Sıfırla";
 "Sınır %%%lld" = "Sınır %%%lld";
-"Sınır:%lld%%" = "Sınır:%lld%%";
+"Sınır: %%%lld" = "Sınır: %%%lld";
 "Takvim" = "Takvim";
 "Tam doldur" = "Tam doldur";
 "Tam doluma kalan" = "Tam doluma kalan";
@@ -600,6 +601,7 @@
 "Uygula" = "Uygula";
 "Uygulama" = "Uygulama";
 "Uygulama açıkken her yerden çalışır. Erişilebilirlik izni gerekmez; Cellkeep yalnızca bu tuş birleşimini görür." = "Uygulama açıkken her yerden çalışır. Erişilebilirlik izni gerekmez; Cellkeep yalnızca bu tuş birleşimini görür.";
+"Uygulama dili" = "Uygulama dili";
 "Uygulama erişimi" = "Uygulama erişimi";
 "Uygulama etkinliği" = "Uygulama etkinliği";
 "Uygulama listesi dakikada bir, bağlı cihazlar birkaç saniyede bir yenilenir. Kapalı pencerelerde uygulama ölçümü tercihe bağlıdır." = "Uygulama listesi dakikada bir, bağlı cihazlar birkaç saniyede bir yenilenir. Kapalı pencerelerde uygulama ölçümü tercihe bağlıdır.";
@@ -627,6 +629,7 @@
 "Yedekle ve geçmişi temizle" = "Yedekle ve geçmişi temizle";
 "Yelken" = "Yelken";
 "Yelken modu" = "Yelken modu";
+"Yeni dil, Cellkeep yeniden başlayınca geçerli olur." = "Yeni dil, Cellkeep yeniden başlayınca geçerli olur.";
 "Yeni görev" = "Yeni görev";
 "Yeni sürüm var: %@" = "Yeni sürüm var: %@";
 "Yeni çalışma %@ kimliğiyle kaydedildi. Doğrulanmış writer olmadığı için sistem ayarı değiştirilmedi." = "Yeni çalışma %@ kimliğiyle kaydedildi. Doğrulanmış writer olmadığı için sistem ayarı değiştirilmedi.";
@@ -805,11 +808,8 @@
 "Şarjı başlat / durdur — henüz kullanılamıyor" = "Şarjı başlat / durdur — henüz kullanılamıyor";
 "Şarjı duraklat" = "Şarjı duraklat";
 "Şimdi denetle" = "Şimdi denetle";
+"Şimdi yeniden başlat" = "Şimdi yeniden başlat";
 "Şu anda USB üzerinden tanınan cihaz yok." = "Şu anda USB üzerinden tanınan cihaz yok.";
 "Şu anda ne oluyor?" = "Şu anda ne oluyor?";
 "—" = "—";
 "“%@” silindi." = "“%@” silindi.";
-"Dil" = "Dil";
-"Uygulama dili" = "Uygulama dili";
-"Yeni dil, Cellkeep yeniden başlayınca geçerli olur." = "Yeni dil, Cellkeep yeniden başlayınca geçerli olur.";
-"Şimdi yeniden başlat" = "Şimdi yeniden başlat";

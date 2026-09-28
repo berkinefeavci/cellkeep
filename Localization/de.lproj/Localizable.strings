@@ -211,6 +211,7 @@
 "Deşarj" = "Entladen";
 "Deşarj ve Kalibrasyon, doğrulanmış motorları tamamlanmadan Kestirmeler'e eklenmez." = "Entladen und Kalibrierung werden erst zu Kurzbefehle hinzugefügt, wenn ihre überprüften Abläufe fertig sind.";
 "Deşarj yakında; henüz kullanılamıyor" = "Entladen folgt demnächst; noch nicht verfügbar";
+"Dil" = "Sprache";
 "Disk artık aynı bağlantıda bulunamadı; çıkarma yapılmadı." = "Das Laufwerk ist nicht mehr an derselben Verbindung; es wurde nicht ausgeworfen.";
 "Disk çıkarılamadı: %@" = "Das Laufwerk konnte nicht ausgeworfen werden: %@";
 "Disk çıkarılamadı; açık dosyaları kapatıp yeniden deneyin." = "Das Laufwerk konnte nicht ausgeworfen werden; schließe geöffnete Dateien und versuche es erneut.";
@@ -555,7 +556,7 @@
 "Sıcaklık: %@" = "Temperatur: %@";
 "Sıfırla" = "Zurücksetzen";
 "Sınır %%%lld" = "Limit %lld %%";
-"Sınır:%lld%%" = "Limit: %lld %%";
+"Sınır: %%%lld" = "Limit: %lld %%";
 "Takvim" = "Zeitplan";
 "Tam doldur" = "Voll aufladen";
 "Tam doluma kalan" = "Zeit bis voll";
@@ -600,6 +601,7 @@
 "Uygula" = "Anwenden";
 "Uygulama" = "App";
 "Uygulama açıkken her yerden çalışır. Erişilebilirlik izni gerekmez; Cellkeep yalnızca bu tuş birleşimini görür." = "Funktioniert überall, solange die App läuft. Keine Bedienungshilfen-Berechtigung nötig; Cellkeep sieht nur diese Tastenkombination.";
+"Uygulama dili" = "App-Sprache";
 "Uygulama erişimi" = "App-Zugriff";
 "Uygulama etkinliği" = "App-Aktivität";
 "Uygulama listesi dakikada bir, bağlı cihazlar birkaç saniyede bir yenilenir. Kapalı pencerelerde uygulama ölçümü tercihe bağlıdır." = "Die App-Liste wird jede Minute aktualisiert, verbundene Geräte alle paar Sekunden. Die Messung von Apps bei geschlossenen Fenstern ist optional.";
@@ -627,6 +629,7 @@
 "Yedekle ve geçmişi temizle" = "Sichern und Verlauf löschen";
 "Yelken" = "Segeln";
 "Yelken modu" = "Segelmodus";
+"Yeni dil, Cellkeep yeniden başlayınca geçerli olur." = "Die neue Sprache gilt nach dem Neustart von Cellkeep.";
 "Yeni görev" = "Neue Aufgabe";
 "Yeni sürüm var: %@" = "Neue Version verfügbar: %@";
 "Yeni çalışma %@ kimliğiyle kaydedildi. Doğrulanmış writer olmadığı için sistem ayarı değiştirilmedi." = "Eine neue Ausführung wurde mit der ID %@ gespeichert. Die Systemeinstellung wurde nicht geändert, da kein überprüfter Schreiber vorhanden ist.";
@@ -805,11 +808,8 @@
 "Şarjı başlat / durdur — henüz kullanılamıyor" = "Laden starten / stoppen – noch nicht verfügbar";
 "Şarjı duraklat" = "Laden pausieren";
 "Şimdi denetle" = "Jetzt prüfen";
+"Şimdi yeniden başlat" = "Jetzt neu starten";
 "Şu anda USB üzerinden tanınan cihaz yok." = "Derzeit werden keine Geräte über USB erkannt.";
 "Şu anda ne oluyor?" = "Was passiert gerade?";
 "—" = "—";
 "“%@” silindi." = "„%@“ wurde gelöscht.";
-"Dil" = "Sprache";
-"Uygulama dili" = "App-Sprache";
-"Yeni dil, Cellkeep yeniden başlayınca geçerli olur." = "Die neue Sprache gilt nach dem Neustart von Cellkeep.";
-"Şimdi yeniden başlat" = "Jetzt neu starten";
