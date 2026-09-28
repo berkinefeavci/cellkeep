@@ -2,13 +2,25 @@
 
 🇬🇧 [English README](README.md)
 
-MacBook'unuzun bataryasına göz kulak olan bir macOS menü çubuğu uygulaması: yerel şarj sınırı, canlı güç akışı görünümü ve geçmiş grafikleri — her şeyi izleyen bir arka plan servisi olmadan.
+**Apple Silicon MacBook'lar için ücretsiz ve açık kaynak batarya bakımı.** Bataryanı macOS'un kendi şarj sınırı denetimiyle %80–100 arasında tut, her watt'ın nereye gittiğini gör ve batarya sağlığını aylar boyunca izle — abonelik, hesap ya da veri toplama olmadan, küçük bir menü çubuğu uygulamasıyla.
 
-> Cellkeep, daha önce "ChargeMate" adıyla geliştirildi. Aşağıdaki bazı dosya yolları, etiketler ve ekran görüntüleri yeni isme geçiş sürecindedir.
+<p align="center">
+  <a href="../../releases/latest"><img alt="Son sürümü indir" src="https://img.shields.io/github/v/release/berkinefeavci/cellkeep?label=%C4%B0ndir&style=for-the-badge"></a>
+  <img alt="Apple Silicon" src="https://img.shields.io/badge/Apple%20Silicon-arm64-black?style=for-the-badge&logo=apple">
+  <img alt="MIT lisansı" src="https://img.shields.io/github/license/berkinefeavci/cellkeep?style=for-the-badge">
+</p>
+
+- %80–100 arası **şarj sınırı** ve yolculuk öncesi tek tıkla %100'e **Doldur**.
+- **Canlı güç akışı**: adaptör, batarya, CPU, ekran — tahmin değil, ölçüm.
+- **Uzun vadeli sağlık**: 400 güne kadar günlük özet, CSV dışa aktarma.
+- Apple tarafından **imzalı ve notarize**, **açık kaynak** (MIT), veriler Mac'inde kalır ([PRIVACY.md](PRIVACY.md)).
+- Türkçe, English, Deutsch, Français, Español.
 
 ## Ekran görüntüleri
 
 <p align="center"><img src="docs/screenshots/menu-bar-panel.png" alt="Cellkeep menü çubuğu paneli: şarj barı, güç modları ve canlı güç akışı" width="420"></p>
+
+> Cellkeep daha önce "ChargeMate" adıyla geliştirildi; birkaç dosya yolu hâlâ eski adı kullanıyor.
 
 ## Özellikler
 
