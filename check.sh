@@ -50,7 +50,7 @@ grep -Fq 'if let message = battery.powerModeMessage' Sources/ChargeMate/PowerMod
 grep -Fq 'Text("Deşarj")' Sources/ChargeMate/Views.swift
 grep -Fq 'Text("Doldur")' Sources/ChargeMate/Views.swift
 grep -Fq '.popoverToolbarButtonStyle().disabled(true)' Sources/ChargeMate/Views.swift
-grep -Fq 'Text("Sınır:\(Int(battery.chargeLimit))%")' Sources/ChargeMate/Views.swift
+grep -Fq 'Text("Sınır: %\(Int(battery.chargeLimit))")' Sources/ChargeMate/Views.swift
 ! grep -Fq 'slider.horizontal.3' Sources/ChargeMate/Views.swift
 ! grep -Fq 'Image(systemName: limitEditor ? "chevron.up" : "chevron.down")' Sources/ChargeMate/Views.swift
 grep -Fq '.popoverToolbarButtonStyle(active: battery.topUpActive)' Sources/ChargeMate/Views.swift
