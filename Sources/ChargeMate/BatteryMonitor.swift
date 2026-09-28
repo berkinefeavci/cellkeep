@@ -54,7 +54,7 @@ struct BatterySnapshot {
     var fullyCharged = false
     var timeRemainingMinutes: Int?
     var temperatureC: Double?
-    var temperatureSource = "Kullanılamıyor"
+    var temperatureSource = String(localized: "Kullanılamıyor")
     var voltage: Double?
     var amperage: Double?
     var wattage: Double?
@@ -126,6 +126,18 @@ enum PowerFlowMode: String, Equatable {
 enum PowerFlowNode: String {
     case adapter = "Adaptör", mac = "MacBook", battery = "Batarya"
     case display = "Ekran", processor = "İşlemci", other = "Diğer"
+
+    /// Display name. The Turkish raw values stay as they are because they identify the node.
+    var title: String {
+        switch self {
+        case .adapter: return String(localized: "Adaptör")
+        case .mac: return "MacBook"
+        case .battery: return String(localized: "Batarya")
+        case .display: return String(localized: "Ekran")
+        case .processor: return String(localized: "İşlemci")
+        case .other: return String(localized: "Diğer")
+        }
+    }
 }
 enum PowerFlowColumn: Equatable { case source, device, destination }
 enum PowerFlowLayout {
@@ -214,13 +226,13 @@ struct PowerFlowPresentation {
             }
         }
         edges = result
-        if !fresh { notice = "Güncel güç ölçümü bekleniyor." }
-        else if contradictory { notice = "Şarj durumu ve güç işareti uyuşmuyor; batarya yönü doğrulanamıyor." }
+        if !fresh { notice = String(localized: "Güncel güç ölçümü bekleniyor.") }
+        else if contradictory { notice = String(localized: "Şarj durumu ve güç işareti uyuşmuyor; batarya yönü doğrulanamıyor.") }
         else if let system, (processor ?? 0) + (display ?? 0) > system + max(2, system * 0.15) {
-            notice = "Bileşenler farklı anlarda ölçüldü; toplamla kısa süreli fark olabilir."
+            notice = String(localized: "Bileşenler farklı anlarda ölçüldü; toplamla kısa süreli fark olabilir.")
         } else if let adapter, let system, let battery, abs(adapter - system - battery) > max(2, adapter * 0.1) {
-            notice = "Kaynak ölçümleri farklı anlarda alındı; akış yönü doğru, anlık toplamlar değişebilir."
-        } else if battery == nil { notice = "Batarya akımı veya gerilimi okunamadı." }
+            notice = String(localized: "Kaynak ölçümleri farklı anlarda alındı; akış yönü doğru, anlık toplamlar değişebilir.")
+        } else if battery == nil { notice = String(localized: "Batarya akımı veya gerilimi okunamadı.") }
         else { notice = nil }
     }
     static func lineWidth(for watts: Double?) -> CGFloat {
@@ -370,11 +382,11 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
     /// Why Doldur is locked, in the user's words; nil when it is usable.
     var topUpBlockReason: String? {
         if topUpControlAvailable { return nil }
-        if otherControllerRunning { return "Başka şarj uygulaması açıkken kilitli" }
-        if controlRecoveryRequired { return "Önceki işlem kontrol edilmeli" }
-        if applyingLimit { return "Bir işlem sürüyor" }
-        if !snapshot.externalConnected { return "Adaptör bağlı değil" }
-        return "Bu Mac'te şu an kullanılamıyor"
+        if otherControllerRunning { return String(localized: "Başka şarj uygulaması açıkken kilitli") }
+        if controlRecoveryRequired { return String(localized: "Önceki işlem kontrol edilmeli") }
+        if applyingLimit { return String(localized: "Bir işlem sürüyor") }
+        if !snapshot.externalConnected { return String(localized: "Adaptör bağlı değil") }
+        return String(localized: "Bu Mac'te şu an kullanılamıyor")
     }
     private let policyController: ChargePolicyController
     private let defaults: UserDefaults
@@ -496,7 +508,7 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
         controlRecoveryRequired = policyController.requiresRecovery
         topUpActive = policyController.topUpActive
         policyState = policyController.state
-        if controlRecoveryRequired { limitMessage = "Önceki şarj işlemi doğrulama bekliyor; macOS Batarya ayarını kontrol edin." }
+        if controlRecoveryRequired { limitMessage = String(localized: "Önceki şarj işlemi doğrulama bekliyor; macOS Batarya ayarını kontrol edin.") }
         // v0.3 stored a single target and enabled Heat by default. Keep the user's
         // draft, but never reinterpret it as permission for automatic hardware writes.
         if defaults.integer(forKey: "preferencesSchemaVersion") < 2 {
@@ -628,12 +640,12 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
         let url = FileManager.default.temporaryDirectory.appendingPathComponent("cellkeep-energy-\(UUID().uuidString)")
         guard FileManager.default.createFile(atPath: url.path, contents: nil, attributes: [.posixPermissions: 0o600]),
               let outputFile = try? FileHandle(forWritingTo: url) else {
-            return .failure(EnergySampleFailure(message: "Örnekleme dosyası oluşturulamadı."))
+            return .failure(EnergySampleFailure(message: String(localized: "Örnekleme dosyası oluşturulamadı.")))
         }
         defer { try? outputFile.close(); try? FileManager.default.removeItem(at: url) }
         process.standardOutput = outputFile
         process.standardError = outputFile
-        guard (try? process.run()) != nil else { return .failure(EnergySampleFailure(message: "macOS etkinlik örneklemesi başlatılamadı.")) }
+        guard (try? process.run()) != nil else { return .failure(EnergySampleFailure(message: String(localized: "macOS etkinlik örneklemesi başlatılamadı."))) }
 
         let finished = DispatchSemaphore(value: 0)
         DispatchQueue.global(qos: .utility).async {
@@ -646,24 +658,24 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
                 if process.isRunning { kill(process.processIdentifier, SIGKILL) }
                 _ = finished.wait(timeout: .now() + 1)
             }
-            return .failure(EnergySampleFailure(message: "macOS etkinlik örneklemesi zaman aşımına uğradı."))
+            return .failure(EnergySampleFailure(message: String(localized: "macOS etkinlik örneklemesi zaman aşımına uğradı.")))
         }
 
         guard let reader = try? FileHandle(forReadingFrom: url) else {
-            return .failure(EnergySampleFailure(message: "Örnekleme çıktısı okunamadı."))
+            return .failure(EnergySampleFailure(message: String(localized: "Örnekleme çıktısı okunamadı.")))
         }
         defer { try? reader.close() }
         let data = (try? reader.read(upToCount: 262_145)) ?? Data()
-        guard data.count <= 262_144 else { return .failure(EnergySampleFailure(message: "Örnekleme çıktısı boyut sınırını aştı.")) }
+        guard data.count <= 262_144 else { return .failure(EnergySampleFailure(message: String(localized: "Örnekleme çıktısı boyut sınırını aştı."))) }
         guard process.terminationStatus == 0, let output = String(data: data, encoding: .utf8) else {
-            return .failure(EnergySampleFailure(message: "macOS etkinlik örneklemesi tamamlanamadı (\(process.terminationStatus))."))
+            return .failure(EnergySampleFailure(message: String(localized: "macOS etkinlik örneklemesi tamamlanamadı (\(process.terminationStatus)).")))
         }
         let runningApplications = NSWorkspace.shared.runningApplications.filter { $0.activationPolicy == .regular }
         // A terminating app can still be listed with pid -1; duplicate keys would trap in
         // `uniqueKeysWithValues`, so skip pid-less entries and keep the first of any repeat.
         let runningWithPID = runningApplications.filter { $0.processIdentifier > 0 }
         let applications = Dictionary(runningWithPID.map { application in
-            (Int(application.processIdentifier), application.localizedName ?? application.bundleIdentifier ?? "Uygulama")
+            (Int(application.processIdentifier), application.localizedName ?? application.bundleIdentifier ?? String(localized: "Uygulama"))
         }, uniquingKeysWith: { first, _ in first })
         let applicationIconPaths = Dictionary(runningWithPID.compactMap { application -> (Int, String)? in
             guard let path = application.bundleURL?.path else { return nil }
@@ -727,7 +739,7 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
         guard let request = pendingRequest else { return }
         request.cancel()
         cancellationRequested = true
-        limitMessage = "İptal istendi. Başlamış bir macOS çağrısının sonucu bekleniyor; otomatik geri yazma yapılmaz."
+        limitMessage = String(localized: "İptal istendi. Başlamış bir macOS çağrısının sonucu bekleniyor; otomatik geri yazma yapılmaz.")
     }
 
     func cancelDraftLimit() {
@@ -914,12 +926,12 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
 
     private func busyShortcutResult() -> ChargeControlCoordinator.Result {
         .init(operationID: UUID(), status: .busy, state: nil,
-              message: "Bir şarj işlemi zaten sürüyor.")
+              message: String(localized: "Bir şarj işlemi zaten sürüyor."))
     }
 
     private static func unavailableShortcutResult() -> ChargeControlCoordinator.Result {
         .init(operationID: UUID(), status: .rejected, state: nil,
-              message: "Cellkeep denetimi kullanılamıyor.")
+              message: String(localized: "Cellkeep denetimi kullanılamıyor."))
     }
 
     func reapplyChargeMateTarget() {
@@ -945,8 +957,8 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
         controlQueue.async { [weak self] in
             guard let self else { return }
             let message: String
-            do { try self.policyController.adoptObservedLimit(); message = "macOS limiti Cellkeep hedefi olarak benimsendi." }
-            catch { message = "macOS limiti benimsenemedi: \(error.localizedDescription)" }
+            do { try self.policyController.adoptObservedLimit(); message = String(localized: "macOS limiti Cellkeep hedefi olarak benimsendi.") }
+            catch { message = String(localized: "macOS limiti benimsenemedi: \(error.localizedDescription)") }
             DispatchQueue.main.async {
                 self.applyingLimit = false
                 self.updatePolicyPresentation()
@@ -968,7 +980,7 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
             history = archive.measurements; limitEvents = archive.limitEvents
         } catch {
             historyWritable = false
-            historyError = "Geçmiş okunamadı; özgün dosya korunuyor. Yeni ölçümler bu oturumda bellekte tutuluyor."
+            historyError = String(localized: "Geçmiş okunamadı; özgün dosya korunuyor. Yeni ölçümler bu oturumda bellekte tutuluyor.")
         }
         refresh()
         timer = Timer.scheduledTimer(withTimeInterval: MonitorCadence.refreshInterval, repeats: true) { [weak self] _ in self?.refresh() }
@@ -982,7 +994,7 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
     func clearHistoryWithBackup(completion: @escaping (String) -> Void) {
         precondition(Thread.isMainThread)
         guard !applyingLimit else {
-            completion("Şarj limiti işlemi sürerken geçmiş değiştirilmedi.")
+            completion(String(localized: "Şarj limiti işlemi sürerken geçmiş değiştirilmedi."))
             return
         }
         historyWritable = false
@@ -1008,12 +1020,12 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
                     self.historyBackupAvailable = true
                     self.historyWritable = true
                     self.historyError = nil
-                    completion("Geçmiş temizlendi; yerel yedek geri alınabilir.")
+                    completion(String(localized: "Geçmiş temizlendi; yerel yedek geri alınabilir."))
                 }
             } catch {
                 DispatchQueue.main.async {
                     self.historyWritable = true
-                    completion("Geçmiş değiştirilmedi: yedek oluşturulamadı.")
+                    completion(String(localized: "Geçmiş değiştirilmedi: yedek oluşturulamadı."))
                 }
             }
         }
@@ -1022,7 +1034,7 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
     func restoreHistoryBackup(completion: @escaping (String) -> Void) {
         precondition(Thread.isMainThread)
         guard !applyingLimit, let backup = lastHistoryBackupURL else {
-            completion(applyingLimit ? "Şarj limiti işlemi sürerken geçmiş değiştirilmedi." : "Geri alınabilir geçmiş yedeği yok.")
+            completion(applyingLimit ? String(localized: "Şarj limiti işlemi sürerken geçmiş değiştirilmedi.") : String(localized: "Geri alınabilir geçmiş yedeği yok."))
             return
         }
         historyWritable = false
@@ -1039,12 +1051,12 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
                     self.historyBackupAvailable = false
                     self.historyWritable = true
                     self.historyError = nil
-                    completion("Geçmiş yedeği geri alındı.")
+                    completion(String(localized: "Geçmiş yedeği geri alındı."))
                 }
             } catch {
                 DispatchQueue.main.async {
                     self.historyWritable = true
-                    completion("Geçmiş yedeği geri alınamadı; yedek dosya korundu.")
+                    completion(String(localized: "Geçmiş yedeği geri alınamadı; yedek dosya korundu."))
                 }
             }
         }
@@ -1148,7 +1160,7 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
                             try archive.write(self.historyURL)
                             DispatchQueue.main.async { self.historyError = nil }
                         } catch {
-                            DispatchQueue.main.async { self.historyError = "Geçmiş kaydedilemiyor: \(error.localizedDescription)" }
+                            DispatchQueue.main.async { self.historyError = String(localized: "Geçmiş kaydedilemiyor: \(error.localizedDescription)") }
                         }
                     } }
                 }
@@ -1181,7 +1193,7 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
         case .topUpRestoring: controlState = .topUp
         case .recoveryRequired(let message): actionMessage = message
         case .pausedByConflict(let expected, let observed):
-            actionMessage = "Cellkeep hedefi %\(expected), macOS ayarı %\(observed). Seçiminizi yapın."
+            actionMessage = String(localized: "Cellkeep hedefi %\(expected), macOS ayarı %\(observed). Seçiminizi yapın.")
         case .maintainingLimit: if !topUpActive { actionMessage = nil }
         case .idle: break
         }
@@ -1412,18 +1424,18 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
         return "%\(Int(value.rounded()))"
     }
     var statusSentence: String {
-        guard snapshot.available else { return "Batarya verisi bekleniyor." }
+        guard snapshot.available else { return String(localized: "Batarya verisi bekleniyor.") }
         switch snapshot.powerFlow.mode {
         case .charging:
-            return "Adaptör MacBook’u çalıştırıyor ve bataryayı şarj ediyor. \(otherControllerRunning ? "Şarj yönetimi için başka bir uygulama açık." : "macOS’un bildirdiği şarj durumu izleniyor.")"
+            return String(localized: "Adaptör MacBook’u çalıştırıyor ve bataryayı şarj ediyor. \(otherControllerRunning ? String(localized: "Şarj yönetimi için başka bir uygulama açık.") : String(localized: "macOS’un bildirdiği şarj durumu izleniyor."))")
         case .adapterOnly:
-            return "Şarj beklemede. MacBook adaptörden çalışıyor; batarya şu anda güç almıyor. \(otherControllerRunning ? "Başka bir şarj uygulaması açık olduğu için Cellkeep ayar değiştirmiyor." : "Uyku davranışını macOS yönetiyor.")"
+            return String(localized: "Şarj beklemede. MacBook adaptörden çalışıyor; batarya şu anda güç almıyor. \(otherControllerRunning ? String(localized: "Başka bir şarj uygulaması açık olduğu için Cellkeep ayar değiştirmiyor.") : String(localized: "Uyku davranışını macOS yönetiyor."))")
         case .batteryOnly:
-            return "Batarya MacBook’a güç sağlıyor. Adaptör bağlı değil."
+            return String(localized: "Batarya MacBook’a güç sağlıyor. Adaptör bağlı değil.")
         case .batteryAssist:
-            return "Adaptör ve batarya birlikte MacBook’a güç sağlıyor."
+            return String(localized: "Adaptör ve batarya birlikte MacBook’a güç sağlıyor.")
         case .unavailable:
-            return "Güç akışı ölçümleri bekleniyor."
+            return String(localized: "Güç akışı ölçümleri bekleniyor.")
         }
     }
 }

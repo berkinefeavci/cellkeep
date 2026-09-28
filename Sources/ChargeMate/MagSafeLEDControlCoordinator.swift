@@ -63,60 +63,60 @@ final class MagSafeLEDControlCoordinator {
     }
 
     func apply(_ output: MagSafeLEDOutput) -> Outcome {
-        guard !journalCorrupt else { return .blocked("Önceki LED oturumu okunamıyor.") }
-        guard session == nil else { return .blocked("Önceki LED oturumu geri yüklenmeyi bekliyor.") }
+        guard !journalCorrupt else { return .blocked(String(localized: "Önceki LED oturumu okunamıyor.")) }
+        guard session == nil else { return .blocked(String(localized: "Önceki LED oturumu geri yüklenmeyi bekliyor.")) }
         guard output != .blinkingOrange, backend.supportedOutputs.contains(output) else {
-            return .blocked("Bu LED çıktısı backend tarafından desteklenmiyor.")
+            return .blocked(String(localized: "Bu LED çıktısı backend tarafından desteklenmiyor."))
         }
         let baseline: MagSafeLEDOutput
         do { baseline = try backend.read() }
-        catch { return .blocked("Başlangıç LED durumu okunamadı.") }
+        catch { return .blocked(String(localized: "Başlangıç LED durumu okunamadı.")) }
         guard backend.supportedOutputs.contains(baseline) else {
-            return .blocked("Başlangıç LED durumu güvenle geri yüklenemiyor.")
+            return .blocked(String(localized: "Başlangıç LED durumu güvenle geri yüklenemiyor."))
         }
         guard baseline != output else { return .unchanged }
 
         var next = Session(id: UUID(), startedAt: Date(), baseline: baseline, requested: output, stage: .pending)
         do { try save(next) }
-        catch { return .blocked("LED geri dönüş kaydı oluşturulamadı.") }
+        catch { return .blocked(String(localized: "LED geri dönüş kaydı oluşturulamadı.")) }
         session = next
         do {
             try backend.write(output)
             guard try backend.read() == output else {
                 next.stage = .uncertain; try? save(next); session = next
-                return .blocked("LED yazma sonucu doğrulanamadı; geri yükleme gerekli.")
+                return .blocked(String(localized: "LED yazma sonucu doğrulanamadı; geri yükleme gerekli."))
             }
             next.stage = .active; try save(next); session = next
             return .applied
         } catch {
             next.stage = .uncertain; try? save(next); session = next
-            return .blocked("LED yazması tamamlanamadı; geri yükleme gerekli.")
+            return .blocked(String(localized: "LED yazması tamamlanamadı; geri yükleme gerekli."))
         }
     }
 
     func restore() -> Outcome {
-        guard !journalCorrupt else { return .blocked("Bozuk LED oturum kaydı otomatik geri yüklenemez.") }
+        guard !journalCorrupt else { return .blocked(String(localized: "Bozuk LED oturum kaydı otomatik geri yüklenemez.")) }
         guard let session else { return .unchanged }
         do {
             let observed = try backend.read()
             // Another process may have taken ownership while Cellkeep was closed.
             // Never overwrite an output that is neither ours nor the saved baseline.
             guard observed == session.baseline || observed == session.requested else {
-                return .blocked("LED durumu dışarıdan değişti; otomatik geri yükleme yapılmadı.")
+                return .blocked(String(localized: "LED durumu dışarıdan değişti; otomatik geri yükleme yapılmadı."))
             }
             // An uncertain write can arrive late even when the first read still
             // equals baseline. Reassert the baseline before clearing its journal.
             if observed != session.baseline || session.stage == .uncertain {
                 try backend.write(session.baseline)
                 guard try backend.read() == session.baseline else {
-                    return .blocked("Başlangıç LED durumu geri yüklenemedi.")
+                    return .blocked(String(localized: "Başlangıç LED durumu geri yüklenemedi."))
                 }
             }
             try FileManager.default.removeItem(at: journal)
             self.session = nil
             return .restored
         } catch {
-            return .blocked("Başlangıç LED durumu geri yüklenemedi.")
+            return .blocked(String(localized: "Başlangıç LED durumu geri yüklenemedi."))
         }
     }
 

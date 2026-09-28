@@ -41,20 +41,20 @@ struct MenubarPresentation {
             let reading = snapshot.reading(field, now: now)
             var text = reading.text(digits: [.percentage, .hardwarePercentage, .cycles, .current, .timeRemaining].contains(field) ? 0 : 1)
             if field == .timeRemaining, let minutes = reading.validValue, minutes >= 0 {
-                text = "\(Int(minutes) / 60) sa \(Int(minutes) % 60) dk"
+                text = String(localized: "\(Int(minutes) / 60) sa \(Int(minutes) % 60) dk")
             }
-            if field == .cycles, reading.validValue != nil { text += " döngü" }
+            if field == .cycles, reading.validValue != nil { text += String(localized: " döngü") }
             return MenubarValue(metric: metric, text: text)
         }
     }
 
     var stateDescription: String {
         switch mode {
-        case .charging: return "Şarj oluyor"
-        case .adapterOnly: return "Adaptörden çalışıyor; batarya akışı beklemede"
-        case .batteryOnly: return "Bataryadan çalışıyor"
-        case .batteryAssist: return "Adaptör bağlı; batarya güç sağlıyor"
-        case .unavailable: return "Güncel güç durumu bilinmiyor"
+        case .charging: return String(localized: "Şarj oluyor")
+        case .adapterOnly: return String(localized: "Adaptörden çalışıyor; batarya akışı beklemede")
+        case .batteryOnly: return String(localized: "Bataryadan çalışıyor")
+        case .batteryAssist: return String(localized: "Adaptör bağlı; batarya güç sağlıyor")
+        case .unavailable: return String(localized: "Güncel güç durumu bilinmiyor")
         }
     }
 }
@@ -96,7 +96,7 @@ enum MenubarRenderer {
         let colored = style == .macColored || tinted
         let name = assetName(style: style, mode: model.mode)
         let source = name.flatMap { asset($0, bundle: bundle) }
-        let warning = name != nil && source == nil ? "Menü ikonu yüklenemedi (\(name!)); yedek çizim kullanılıyor." : nil
+        let warning = name != nil && source == nil ? String(localized: "Menü ikonu yüklenemedi (\(name!)); yedek çizim kullanılıyor.") : nil
         let image = NSImage(size: NSSize(width: max(1, total), height: 22), flipped: false) { _ in
             var x: CGFloat = 0
             if hasIcon {
@@ -124,8 +124,8 @@ enum MenubarRenderer {
             return true
         }
         image.isTemplate = !colored
-        let description = (["Cellkeep", model.stateDescription] + (style == .iosBattery ? ["Doluluk: \(iosText(model))"] : []) + model.values.map(\.description)
-                           + (hidden > 0 ? ["\(hidden) öğe gizlendi"] : [])
+        let description = (["Cellkeep", model.stateDescription] + (style == .iosBattery ? [String(localized: "Doluluk: \(iosText(model))")] : []) + model.values.map(\.description)
+                           + (hidden > 0 ? [String(localized: "\(hidden) öğe gizlendi")] : [])
                            + (warning.map { [$0] } ?? [])).joined(separator: " · ")
         return MenubarRenderResult(image: image, description: description, hiddenCount: hidden, resourceWarning: warning)
     }

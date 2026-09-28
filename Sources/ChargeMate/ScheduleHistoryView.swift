@@ -33,7 +33,7 @@ struct ScheduleHistoryView: View {
                 VStack(spacing: 8) {
                     Image(systemName: filter == .all ? "clock.badge.questionmark" : "line.3.horizontal.decrease.circle")
                         .font(.system(size: 26)).foregroundStyle(.secondary)
-                    Text(filter == .all ? "Henüz çalışma kaydı yok" : "Bu filtrede kayıt yok")
+                    Text(filter == .all ? String(localized: "Henüz çalışma kaydı yok") : String(localized: "Bu filtrede kayıt yok"))
                         .font(.subheadline.weight(.semibold))
                     Text("Görev sonuçları, atlamalar ve kurtarma gerektiren durumlar burada görünür.")
                         .font(.caption).foregroundStyle(.secondary)
@@ -42,7 +42,7 @@ struct ScheduleHistoryView: View {
                 LazyVStack(spacing: 8) {
                     ForEach(filtered) { record in
                         ScheduleHistoryRow(record: record,
-                            taskName: taskNames[record.taskID] ?? "Silinmiş görev") {
+                            taskName: taskNames[record.taskID] ?? String(localized: "Silinmiş görev")) {
                                 onSelect(record)
                             }
                     }
@@ -153,16 +153,16 @@ struct ScheduleExecutionDetailView: View {
             }
             Divider()
             VStack(spacing: 11) {
-                detail("Durum", record.status.title)
-                detail("Eylem", actionText)
-                detail("Planlanan", ScheduleHistoryRow.dateText(record.plannedAt, zoneID: record.timezoneIDSnapshot))
-                detail("Saat dilimi", record.timezoneIDSnapshot ?? "Kayıtta yok")
-                if let startedAt = record.startedAt { detail("Başlangıç", ScheduleHistoryRow.dateText(startedAt, zoneID: record.timezoneIDSnapshot)) }
-                if let finishedAt = record.finishedAt { detail("Bitiş", ScheduleHistoryRow.dateText(finishedAt, zoneID: record.timezoneIDSnapshot)) }
-                if let observed = record.observedResult { detail("Gözlenen sonuç", observed) }
-                if let reason = record.failureReason { detail("Açıklama", reason) }
-                detail("Çalışma kimliği", record.executionID.uuidString)
-                if let operationID = record.operationID { detail("İşlem kimliği", operationID.uuidString) }
+                detail(String(localized: "Durum"), record.status.title)
+                detail(String(localized: "Eylem"), actionText)
+                detail(String(localized: "Planlanan"), ScheduleHistoryRow.dateText(record.plannedAt, zoneID: record.timezoneIDSnapshot))
+                detail(String(localized: "Saat dilimi"), record.timezoneIDSnapshot ?? String(localized: "Kayıtta yok"))
+                if let startedAt = record.startedAt { detail(String(localized: "Başlangıç"), ScheduleHistoryRow.dateText(startedAt, zoneID: record.timezoneIDSnapshot)) }
+                if let finishedAt = record.finishedAt { detail(String(localized: "Bitiş"), ScheduleHistoryRow.dateText(finishedAt, zoneID: record.timezoneIDSnapshot)) }
+                if let observed = record.observedResult { detail(String(localized: "Gözlenen sonuç"), observed) }
+                if let reason = record.failureReason { detail(String(localized: "Açıklama"), reason) }
+                detail(String(localized: "Çalışma kimliği"), record.executionID.uuidString)
+                if let operationID = record.operationID { detail(String(localized: "İşlem kimliği"), operationID.uuidString) }
             }
             if let retryMessage {
                 Label(retryMessage, systemImage: "info.circle")

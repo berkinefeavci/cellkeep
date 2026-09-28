@@ -1,0 +1,1 @@
+/* Turkish is the source language: every key maps to itself so lookups never fall back to English. */

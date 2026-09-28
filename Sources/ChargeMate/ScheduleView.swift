@@ -85,7 +85,7 @@ struct ScheduleView: View {
                 } onCancel: { presentedSheet = nil }
             case .execution(let record):
                 ScheduleExecutionDetailView(record: record,
-                    taskName: tasks.first(where: { $0.id == record.taskID })?.name ?? "Silinmiş görev",
+                    taskName: tasks.first(where: { $0.id == record.taskID })?.name ?? String(localized: "Silinmiş görev"),
                     onRetry: retry)
             }
         }
@@ -116,7 +116,7 @@ struct ScheduleView: View {
                 tasks[index].activationStart = enabled ? Date() : nil
                 tasks[index].modifiedAt = Date()
                 persist()
-            })).labelsHidden().disabled(unavailable != nil).help(unavailable ?? "Görevi etkinleştir")
+            })).labelsHidden().disabled(unavailable != nil).help(unavailable ?? String(localized: "Görevi etkinleştir"))
             Button { presentedSheet = .editor(task) } label: { Image(systemName: "pencil") }.help("Düzenle")
             Button {
                 tasks.append(task.duplicated(now: Date()))
@@ -130,7 +130,7 @@ struct ScheduleView: View {
     }
 
     private func nextText(_ task: ScheduleTask) -> String {
-        guard let next = task.next(after: Date()) else { return "sonraki çalışma yok" }
+        guard let next = task.next(after: Date()) else { return String(localized: "sonraki çalışma yok") }
         return next.formatted(date: .abbreviated, time: .shortened)
     }
     private func load() {
@@ -145,15 +145,15 @@ struct ScheduleView: View {
             try store.save(tasks); warning = nil
             NotificationCenter.default.post(name: .chargeMateScheduleChanged, object: nil)
         }
-        catch { warning = "Programlar kaydedilemedi: \(error.localizedDescription)" }
+        catch { warning = String(localized: "Programlar kaydedilemedi: \(error.localizedDescription)") }
     }
     private func retry(_ record: ScheduleExecutionRecord) -> String {
         do {
             let retry = try executionStore.appendUnsupportedRetry(of: record, now: Date())
             load()
-            return "Yeni çalışma \(retry.executionID.uuidString.prefix(8)) kimliğiyle kaydedildi. Doğrulanmış writer olmadığı için sistem ayarı değiştirilmedi."
+            return String(localized: "Yeni çalışma \(retry.executionID.uuidString.prefix(8)) kimliğiyle kaydedildi. Doğrulanmış writer olmadığı için sistem ayarı değiştirilmedi.")
         } catch {
-            return "Yeni çalışma kaydedilemedi: \(error.localizedDescription)"
+            return String(localized: "Yeni çalışma kaydedilemedi: \(error.localizedDescription)")
         }
     }
 }
@@ -187,7 +187,7 @@ private struct ScheduleEditor: View {
                 Picker("Tekrar", selection: $task.recurrence) {
                     ForEach(ScheduleRecurrence.allCases) { Text($0.title).tag($0) }
                 }
-                DatePicker("Başlangıç", selection: dateBinding)
+                DatePicker(String(localized: "Başlangıç"), selection: dateBinding)
                 TextField("Saat dilimi", text: $task.timezoneID)
                 Toggle("Uyanınca son kaçırılan çalışmayı değerlendir", isOn: $task.catchUpEnabled)
                 Toggle("Etkin", isOn: $task.enabled).disabled(task.action.availability(in: capabilities) != nil)

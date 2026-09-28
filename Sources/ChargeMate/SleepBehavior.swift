@@ -33,13 +33,13 @@ enum SleepInhibitionStatus: Equatable {
 
     var title: String {
         switch self {
-        case .disabled: return "Kapalı"
-        case .waitingForPower: return "Adaptör bekleniyor"
-        case .waitingForBattery: return "Pil verisi bekleniyor"
-        case .waitingForTarget: return "Kayıtlı hedef bekleniyor"
-        case .active(let current, let target): return "Aktif · %\(current) / %\(target)"
-        case .targetReached(let target): return "Hedefe ulaşıldı · %\(target)"
-        case .timedOut: return "8 saatlik güvenlik süresi doldu"
+        case .disabled: return String(localized: "Kapalı")
+        case .waitingForPower: return String(localized: "Adaptör bekleniyor")
+        case .waitingForBattery: return String(localized: "Pil verisi bekleniyor")
+        case .waitingForTarget: return String(localized: "Kayıtlı hedef bekleniyor")
+        case .active(let current, let target): return String(localized: "Aktif · %\(current) / %\(target)")
+        case .targetReached(let target): return String(localized: "Hedefe ulaşıldı · %\(target)")
+        case .timedOut: return String(localized: "8 saatlik güvenlik süresi doldu")
         case .failed(let message): return message
         }
     }
@@ -67,7 +67,7 @@ enum SleepAssertionError: LocalizedError, Equatable {
 
     var errorDescription: String? {
         switch self {
-        case .creationFailed(let code): return "Uyku engeli oluşturulamadı (\(code))."
+        case .creationFailed(let code): return String(localized: "Uyku engeli oluşturulamadı (\(code)).")
         }
     }
 }
@@ -78,7 +78,7 @@ enum SleepAssertionBackend {
         let result = IOPMAssertionCreateWithName(
             "PreventUserIdleSystemSleep" as CFString,
             IOPMAssertionLevel(kIOPMAssertionLevelOn),
-            "Cellkeep hedef doluluğa kadar şarjı izliyor" as CFString,
+            String(localized: "Cellkeep hedef doluluğa kadar şarjı izliyor") as CFString,
             &identifier
         )
         guard result == kIOReturnSuccess else { throw SleepAssertionError.creationFailed(result) }

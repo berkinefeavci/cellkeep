@@ -14,14 +14,14 @@ enum ScheduleAction: String, Codable, CaseIterable, Identifiable {
     var id: String { rawValue }
     var title: String {
         switch self {
-        case .topUp: return "Tam doldur"
-        case .pauseCharging: return "Şarjı duraklat"
-        case .startCalibration: return "Kalibrasyon başlat"
-        case .setChargeLimit: return "Şarj limitini ayarla"
-        case .dischargeTo: return "Hedefe kadar boşalt"
-        case .enableLowPower: return "Düşük Güç Modunu aç"
-        case .disableLowPower: return "Otomatik güç moduna dön"
-        case .enableHighPower: return "Yüksek Güç Modunu aç"
+        case .topUp: return String(localized: "Tam doldur")
+        case .pauseCharging: return String(localized: "Şarjı duraklat")
+        case .startCalibration: return String(localized: "Kalibrasyon başlat")
+        case .setChargeLimit: return String(localized: "Şarj limitini ayarla")
+        case .dischargeTo: return String(localized: "Hedefe kadar boşalt")
+        case .enableLowPower: return String(localized: "Düşük Güç Modunu aç")
+        case .disableLowPower: return String(localized: "Otomatik güç moduna dön")
+        case .enableHighPower: return String(localized: "Yüksek Güç Modunu aç")
         }
     }
     var needsTarget: Bool { self == .setChargeLimit || self == .dischargeTo }
@@ -29,17 +29,17 @@ enum ScheduleAction: String, Codable, CaseIterable, Identifiable {
         switch self {
         case .topUp:
             return capabilities.topUpAvailable && capabilities.chargeLimits.contains(100)
-                ? nil : "Top Up için doğrulanmış %100 şarj limiti desteği gerekiyor."
+                ? nil : String(localized: "Top Up için doğrulanmış %100 şarj limiti desteği gerekiyor.")
         case .setChargeLimit:
-            return capabilities.chargeLimits.isEmpty ? "Bu Mac’te doğrulanmış şarj limiti desteği yok." : nil
+            return capabilities.chargeLimits.isEmpty ? String(localized: "Bu Mac’te doğrulanmış şarj limiti desteği yok.") : nil
         case .enableLowPower:
-            return capabilities.powerModes.contains(.lowPower) ? nil : "Bu Mac Düşük Güç Modunu sunmuyor."
+            return capabilities.powerModes.contains(.lowPower) ? nil : String(localized: "Bu Mac Düşük Güç Modunu sunmuyor.")
         case .disableLowPower:
-            return capabilities.powerModes.contains(.automatic) ? nil : "Otomatik güç modu kullanılamıyor."
+            return capabilities.powerModes.contains(.automatic) ? nil : String(localized: "Otomatik güç modu kullanılamıyor.")
         case .enableHighPower:
-            return capabilities.powerModes.contains(.turbo) ? nil : "Bu Mac Yüksek Güç Modunu sunmuyor."
+            return capabilities.powerModes.contains(.turbo) ? nil : String(localized: "Bu Mac Yüksek Güç Modunu sunmuyor.")
         case .pauseCharging, .startCalibration, .dischargeTo:
-            return "Bu donanım eyleminin fiziksel etkisi henüz doğrulanmadı."
+            return String(localized: "Bu donanım eyleminin fiziksel etkisi henüz doğrulanmadı.")
         }
     }
     var unavailableReason: String { availability(in: .unavailable) ?? "" }
@@ -50,13 +50,13 @@ enum ScheduleRecurrence: String, Codable, CaseIterable, Identifiable {
     var id: String { rawValue }
     var title: String {
         switch self {
-        case .once: return "Bir kez"
-        case .daily: return "Her gün"
-        case .weekdays: return "Hafta içi"
-        case .weekly: return "Her hafta"
-        case .biweekly: return "İki haftada bir"
-        case .monthly: return "Her ay"
-        case .yearly: return "Her yıl"
+        case .once: return String(localized: "Bir kez")
+        case .daily: return String(localized: "Her gün")
+        case .weekdays: return String(localized: "Hafta içi")
+        case .weekly: return String(localized: "Her hafta")
+        case .biweekly: return String(localized: "İki haftada bir")
+        case .monthly: return String(localized: "Her ay")
+        case .yearly: return String(localized: "Her yıl")
         }
     }
 }
@@ -80,7 +80,7 @@ struct ScheduleTask: Codable, Identifiable, Equatable {
     static func new(now: Date, calendar: Calendar = .current) -> Self {
         let nextHour = calendar.date(bySetting: .minute, value: 0,
             of: calendar.date(byAdding: .hour, value: 1, to: now)!)!
-        return Self(name: "Yeni görev", action: .pauseCharging, target: nil, recurrence: .daily,
+        return Self(name: String(localized: "Yeni görev"), action: .pauseCharging, target: nil, recurrence: .daily,
                     startLocalComponents: localComponents(nextHour, calendar: calendar),
                     timezoneID: calendar.timeZone.identifier, createdAt: now, modifiedAt: now)
     }
@@ -92,7 +92,7 @@ struct ScheduleTask: Codable, Identifiable, Equatable {
     func duplicated(now: Date) -> Self {
         var copy = self
         copy.id = UUID()
-        let suffix = " kopyası"
+        let suffix = String(localized: " kopyası")
         copy.name = String(name.prefix(max(1, 80 - suffix.count))) + suffix
         copy.enabled = false
         copy.createdAt = now
@@ -104,17 +104,17 @@ struct ScheduleTask: Codable, Identifiable, Equatable {
 
     func validationError(capabilities: ScheduleCapabilities) -> String? {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard (1...80).contains(trimmed.count) else { return "Görev adı 1–80 karakter olmalı." }
-        guard TimeZone(identifier: timezoneID) != nil else { return "Geçerli bir saat dilimi seçin." }
+        guard (1...80).contains(trimmed.count) else { return String(localized: "Görev adı 1–80 karakter olmalı.") }
+        guard TimeZone(identifier: timezoneID) != nil else { return String(localized: "Geçerli bir saat dilimi seçin.") }
         guard startLocalComponents.year != nil, startLocalComponents.month != nil,
               startLocalComponents.day != nil, startLocalComponents.hour != nil,
-              startLocalComponents.minute != nil else { return "Başlangıç tarihi eksik." }
+              startLocalComponents.minute != nil else { return String(localized: "Başlangıç tarihi eksik.") }
         if action.needsTarget {
-            guard let target, (20...100).contains(target) else { return "Hedef %20–100 arasında olmalı." }
+            guard let target, (20...100).contains(target) else { return String(localized: "Hedef %20–100 arasında olmalı.") }
             if action == .setChargeLimit, !capabilities.chargeLimits.contains(target) {
-                return "Bu Mac’in sunduğu limitlerden birini seçin."
+                return String(localized: "Bu Mac’in sunduğu limitlerden birini seçin.")
             }
-        } else if target != nil { return "Bu eylem hedef yüzdesi kullanmaz." }
+        } else if target != nil { return String(localized: "Bu eylem hedef yüzdesi kullanmaz.") }
         if enabled { return action.availability(in: capabilities) }
         return nil
     }
@@ -206,10 +206,10 @@ struct ScheduleStore {
                 } catch { invalid += 1 }
             }
             if invalid > 0 { try? backup(data) }
-            return ScheduleLoadResult(tasks: tasks, warning: invalid > 0 ? "\(invalid) bozuk görev atlandı; özgün dosya yedeklendi." : nil)
+            return ScheduleLoadResult(tasks: tasks, warning: invalid > 0 ? String(localized: "\(invalid) bozuk görev atlandı; özgün dosya yedeklendi.") : nil)
         } catch {
             if let data = try? Data(contentsOf: url) { try? backup(data) }
-            return ScheduleLoadResult(tasks: [], warning: "Program dosyası okunamadı; özgün dosya yedeklendi.")
+            return ScheduleLoadResult(tasks: [], warning: String(localized: "Program dosyası okunamadı; özgün dosya yedeklendi."))
         }
     }
 
@@ -234,10 +234,10 @@ enum ScheduleTemplate: String, CaseIterable, Identifiable {
     var id: String { rawValue }
     var title: String {
         switch self {
-        case .monthlyCalibration: return "Aylık kalibrasyon"
-        case .biweeklyCalibration: return "İki haftalık kalibrasyon"
-        case .mondayTopUp: return "Pazartesi tam dolum"
-        case .weekendFull: return "Hafta sonu tam dolum"
+        case .monthlyCalibration: return String(localized: "Aylık kalibrasyon")
+        case .biweeklyCalibration: return String(localized: "İki haftalık kalibrasyon")
+        case .mondayTopUp: return String(localized: "Pazartesi tam dolum")
+        case .weekendFull: return String(localized: "Hafta sonu tam dolum")
         }
     }
     func task(now: Date, calendar source: Calendar = .current) -> ScheduleTask {

@@ -8,9 +8,9 @@ enum SystemPowerMode: Int, CaseIterable, Hashable {
 
     var title: String {
         switch self {
-        case .automatic: return "Otomatik"
-        case .lowPower: return "Tasarruf"
-        case .turbo: return "Turbo"
+        case .automatic: return String(localized: "Otomatik")
+        case .lowPower: return String(localized: "Tasarruf")
+        case .turbo: return String(localized: "Turbo")
         }
     }
 
@@ -134,9 +134,9 @@ enum SystemPowerModeService {
         case message(String)
         var errorDescription: String? {
             switch self {
-            case .helperMissing: return "Güç modu yardımcısı kurulamadı."
-            case .helperNotTrusted: return "Güç modu yardımcısı güvenli değil; işlem durduruldu."
-            case .commandFailed: return "macOS güç modu değiştirilemedi."
+            case .helperMissing: return String(localized: "Güç modu yardımcısı kurulamadı.")
+            case .helperNotTrusted: return String(localized: "Güç modu yardımcısı güvenli değil; işlem durduruldu.")
+            case .commandFailed: return String(localized: "macOS güç modu değiştirilemedi.")
             case .message(let value): return value
             }
         }
@@ -201,7 +201,7 @@ enum SystemPowerModeService {
             if !installed() { try install() }
             try request(mode, source: source)
             guard readProfiles()?.mode(for: source) == mode else {
-                return .failure(.message("macOS güç modu değişikliği doğrulanamadı."))
+                return .failure(.message(String(localized: "macOS güç modu değişikliği doğrulanamadı.")))
             }
             return .success(mode)
         } catch let error as WriteError {
@@ -221,7 +221,7 @@ enum SystemPowerModeService {
         do {
             try request(mode, source: source)
             guard readProfiles()?.mode(for: source) == mode else {
-                return .failure(.message("macOS güç modu değişikliği doğrulanamadı."))
+                return .failure(.message(String(localized: "macOS güç modu değişikliği doğrulanamadı.")))
             }
             return .success(mode)
         } catch let error as WriteError { return .failure(error) }
@@ -276,7 +276,7 @@ enum SystemPowerModeService {
         process.waitUntilExit()
         guard process.terminationStatus == 0 else {
             let message = String(data: output.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)?
-                .trimmingCharacters(in: .whitespacesAndNewlines) ?? "macOS yönetici izni vermedi."
+                .trimmingCharacters(in: .whitespacesAndNewlines) ?? String(localized: "macOS yönetici izni vermedi.")
             throw WriteError.message(message)
         }
     }

@@ -17,12 +17,12 @@ enum ConnectedDeviceKind: Int, Equatable {
 
     var title: String {
         switch self {
-        case .phone: return "Telefon"
-        case .storage: return "Harici depolama"
-        case .hub: return "USB çoklayıcı"
-        case .audio: return "Ses cihazı"
-        case .camera: return "Kamera"
-        case .other: return "USB cihazı"
+        case .phone: return String(localized: "Telefon")
+        case .storage: return String(localized: "Harici depolama")
+        case .hub: return String(localized: "USB çoklayıcı")
+        case .audio: return String(localized: "Ses cihazı")
+        case .camera: return String(localized: "Kamera")
+        case .other: return String(localized: "USB cihazı")
         }
     }
 
@@ -55,7 +55,7 @@ struct ConnectedDevice: Identifiable, Equatable {
 
     var detail: String {
         let vendor = vendor?.trimmingCharacters(in: .whitespacesAndNewlines)
-        return [kind.title, vendor?.isEmpty == false ? vendor : nil, "USB ile bağlı"]
+        return [kind.title, vendor?.isEmpty == false ? vendor : nil, String(localized: "USB ile bağlı")]
             .compactMap { $0 }.joined(separator: " · ")
     }
 }
@@ -122,7 +122,7 @@ enum ConnectedDeviceReader {
 
     static func eject(_ selected: ConnectedDevice) -> String? {
         guard let disk = validatedEjectIdentifier(selected, current: read()) else {
-            return "Disk artık aynı bağlantıda bulunamadı; çıkarma yapılmadı."
+            return String(localized: "Disk artık aynı bağlantıda bulunamadı; çıkarma yapılmadı.")
         }
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/sbin/diskutil")
@@ -136,10 +136,10 @@ enum ConnectedDeviceReader {
             if process.terminationStatus == 0 { return nil }
             let message = String(decoding: output.fileHandleForReading.readDataToEndOfFile(), as: UTF8.self)
             return message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                ? "Disk çıkarılamadı; açık dosyaları kapatıp yeniden deneyin."
+                ? String(localized: "Disk çıkarılamadı; açık dosyaları kapatıp yeniden deneyin.")
                 : message.trimmingCharacters(in: .whitespacesAndNewlines)
         } catch {
-            return "Disk çıkarılamadı: \(error.localizedDescription)"
+            return String(localized: "Disk çıkarılamadı: \(error.localizedDescription)")
         }
     }
 

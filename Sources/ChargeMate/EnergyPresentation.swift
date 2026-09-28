@@ -2,20 +2,20 @@ import Foundation
 
 enum EnergyPresentation {
     private static let processNames = [
-        "WindowServer": "macOS ekran çizimi",
-        "kernel_task": "macOS sistem koruması",
-        "mds": "Spotlight indeksleme",
-        "mds_stores": "Spotlight indeksleme",
-        "mdworker": "Spotlight indeksleme",
-        "photoanalysisd": "Fotoğraflar analizi",
-        "backupd": "Time Machine yedekleme",
-        "softwareupdated": "macOS güncellemesi"
+        "WindowServer": String(localized: "macOS ekran çizimi"),
+        "kernel_task": String(localized: "macOS sistem koruması"),
+        "mds": String(localized: "Spotlight indeksleme"),
+        "mds_stores": String(localized: "Spotlight indeksleme"),
+        "mdworker": String(localized: "Spotlight indeksleme"),
+        "photoanalysisd": String(localized: "Fotoğraflar analizi"),
+        "backupd": String(localized: "Time Machine yedekleme"),
+        "softwareupdated": String(localized: "macOS güncellemesi")
     ]
 
     static func displayName(for processName: String) -> String {
         if let mapped = processNames[processName] { return mapped }
         if processName.hasSuffix(" Helper") {
-            return String(processName.dropLast(" Helper".count)) + " yardımcı işlemi"
+            return String(processName.dropLast(" Helper".count)) + String(localized: " yardımcı işlemi")
         }
         return processName
     }
@@ -39,10 +39,10 @@ enum EnergyPresentation {
     }
 
     static func impact(for score: Double) -> String {
-        if score >= 25 { return "Çok yüksek etki" }
-        if score >= 10 { return "Yüksek etki" }
-        if score >= 5 { return "Orta etki" }
-        return "Düşük etki"
+        if score >= 25 { return String(localized: "Çok yüksek etki") }
+        if score >= 10 { return String(localized: "Yüksek etki") }
+        if score >= 5 { return String(localized: "Orta etki") }
+        return String(localized: "Düşük etki")
     }
 
     // MARK: - Owner app + role naming for helper processes `top` truncates to 16 characters.
@@ -82,15 +82,15 @@ enum EnergyPresentation {
     static func role(fromArguments args: [String]) -> String? {
         guard let type = value(forArgumentPrefix: "--type=", in: args) else { return nil }
         switch type {
-        case "renderer": return "bir web sayfası çalışıyor"
-        case "gpu-process": return "sayfaları ekrana çiziyor"
+        case "renderer": return String(localized: "bir web sayfası çalışıyor")
+        case "gpu-process": return String(localized: "sayfaları ekrana çiziyor")
         case "utility":
             switch value(forArgumentPrefix: "--utility-sub-type=", in: args) {
-            case "network.mojom.NetworkService": return "ağ bağlantıları"
-            case "audio.mojom.AudioService": return "ses çalıyor"
-            default: return "yardımcı işlem"
+            case "network.mojom.NetworkService": return String(localized: "ağ bağlantıları")
+            case "audio.mojom.AudioService": return String(localized: "ses çalıyor")
+            default: return String(localized: "yardımcı işlem")
             }
-        default: return "yardımcı işlem"
+        default: return String(localized: "yardımcı işlem")
         }
     }
 

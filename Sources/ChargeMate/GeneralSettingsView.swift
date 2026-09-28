@@ -19,17 +19,17 @@ struct GeneralSettingsView: View {
         VStack(alignment: .leading, spacing: SettingsLayout.cardSpacing) {
             VStack(alignment: .leading, spacing: 14) {
                 Label("Oturum ve arka plan", systemImage: "clock.arrow.circlepath").font(.headline)
-                TrailingToggle(title: "Pencereler kapalıyken uygulama etkinliğini yenile", isOn: $backgroundUpdates)
+                TrailingToggle(title: String(localized: "Pencereler kapalıyken uygulama etkinliğini yenile"), isOn: $backgroundUpdates)
                 Text("Yalnız ek etkinlik ve Gösterge Tablosu örneklemesini etkiler; şarj denetimini açmaz veya durdurmaz.")
                     .font(.caption).foregroundStyle(.secondary)
                 Divider()
-                TrailingToggle(title: "Menü panelini açılışta göster", isOn: $showPanelAtLaunch)
+                TrailingToggle(title: String(localized: "Menü panelini açılışta göster"), isOn: $showPanelAtLaunch)
             }
             .chargeCard()
 
             VStack(alignment: .leading, spacing: 14) {
                 Label("Uygulama erişimi", systemImage: "macwindow.on.rectangle").font(.headline)
-                TrailingToggle(title: "Dock simgesini göster", isOn: $showDockIcon)
+                TrailingToggle(title: String(localized: "Dock simgesini göster"), isOn: $showDockIcon)
                 Divider()
                 HStack {
                     Text("Oturum açılışında başlat")
@@ -84,7 +84,7 @@ struct GeneralSettingsView: View {
         do { loginItemState = try StartupPreferences.setLoginItemEnabled(enabled) }
         catch {
             refreshLoginItemState()
-            loginItemError = "Giriş öğesi değiştirilemedi: \(error.localizedDescription)"
+            loginItemError = String(localized: "Giriş öğesi değiştirilemedi: \(error.localizedDescription)")
         }
     }
 
@@ -100,8 +100,8 @@ struct GeneralSettingsView: View {
                 switch result {
                 case .success:
                     let alert = NSAlert()
-                    alert.messageText = "Cellkeep kaldırıldı"
-                    alert.informativeText = "Yardımcı süreçler ve servisler kaldırıldı. Şimdi uygulamayı Çöp Sepeti'ne sürükleyin."
+                    alert.messageText = String(localized: "Cellkeep kaldırıldı")
+                    alert.informativeText = String(localized: "Yardımcı süreçler ve servisler kaldırıldı. Şimdi uygulamayı Çöp Sepeti'ne sürükleyin.")
                     alert.runModal()
                     NSApplication.shared.terminate(nil)
                 case .failure(let error):
@@ -125,8 +125,8 @@ private struct UninstallConfirmationView: View {
         VStack(alignment: .leading, spacing: 16) {
             Label("Cellkeep'i kaldır", systemImage: "trash").font(.title3.bold())
             Text("Yönetici izniyle yardımcı süreçler ve arka plan servisleri (yeni ve varsa eski ChargeMate "
-                + "sürümünden kalanlar) kaldırılır, giriş öğesi kayıttan silinir. Tek bir yönetici onayı istenir. "
-                + "İşlem bitince uygulamayı Çöp Sepeti'ne sürüklemeniz istenir. Bu adım geri alınamaz.")
+                + String(localized: "sürümünden kalanlar) kaldırılır, giriş öğesi kayıttan silinir. Tek bir yönetici onayı istenir. ")
+                + String(localized: "İşlem bitince uygulamayı Çöp Sepeti'ne sürüklemeniz istenir. Bu adım geri alınamaz."))
                 .font(.callout).foregroundStyle(.secondary)
             Toggle("Native şarj limitini %100'e sıfırla", isOn: $resetLimit)
             Toggle("Uygulama verilerini de sil (geçmiş, program, günlük)", isOn: $removeData)

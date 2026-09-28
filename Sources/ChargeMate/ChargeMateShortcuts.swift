@@ -66,11 +66,11 @@ enum ChargeMateShortcutError: Error, Equatable, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .staleMeasurement:
-            return "Güncel batarya ölçümü 5 saniye içinde alınamadı."
+            return String(localized: "Güncel batarya ölçümü 5 saniye içinde alınamadı.")
         case .measurementUnavailable(let name):
-            return "\(name) bu Mac'te okunamadı."
+            return String(localized: "\(name) bu Mac'te okunamadı.")
         case .unsupportedChargeLimit(let value):
-            return "%\(value) bu Mac'in desteklediği şarj hedeflerinden biri değil."
+            return String(localized: "%\(value) bu Mac'in desteklediği şarj hedeflerinden biri değil.")
         case .commandFailed(let message):
             return message
         }
@@ -94,7 +94,7 @@ struct ChargeMateShortcutReader {
         let value = source == .macOS ? snapshot.macOSPercentage : snapshot.hardwarePercentage
         guard let value, (0...100).contains(value) else {
             throw ChargeMateShortcutError.measurementUnavailable(
-                source == .macOS ? "macOS pil yüzdesi" : "Donanım pil yüzdesi"
+                source == .macOS ? String(localized: "macOS pil yüzdesi") : String(localized: "Donanım pil yüzdesi")
             )
         }
         return value
@@ -103,7 +103,7 @@ struct ChargeMateShortcutReader {
     func temperatureCelsius() throws -> Double {
         try requireFresh()
         guard let value = snapshot.temperatureC, value.isFinite else {
-            throw ChargeMateShortcutError.measurementUnavailable("Batarya sıcaklığı")
+            throw ChargeMateShortcutError.measurementUnavailable(String(localized: "Batarya sıcaklığı"))
         }
         return value
     }
@@ -116,7 +116,7 @@ struct ChargeMateShortcutReader {
         case .nativeCurrent: value = snapshot.nativeCurrentLimit
         }
         guard let value, (0...100).contains(value) else {
-            throw ChargeMateShortcutError.measurementUnavailable("Şarj limiti")
+            throw ChargeMateShortcutError.measurementUnavailable(String(localized: "Şarj limiti"))
         }
         return value
     }

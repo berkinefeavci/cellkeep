@@ -14,9 +14,9 @@ struct PowerModeQuickControl: View {
                 Text("Etkin: \(battery.selectedPowerMode.title)")
                     .font(.system(size: 10)).foregroundStyle(.secondary)
             }
-            profileRow("Pil ile", symbol: "battery.100percent", source: .battery,
+            profileRow(String(localized: "Pil ile"), symbol: "battery.100percent", source: .battery,
                        selectedMode: battery.batteryPowerMode)
-            profileRow("Adaptör ile", symbol: "powerplug.fill", source: .adapter,
+            profileRow(String(localized: "Adaptör ile"), symbol: "powerplug.fill", source: .adapter,
                        selectedMode: battery.adapterPowerMode)
             if let message = battery.powerModeMessage {
                 Text(message)
@@ -60,7 +60,7 @@ struct PowerModeQuickControl: View {
         .buttonStyle(ChipButtonStyle(selected: selected, tint: color, compact: true))
         .frame(maxWidth: .infinity, minHeight: 30, maxHeight: 30)
         .allowsHitTesting(!battery.applyingPowerMode)
-        .accessibilityValue(battery.applyingPowerMode ? "İşlem sürüyor" : selected ? "Seçili" : "")
-        .help("\(source == .battery ? "Pil" : "Adaptör") profili: \(mode.title)")
+        .accessibilityValue(battery.applyingPowerMode ? String(localized: "İşlem sürüyor") : selected ? String(localized: "Seçili") : "")
+        .help("\(source == .battery ? String(localized: "Pil") : String(localized: "Adaptör")) profili: \(mode.title)")
     }
 }

@@ -11,25 +11,25 @@ struct ShortcutsSettingsView: View {
     }
 
     private let reads = [
-        Action(title: "Pil Yüzdesini Al", detail: "macOS veya bağımsız donanım yüzdesi",
-               example: "Çıktı: 83", icon: "battery.75percent"),
-        Action(title: "Şarj Limitini Al", detail: "Cellkeep hedefi, native manuel veya geçerli limit",
-               example: "Çıktı: 85", icon: "gauge.with.dots.needle.33percent"),
-        Action(title: "Cellkeep Durumunu Al", detail: "Kararlı otomasyon durum adı",
-               example: "Çıktı: charging", icon: "bolt.shield"),
-        Action(title: "Batarya Sıcaklığını Al", detail: "Sayısal Celsius değeri",
-               example: "Çıktı: 35,5", icon: "thermometer.medium")
+        Action(title: String(localized: "Pil Yüzdesini Al"), detail: String(localized: "macOS veya bağımsız donanım yüzdesi"),
+               example: String(localized: "Çıktı: 83"), icon: "battery.75percent"),
+        Action(title: String(localized: "Şarj Limitini Al"), detail: String(localized: "Cellkeep hedefi, native manuel veya geçerli limit"),
+               example: String(localized: "Çıktı: 85"), icon: "gauge.with.dots.needle.33percent"),
+        Action(title: String(localized: "Cellkeep Durumunu Al"), detail: String(localized: "Kararlı otomasyon durum adı"),
+               example: String(localized: "Çıktı: charging"), icon: "bolt.shield"),
+        Action(title: String(localized: "Batarya Sıcaklığını Al"), detail: String(localized: "Sayısal Celsius değeri"),
+               example: String(localized: "Çıktı: 35,5"), icon: "thermometer.medium")
     ]
 
     private let controls = [
-        Action(title: "Şarj Limitini Ayarla", detail: "%80, %85, %90, %95 veya %100",
-               example: "Çıktı: doğrulama sonucu ve işlem kimliği", icon: "battery.100percent"),
-        Action(title: "Top Up Denetle", detail: "Başlat veya önceki limite dönerek iptal et",
-               example: "Çıktı: başlatma/geri yükleme sonucu", icon: "plus.circle"),
-        Action(title: "Güç Modunu Ayarla", detail: "Otomatik, Tasarruf veya Turbo",
-               example: "Önceden etkinleştirilmiş helper gerekir", icon: "speedometer"),
-        Action(title: "MagSafe Işığını Ayarla", detail: "Sistem, yeşil, turuncu veya kapalı",
-               example: "Önceden etkinleştirilmiş LED denetimi gerekir", icon: "light.beacon.max")
+        Action(title: String(localized: "Şarj Limitini Ayarla"), detail: String(localized: "%80, %85, %90, %95 veya %100"),
+               example: String(localized: "Çıktı: doğrulama sonucu ve işlem kimliği"), icon: "battery.100percent"),
+        Action(title: String(localized: "Top Up Denetle"), detail: String(localized: "Başlat veya önceki limite dönerek iptal et"),
+               example: String(localized: "Çıktı: başlatma/geri yükleme sonucu"), icon: "plus.circle"),
+        Action(title: String(localized: "Güç Modunu Ayarla"), detail: String(localized: "Otomatik, Tasarruf veya Turbo"),
+               example: String(localized: "Önceden etkinleştirilmiş helper gerekir"), icon: "speedometer"),
+        Action(title: String(localized: "MagSafe Işığını Ayarla"), detail: String(localized: "Sistem, yeşil, turuncu veya kapalı"),
+               example: String(localized: "Önceden etkinleştirilmiş LED denetimi gerekir"), icon: "light.beacon.max")
     ]
 
     var body: some View {
@@ -60,8 +60,8 @@ struct ShortcutsSettingsView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .chargeCard()
 
-        actionCard(title: "Oku", icon: "arrow.down.circle", actions: reads)
-        actionCard(title: "Denetle", icon: "slider.horizontal.3", actions: controls)
+        actionCard(title: String(localized: "Oku"), icon: "arrow.down.circle", actions: reads)
+        actionCard(title: String(localized: "Denetle"), icon: "slider.horizontal.3", actions: controls)
     }
 
     private func actionCard(title: String, icon: String, actions: [Action]) -> some View {

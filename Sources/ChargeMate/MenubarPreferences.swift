@@ -5,12 +5,12 @@ enum MenubarStyle: String, Codable, CaseIterable, Identifiable {
     var id: String { rawValue }
     var title: String {
         switch self {
-        case .hidden: return "Gizle"
-        case .cellkeepLogo: return "Cellkeep logosu"
-        case .chargeStatus: return "Cellkeep durumu"
-        case .macNative: return "macOS sade"
-        case .macColored: return "macOS renkli"
-        case .iosBattery: return "iOS tarzı"
+        case .hidden: return String(localized: "Gizle")
+        case .cellkeepLogo: return String(localized: "Cellkeep logosu")
+        case .chargeStatus: return String(localized: "Cellkeep durumu")
+        case .macNative: return String(localized: "macOS sade")
+        case .macColored: return String(localized: "macOS renkli")
+        case .iosBattery: return String(localized: "iOS tarzı")
         }
     }
 }
@@ -23,26 +23,27 @@ enum MenubarMetric: String, Codable, CaseIterable, Identifiable {
     var id: String { rawValue }
     var title: String {
         switch self {
-        case .percentage: return "Batarya yüzdesi"
-        case .healthPercent: return "Maksimum kapasite"
-        case .macOSCondition: return "macOS pil durumu"
-        case .cycleCount: return "Döngü sayısı"
-        case .hardwarePercentage: return "Donanım yüzdesi"
-        case .temperatureC: return "Sıcaklık"
-        case .timeRemaining: return "Kalan süre"
-        case .batteryCurrentMA: return "Batarya akımı"
-        case .batteryVoltageV: return "Batarya voltajı"
-        case .batteryWatts: return "Batarya gücü"
-        case .systemWatts: return "Sistem gücü"
-        case .adapterCurrentA: return "Adaptör akımı"
-        case .adapterVoltageV: return "Adaptör voltajı"
-        case .adapterWatts: return "Adaptör gücü"
-        case .calibration: return "Kalibrasyon"
-        case .heatProtection: return "Sıcaklık koruması"
-        case .sailing: return "Yelken"
+        case .percentage: return String(localized: "Batarya yüzdesi")
+        case .healthPercent: return String(localized: "Maksimum kapasite")
+        case .macOSCondition: return String(localized: "macOS pil durumu")
+        case .cycleCount: return String(localized: "Döngü sayısı")
+        case .hardwarePercentage: return String(localized: "Donanım yüzdesi")
+        case .temperatureC: return String(localized: "Sıcaklık")
+        case .timeRemaining: return String(localized: "Kalan süre")
+        case .batteryCurrentMA: return String(localized: "Batarya akımı")
+        case .batteryVoltageV: return String(localized: "Batarya voltajı")
+        case .batteryWatts: return String(localized: "Batarya gücü")
+        case .systemWatts: return String(localized: "Sistem gücü")
+        case .adapterCurrentA: return String(localized: "Adaptör akımı")
+        case .adapterVoltageV: return String(localized: "Adaptör voltajı")
+        case .adapterWatts: return String(localized: "Adaptör gücü")
+        case .calibration: return String(localized: "Kalibrasyon")
+        case .heatProtection: return String(localized: "Sıcaklık koruması")
+        case .sailing: return String(localized: "Yelken")
         case .topUp: return "Top Up"
         }
     }
+    /// Stable group identifier (not shown as-is; see MenubarSettingsView.groupTitle).
     var group: String {
         switch self {
         case .healthPercent, .macOSCondition, .cycleCount: return "Sağlık"
@@ -53,9 +54,9 @@ enum MenubarMetric: String, Codable, CaseIterable, Identifiable {
     }
     var unavailableReason: String? {
         switch self {
-        case .macOSCondition: return "macOS pil durumu için doğrulanmış veri kaynağı bulunmuyor."
+        case .macOSCondition: return String(localized: "macOS pil durumu için doğrulanmış veri kaynağı bulunmuyor.")
         case .calibration, .heatProtection, .sailing:
-            return "Bu kontrol henüz etkin değil; doğrulanmış işlem durumu bekleniyor."
+            return String(localized: "Bu kontrol henüz etkin değil; doğrulanmış işlem durumu bekleniyor.")
         case .topUp: return nil
         default: return nil
         }
@@ -68,11 +69,11 @@ enum MenubarRightClick: String, Codable, CaseIterable, Identifiable {
     var supported: Bool { self != .toggleCharging && self != .toggleLowPower }
     var title: String {
         switch self {
-        case .none: return "Hiçbir şey yapma"
-        case .likeLeftClick: return "Paneli aç / kapat"
-        case .openDashboard: return "Gösterge Tablosu’nu aç"
-        case .toggleCharging: return "Şarjı başlat / durdur — henüz kullanılamıyor"
-        case .toggleLowPower: return "Düşük Güç Modunu değiştir — henüz kullanılamıyor"
+        case .none: return String(localized: "Hiçbir şey yapma")
+        case .likeLeftClick: return String(localized: "Paneli aç / kapat")
+        case .openDashboard: return String(localized: "Gösterge Tablosu’nu aç")
+        case .toggleCharging: return String(localized: "Şarjı başlat / durdur — henüz kullanılamıyor")
+        case .toggleLowPower: return String(localized: "Düşük Güç Modunu değiştir — henüz kullanılamıyor")
         }
     }
 }

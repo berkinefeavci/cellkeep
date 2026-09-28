@@ -52,7 +52,7 @@ enum UninstallExecutor {
         process.waitUntilExit()
         guard process.terminationStatus == 0 else {
             let message = String(data: output.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)?
-                .trimmingCharacters(in: .whitespacesAndNewlines) ?? "macOS yönetici izni vermedi."
+                .trimmingCharacters(in: .whitespacesAndNewlines) ?? String(localized: "macOS yönetici izni vermedi.")
             throw ExecutionError.adminDenied(message)
         }
     }

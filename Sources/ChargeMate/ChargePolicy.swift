@@ -109,16 +109,16 @@ enum ChargePolicyEngine {
         if input.coordinatorRecovery {
             var session = input.session
             session?.phase = .recoveryRequired
-            session?.failureReason = "Önceki yazma işlemi doğrulanamadı."
-            return decision(.recoveryRequired("Önceki yazma işlemi doğrulanamadı."), policy: input.policy,
+            session?.failureReason = String(localized: "Önceki yazma işlemi doğrulanamadı.")
+            return decision(.recoveryRequired(String(localized: "Önceki yazma işlemi doğrulanamadı.")), policy: input.policy,
                             session: session)
         }
         if input.rivalRunning {
-            return decision(.recoveryRequired("Başka bir şarj denetleyicisi çalışıyor."), policy: input.policy,
+            return decision(.recoveryRequired(String(localized: "Başka bir şarj denetleyicisi çalışıyor.")), policy: input.policy,
                             session: input.session)
         }
         guard let native = input.nativeState else {
-            return decision(.recoveryRequired("Yerel şarj durumu okunamadı."), policy: input.policy,
+            return decision(.recoveryRequired(String(localized: "Yerel şarj durumu okunamadı.")), policy: input.policy,
                             session: input.session)
         }
 
@@ -134,13 +134,13 @@ enum ChargePolicyEngine {
     private static func startTopUp(_ input: ChargePolicyEvaluationInput, native: NativeChargeState,
                                    originExecutionID: UUID?) -> ChargePolicyDecision {
         guard input.telemetry.externalConnected else {
-            return decision(.recoveryRequired("Top Up için adaptör bağlı olmalı."), policy: input.policy)
+            return decision(.recoveryRequired(String(localized: "Top Up için adaptör bağlı olmalı.")), policy: input.policy)
         }
         guard native.availableLimits.contains(100) else {
             return decision(.recoveryRequired("Bu Mac %100 yerel limitini desteklemiyor."), policy: input.policy)
         }
         guard native.availableLimits.contains(native.manualLimit) else {
-            return decision(.recoveryRequired("Mevcut %\(native.manualLimit) limiti Top Up sonrasında tam olarak geri yüklenemez."),
+            return decision(.recoveryRequired(String(localized: "Mevcut %\(native.manualLimit) limiti Top Up sonrasında tam olarak geri yüklenemez.")),
                             policy: input.policy)
         }
         let phase: TopUpSession.Phase = native.manualLimit == 100 ? .charging : .starting
@@ -158,7 +158,7 @@ enum ChargePolicyEngine {
                                       session original: TopUpSession) -> ChargePolicyDecision {
         var session = original
         if session.phase == .recoveryRequired {
-            return decision(.recoveryRequired(session.failureReason ?? "Top Up geri yüklemesi doğrulanmalı."),
+            return decision(.recoveryRequired(session.failureReason ?? String(localized: "Top Up geri yüklemesi doğrulanmalı.")),
                             policy: input.policy, session: session)
         }
 
@@ -170,7 +170,7 @@ enum ChargePolicyEngine {
             }
             guard native.availableLimits.contains(session.restoreLimit) else {
                 session.phase = .recoveryRequired
-                session.failureReason = "Kaydedilmiş geri yükleme limiti artık desteklenmiyor."
+                session.failureReason = String(localized: "Kaydedilmiş geri yükleme limiti artık desteklenmiyor.")
                 return decision(.recoveryRequired(session.failureReason!), policy: input.policy, session: session)
             }
             return decision(.topUpRestoring(session.restoreLimit),
@@ -186,7 +186,7 @@ enum ChargePolicyEngine {
             }
             guard native.availableLimits.contains(100) else {
                 session.phase = .recoveryRequired
-                session.failureReason = "%100 limiti artık desteklenmiyor."
+                session.failureReason = String(localized: "%100 limiti artık desteklenmiyor.")
                 return decision(.recoveryRequired(session.failureReason!), policy: input.policy, session: session)
             }
             return decision(.topUpStarting,
@@ -196,7 +196,7 @@ enum ChargePolicyEngine {
 
         guard native.manualLimit == 100 else {
             session.phase = .recoveryRequired
-            session.failureReason = "Top Up sırasında yerel limit dışarıdan değişti."
+            session.failureReason = String(localized: "Top Up sırasında yerel limit dışarıdan değişti.")
             return decision(.recoveryRequired(session.failureReason!), policy: input.policy, session: session)
         }
 
@@ -237,7 +237,7 @@ enum ChargePolicyEngine {
             return decision(.idle, policy: input.policy)
         }
         guard native.availableLimits.contains(policy.desiredLimit) else {
-            return decision(.recoveryRequired("Kaydedilmiş hedef bu Mac tarafından desteklenmiyor."), policy: policy)
+            return decision(.recoveryRequired(String(localized: "Kaydedilmiş hedef bu Mac tarafından desteklenmiyor.")), policy: policy)
         }
         if case .adoptNativeLimit = input.intent {
             guard native.availableLimits.contains(native.manualLimit) else {
@@ -283,13 +283,13 @@ enum ChargePolicyPresentationAction: Equatable {
 extension ChargePolicyState {
     var title: String {
         switch self {
-        case .idle: return "Şarj denetimi hazır"
+        case .idle: return String(localized: "Şarj denetimi hazır")
         case .maintainingLimit(let limit): return "Limit korunuyor: %\(limit)"
-        case .topUpStarting: return "Top Up başlatılıyor"
+        case .topUpStarting: return String(localized: "Top Up başlatılıyor")
         case .topUpCharging(let percent): return "Top Up: %\(percent ?? 0) → %100"
-        case .topUpRestoring(let limit): return "Önceki limite dönülüyor: %\(limit)"
-        case .pausedByConflict(_, let observed): return "macOS limiti dışarıdan %\(observed) yapıldı"
-        case .recoveryRequired: return "Kontrol gerekli; yeni işlem durduruldu"
+        case .topUpRestoring(let limit): return String(localized: "Önceki limite dönülüyor: %\(limit)")
+        case .pausedByConflict(_, let observed): return String(localized: "macOS limiti dışarıdan %\(observed) yapıldı")
+        case .recoveryRequired: return String(localized: "Kontrol gerekli; yeni işlem durduruldu")
         }
     }
 
@@ -329,7 +329,7 @@ private struct ChargeJSONStore<Value: Codable> {
             let value = try JSONDecoder().decode(Value.self, from: data)
             guard schema(value) == currentSchema else {
                 backup(data)
-                return .init(value: nil, issue: "Desteklenmeyen kayıt sürümü.", blocked: true)
+                return .init(value: nil, issue: String(localized: "Desteklenmeyen kayıt sürümü."), blocked: true)
             }
             return .init(value: value, issue: nil, blocked: false)
         } catch {

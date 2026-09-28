@@ -19,10 +19,10 @@ final class MagSafeLEDHardwareService {
 
         var errorDescription: String? {
             switch self {
-            case .helperMissing: return "LED yardımcısı kurulmamış. Önce denetimi etkinleştirin."
-            case .helperNotTrusted: return "LED yardımcısı yöneticiye ait değil; kullanılamaz."
-            case .unsupportedValue: return "Bu ışık çıkışı desteklenmiyor."
-            case .commandFailed(let detail): return "LED komutu tamamlanamadı: \(detail)"
+            case .helperMissing: return String(localized: "LED yardımcısı kurulmamış. Önce denetimi etkinleştirin.")
+            case .helperNotTrusted: return String(localized: "LED yardımcısı yöneticiye ait değil; kullanılamaz.")
+            case .unsupportedValue: return String(localized: "Bu ışık çıkışı desteklenmiyor.")
+            case .commandFailed(let detail): return String(localized: "LED komutu tamamlanamadı: \(detail)")
             }
         }
     }
@@ -88,7 +88,7 @@ final class MagSafeLEDHardwareService {
     }
 
     func apply(_ output: MagSafeLEDOutput) -> MagSafeLEDControlCoordinator.Outcome {
-        guard Self.installed() else { return .blocked("LED yardımcısı kurulmamış.") }
+        guard Self.installed() else { return .blocked(String(localized: "LED yardımcısı kurulmamış.")) }
         if coordinator.requiresRecovery {
             let result = coordinator.restore()
             guard result == .restored || result == .unchanged else { return result }
@@ -97,7 +97,7 @@ final class MagSafeLEDHardwareService {
     }
 
     func restore() -> MagSafeLEDControlCoordinator.Outcome {
-        guard Self.installed() else { return .blocked("LED yardımcısı kurulmamış.") }
+        guard Self.installed() else { return .blocked(String(localized: "LED yardımcısı kurulmamış.")) }
         return coordinator.restore()
     }
 
@@ -175,18 +175,18 @@ final class MagSafeLEDHardwareService {
         var sent = 0
         while sent < bytes.count {
             let count = bytes.withUnsafeBytes { Darwin.write(fd, $0.baseAddress!.advanced(by: sent), bytes.count - sent) }
-            guard count > 0 else { throw ServiceError.commandFailed("Yardımcıya ulaşılamadı.") }
+            guard count > 0 else { throw ServiceError.commandFailed(String(localized: "Yardımcıya ulaşılamadı.")) }
             sent += count
         }
         var response = [UInt8]()
         while response.count < 16 {
             var byte: UInt8 = 0
-            guard Darwin.read(fd, &byte, 1) == 1 else { throw ServiceError.commandFailed("Yardımcı yanıt vermedi.") }
+            guard Darwin.read(fd, &byte, 1) == 1 else { throw ServiceError.commandFailed(String(localized: "Yardımcı yanıt vermedi.")) }
             if byte == 10 { break }
             response.append(byte)
         }
         guard String(bytes: response, encoding: .utf8) == "0" else {
-            throw ServiceError.commandFailed("İşlem tamamlanamadı. Yardımcı güncellemesi veya ışığın yeniden denetlenmesi gerekiyor.")
+            throw ServiceError.commandFailed(String(localized: "İşlem tamamlanamadı. Yardımcı güncellemesi veya ışığın yeniden denetlenmesi gerekiyor."))
         }
     }
 
@@ -203,7 +203,7 @@ final class MagSafeLEDHardwareService {
         try process.run()
         process.waitUntilExit()
         let detail = String(data: output.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)?
-            .trimmingCharacters(in: .whitespacesAndNewlines) ?? "Bilinmeyen hata"
+            .trimmingCharacters(in: .whitespacesAndNewlines) ?? String(localized: "Bilinmeyen hata")
         guard process.terminationStatus == 0 else { throw ServiceError.commandFailed(detail) }
     }
 

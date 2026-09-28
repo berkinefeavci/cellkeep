@@ -11,17 +11,17 @@ enum ScheduleExecutionStatus: String, Codable, CaseIterable {
 
     var title: String {
         switch self {
-        case .planned: return "Planlandı"
-        case .dispatched: return "Gönderildi"
-        case .configurationVerified: return "Ayar doğrulandı"
-        case .running: return "Sürüyor"
-        case .completed: return "Tamamlandı"
-        case .failed: return "Başarısız"
-        case .skippedMissed: return "Kaçırıldı"
-        case .skippedConflict: return "Çakışma nedeniyle atlandı"
-        case .unsupported: return "Desteklenmiyor"
-        case .cancelled: return "İptal edildi"
-        case .recoveryRequired: return "Kontrol gerekli"
+        case .planned: return String(localized: "Planlandı")
+        case .dispatched: return String(localized: "Gönderildi")
+        case .configurationVerified: return String(localized: "Ayar doğrulandı")
+        case .running: return String(localized: "Sürüyor")
+        case .completed: return String(localized: "Tamamlandı")
+        case .failed: return String(localized: "Başarısız")
+        case .skippedMissed: return String(localized: "Kaçırıldı")
+        case .skippedConflict: return String(localized: "Çakışma nedeniyle atlandı")
+        case .unsupported: return String(localized: "Desteklenmiyor")
+        case .cancelled: return String(localized: "İptal edildi")
+        case .recoveryRequired: return String(localized: "Kontrol gerekli")
         }
     }
 }
@@ -31,10 +31,10 @@ enum ScheduleHistoryFilter: String, CaseIterable, Identifiable {
     var id: String { rawValue }
     var title: String {
         switch self {
-        case .all: return "Tümü"
-        case .successful: return "Başarılı"
-        case .error: return "Hata"
-        case .skipped: return "Atlanan"
+        case .all: return String(localized: "Tümü")
+        case .successful: return String(localized: "Başarılı")
+        case .error: return String(localized: "Hata")
+        case .skipped: return String(localized: "Atlanan")
         }
     }
     func includes(_ status: ScheduleExecutionStatus) -> Bool {
@@ -92,10 +92,10 @@ struct ScheduleExecutionStore {
                 } catch { invalid += 1 }
             }
             if invalid > 0 { try? backup(data) }
-            return .init(records: valid, warning: invalid > 0 ? "\(invalid) bozuk çalışma kaydı atlandı; özgün dosya yedeklendi." : nil)
+            return .init(records: valid, warning: invalid > 0 ? String(localized: "\(invalid) bozuk çalışma kaydı atlandı; özgün dosya yedeklendi.") : nil)
         } catch {
             if let data = try? Data(contentsOf: url) { try? backup(data) }
-            return .init(records: [], warning: "Görev geçmişi okunamadı; özgün dosya yedeklendi.")
+            return .init(records: [], warning: String(localized: "Görev geçmişi okunamadı; özgün dosya yedeklendi."))
         }
     }
 
@@ -182,7 +182,7 @@ final class ScheduleEngine {
         for index in records.indices where !records[index].status.isTerminal {
             records[index].status = .recoveryRequired
             records[index].finishedAt = now
-            records[index].failureReason = "Uygulama önceki çalışmanın sonucunu doğrulayamadı; otomatik tekrar yapılmadı."
+            records[index].failureReason = String(localized: "Uygulama önceki çalışmanın sonucunu doğrulayamadı; otomatik tekrar yapılmadı.")
             changed = true
         }
         if changed { try? executionStore.save(records, now: now) }
@@ -231,7 +231,7 @@ final class ScheduleEngine {
                 if missed && !tasks[index].catchUpEnabled {
                     var record = makeRecord(task: tasks[index], plannedAt: latest, status: .skippedMissed)
                     record.finishedAt = now
-                    record.failureReason = "Kaçırılan çalışma için telafi kapalı."
+                    record.failureReason = String(localized: "Kaçırılan çalışma için telafi kapalı.")
                     records.append(record)
                     if tasks[index].recurrence == .once { tasks[index].enabled = false }
                 } else {
@@ -254,8 +254,8 @@ final class ScheduleEngine {
                 var record = makeRecord(task: task, plannedAt: candidate.plannedAt, status: .skippedConflict)
                 record.finishedAt = now
                 record.failureReason = manualBusy
-                    ? "Elle başlatılan işlem öncelikli olduğu için görev atlandı."
-                    : "Aynı zamandaki daha öncelikli görev çalıştırıldı."
+                    ? String(localized: "Elle başlatılan işlem öncelikli olduğu için görev atlandı.")
+                    : String(localized: "Aynı zamandaki daha öncelikli görev çalıştırıldı.")
                 records.append(record)
                 if task.recurrence == .once { tasks[candidate.index].enabled = false }
                 continue
@@ -264,12 +264,12 @@ final class ScheduleEngine {
             let record = makeRecord(task: task, plannedAt: candidate.plannedAt, status: .planned)
             records.append(record)
             do { try executionStore.save(records, now: now) }
-            catch { warning = "Çalışma kimliği kaydedilemedi; görev gönderilmedi: \(error.localizedDescription)"; continue }
+            catch { warning = String(localized: "Çalışma kimliği kaydedilemedi; görev gönderilmedi: \(error.localizedDescription)"); continue }
             guard let row = records.firstIndex(where: { $0.executionID == record.executionID }) else { continue }
             records[row].status = .dispatched
             records[row].startedAt = now
             do { try executionStore.save(records, now: now) }
-            catch { warning = "Dispatch kaydı doğrulanamadı; görev gönderilmedi: \(error.localizedDescription)"; continue }
+            catch { warning = String(localized: "Dispatch kaydı doğrulanamadı; görev gönderilmedi: \(error.localizedDescription)"); continue }
 
             admittedTimes.insert(candidate.plannedAt)
             let outcome = dispatcher(task, candidate.plannedAt, record.executionID)
@@ -281,7 +281,7 @@ final class ScheduleEngine {
             if task.recurrence == .once && outcome.status.isTerminal { tasks[candidate.index].enabled = false }
         }
         do { try executionStore.save(records, now: now) }
-        catch { warning = warning ?? "Görev sonucu kaydedilemedi: \(error.localizedDescription)" }
+        catch { warning = warning ?? String(localized: "Görev sonucu kaydedilemedi: \(error.localizedDescription)") }
         return .init(tasks: tasks, records: records, nextFireDate: Self.nextFireDate(tasks: tasks, after: now), warning: warning)
     }
 
@@ -323,10 +323,10 @@ final class ScheduleRuntime {
          manualOperationActive: @escaping () -> Bool = { false },
          capabilities: @escaping () -> ScheduleCapabilities = { .unavailable },
          chargeLimit: @escaping ChargeLimitDispatcher = { _ in
-             .init(operationID: UUID(), status: .rejected, state: nil, message: "Şarj limiti kullanılamıyor.")
+             .init(operationID: UUID(), status: .rejected, state: nil, message: String(localized: "Şarj limiti kullanılamıyor."))
          },
          topUp: @escaping TopUpDispatcher = { _ in
-             .init(operationID: UUID(), status: .rejected, state: nil, message: "Top Up kullanılamıyor.")
+             .init(operationID: UUID(), status: .rejected, state: nil, message: String(localized: "Top Up kullanılamıyor."))
          },
          powerMode: @escaping PowerDispatcher = SystemPowerModeService.applyInstalled) {
         scheduleStore = ScheduleStore(url: directory.appendingPathComponent("schedules.json"))
@@ -336,7 +336,7 @@ final class ScheduleRuntime {
             if let reason = task.action.availability(in: capabilities()) { return .unsupported(reason) }
             switch task.action {
             case .setChargeLimit:
-                guard let target = task.target else { return .unsupported("Şarj hedefi eksik.") }
+                guard let target = task.target else { return .unsupported(String(localized: "Şarj hedefi eksik.")) }
                 return Self.outcome(chargeLimit(target), running: false)
             case .topUp:
                 return Self.outcome(topUp(executionID), running: true)

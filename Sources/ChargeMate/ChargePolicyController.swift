@@ -49,14 +49,14 @@ final class ChargePolicyController {
         session = sessionLoad.value
         if policyLoad.blocked || sessionLoad.blocked {
             persistenceRecovery = true
-            state = .recoveryRequired(policyLoad.issue ?? sessionLoad.issue ?? "Şarj kaydı doğrulanamadı.")
+            state = .recoveryRequired(policyLoad.issue ?? sessionLoad.issue ?? String(localized: "Şarj kaydı doğrulanamadı."))
         }
     }
 
     func applyManualLimit(_ limit: Int, source: ChargeControlCoordinator.Source = .manual,
                           request: ChargeControlCoordinator.Request? = nil)
         -> ChargeControlCoordinator.Result {
-        guard !persistenceRecovery else { return blockedResult("Şarj politika kaydı doğrulanmalı.") }
+        guard !persistenceRecovery else { return blockedResult(String(localized: "Şarj politika kaydı doğrulanmalı.")) }
         let result = request.map(coordinator.apply) ?? coordinator.apply(limit, source: source)
         lastResult = result
         guard result.status == .configurationVerified, let native = result.state else {
@@ -74,21 +74,21 @@ final class ChargePolicyController {
             return result
         } catch {
             persistenceRecovery = true
-            state = .recoveryRequired("Limit doğrulandı fakat politika kaydı korunamadı.")
+            state = .recoveryRequired(String(localized: "Limit doğrulandı fakat politika kaydı korunamadı."))
             return .init(operationID: result.operationID, status: .recoveryRequired, state: result.state,
-                         message: "Limit doğrulandı fakat politika kaydı korunamadı; yeni işlem engellendi.")
+                         message: String(localized: "Limit doğrulandı fakat politika kaydı korunamadı; yeni işlem engellendi."))
         }
     }
 
     func startTopUp(originExecutionID: UUID? = nil,
                     telemetry: ChargeTelemetry) -> ChargeControlCoordinator.Result {
         run(telemetry: telemetry, trigger: .user, intent: .startTopUp(originExecutionID: originExecutionID)).result
-            ?? readOnlyResult(message: "Top Up durumu doğrulandı.")
+            ?? readOnlyResult(message: String(localized: "Top Up durumu doğrulandı."))
     }
 
     func cancelTopUp(telemetry: ChargeTelemetry) -> ChargeControlCoordinator.Result {
         run(telemetry: telemetry, trigger: .user, intent: .cancelTopUp).result
-            ?? readOnlyResult(message: "Top Up etkin değil.")
+            ?? readOnlyResult(message: String(localized: "Top Up etkin değil."))
     }
 
     func evaluate(telemetry: ChargeTelemetry, trigger: ChargePolicyTrigger) -> ChargePolicyEvent? {
@@ -136,14 +136,14 @@ final class ChargePolicyController {
             session = sessionLoad.value
         }
         guard !persistenceRecovery else {
-            state = .recoveryRequired("Şarj politika kaydı doğrulanmalı.")
-            return (blockedResult("Şarj politika kaydı doğrulanmalı."), nil)
+            state = .recoveryRequired(String(localized: "Şarj politika kaydı doğrulanmalı."))
+            return (blockedResult(String(localized: "Şarj politika kaydı doğrulanmalı.")), nil)
         }
         let native: NativeChargeState?
         do { native = try backend.readState() }
         catch {
-            state = .recoveryRequired("Yerel şarj durumu okunamadı: \(error.localizedDescription)")
-            return (blockedResult("Yerel şarj durumu okunamadı.", recovery: false), nil)
+            state = .recoveryRequired(String(localized: "Yerel şarj durumu okunamadı: \(error.localizedDescription)"))
+            return (blockedResult(String(localized: "Yerel şarj durumu okunamadı."), recovery: false), nil)
         }
         let input = ChargePolicyEvaluationInput(policy: policy, session: session, nativeState: native,
                                                 telemetry: telemetry, intent: intent,
@@ -158,7 +158,7 @@ final class ChargePolicyController {
         state = evaluated.state
         if evaluated.policy != policy, let updated = evaluated.policy {
             do { try policyStore.save(updated); policy = updated }
-            catch { return persistenceFailure("Şarj politikası kaydedilemedi.", session: evaluated.session) }
+            catch { return persistenceFailure(String(localized: "Şarj politikası kaydedilemedi."), session: evaluated.session) }
         }
         if let updated = evaluated.session {
             do { try sessionStore.save(updated); session = updated }
@@ -169,7 +169,7 @@ final class ChargePolicyController {
             catch { return persistenceFailure("Tamamlanan Top Up oturumu temizlenemedi.", session: evaluated.session) }
             return (nil, .init(kind: .topUpFinished,
                                originExecutionID: evaluated.session?.originExecutionID,
-                               message: "Top Up tamamlandı; önceki limit geri yüklendi."))
+                               message: String(localized: "Top Up tamamlandı; önceki limit geri yüklendi.")))
         }
 
         guard case .write(let limit, let source) = evaluated.command else { return (nil, nil) }
@@ -199,15 +199,15 @@ final class ChargePolicyController {
         state = verifiedDecision.state
         if verifiedDecision.clearSession {
             do { try sessionStore.clear(); session = nil }
-            catch { return persistenceFailure("Doğrulanan geri yükleme kaydı temizlenemedi.", session: evaluated.session) }
+            catch { return persistenceFailure(String(localized: "Doğrulanan geri yükleme kaydı temizlenemedi."), session: evaluated.session) }
             let event = restoring
                 ? ChargePolicyEvent(kind: .topUpFinished, originExecutionID: origin,
-                                    message: "Top Up tamamlandı; önceki limit geri yüklendi.") : nil
+                                    message: String(localized: "Top Up tamamlandı; önceki limit geri yüklendi.")) : nil
             return (result, event)
         }
         if let updated = verifiedDecision.session {
             do { try sessionStore.save(updated); session = updated }
-            catch { return persistenceFailure("Doğrulanan Top Up durumu kaydedilemedi.", session: updated) }
+            catch { return persistenceFailure(String(localized: "Doğrulanan Top Up durumu kaydedilemedi."), session: updated) }
         }
         return (result, nil)
     }
