@@ -14,6 +14,7 @@
 "%80, %85, %90, %95 veya %100" = "80 %, 85 %, 90 %, 95 % ou 100 %";
 "%85" = "85 %";
 "%90" = "90 %";
+"%90 ve üstünde geçen süre" = "Temps à 90 % ou plus";
 "%95" = "95 %";
 "%@ aşağı" = "%@ vers le bas";
 "%@ boyutunu %@ yap" = "Rendre %@ %@";
@@ -23,6 +24,7 @@
 "%@ grafiği" = "Graphique %@";
 "%@ kaldır" = "Supprimer %@";
 "%@ profili: %@" = "Profil %@ : %@";
+"%@ puan" = "%@ points";
 "%@ saati" = "Heure de %@";
 "%@ seçildi." = "%@ sélectionné.";
 "%@ uygulamasını kapat" = "Quitter %@";
@@ -40,6 +42,7 @@
 "%lld bozuk çalışma kaydı atlandı; özgün dosya yedeklendi." = "%lld enregistrements d’exécution corrompus ignorés ; le fichier d’origine a été sauvegardé.";
 "%lld cihaz" = "%lld appareils";
 "%lld gerçek ölçüm · Veri birikiyor" = "%lld mesures réelles · Données en cours d’accumulation";
+"%lld günlük kayıt" = "%lld jours enregistrés";
 "%lld kayıt" = "%lld enregistrements";
 "%lld sa %lld dk" = "%lld h %lld min";
 "%lld ölçüm · Son %lld saat" = "%lld mesures · %lld dernières heures";
@@ -247,9 +250,11 @@
 "Düşük Güç Modunu değiştir — henüz kullanılamıyor" = "Basculer le mode économie d’énergie — pas encore disponible";
 "Düşük etki" = "Faible impact";
 "DİĞER" = "AUTRE";
+"Eklenen döngü" = "Cycles ajoutés";
 "Ekran" = "Écran";
 "Elle başlatılan işlem öncelikli olduğu için görev atlandı." = "La tâche a été ignorée car une opération lancée manuellement est prioritaire.";
 "En yüksek etkinliğe sahip uygulamalar" = "Apps les plus actives";
+"En yüksek sıcaklık" = "Température maximale";
 "Enerji Kullanımı" = "Consommation d’énergie";
 "Enerji kullanan uygulamalar ve sistem" = "Apps et système consommant de l’énergie";
 "Etki seviyesi macOS ölçümünden gelir; watt değeri değildir." = "Le niveau d’impact provient des mesures de macOS ; ce n’est pas une puissance en watts.";
@@ -308,12 +313,17 @@
 "Gösterilecek etki" = "Impact à afficher";
 "Gösterilen ayar değişti, okunamadı veya başka bir şarj uygulaması açık. Güncel durumu yeniden inceleyin." = "Le réglage affiché a changé, n’a pas pu être lu, ou une autre app de charge est ouverte. Examinez de nouveau l’état actuel.";
 "Gözlenen sonuç" = "Résultat observé";
+"Gün" = "Jour";
 "Güncel ayar okunamadı: %@" = "Le réglage actuel n’a pas pu être lu : %@";
 "Güncel batarya ölçümü 5 saniye içinde alınamadı." = "Aucune mesure actuelle de la batterie n’a pu être obtenue en 5 secondes.";
 "Güncel değil · %@" = "Pas à jour · %@";
 "Güncel güç durumu bilinmiyor" = "État d’alimentation actuel inconnu";
 "Güncel güç ölçümü bekleniyor." = "En attente d’une mesure de puissance actuelle.";
 "Güncel şarj durumunun açıklaması" = "Description de l’état de charge actuel";
+"Günlük batarya sağlığı grafiği" = "Graphique quotidien de l’état de la batterie";
+"Günlük özetler bu Mac’te 400 güne kadar saklanır; yalnızca Cellkeep açıkken kaydedilen ölçümlerden hesaplanır." = "Les résumés quotidiens sont conservés jusqu’à 400 jours sur ce Mac et calculés uniquement à partir des mesures enregistrées pendant que Cellkeep était ouvert.";
+"Günlük özetler dışa aktarıldı: %lld gün." = "Résumés quotidiens exportés : %lld jours.";
+"Günlük özetleri CSV olarak dışa aktar" = "Exporter les résumés quotidiens en CSV";
 "Güç" = "Puissance";
 "Güç Modunu Ayarla" = "Définir le mode d’énergie";
 "Güç adaptörü" = "Adaptateur secteur";
@@ -465,6 +475,7 @@
 "Oku" = "Lire";
 "Okunan limit veya kontrol sahibi değişti." = "La limite lue ou le propriétaire du contrôle a changé.";
 "Orta etki" = "Impact moyen";
+"Ortalama doluluk" = "Charge moyenne";
 "Otomatik" = "Automatique";
 "Otomatik güç modu kullanılamıyor." = "Le mode d’énergie automatique n’est pas disponible.";
 "Otomatik güç moduna dön" = "Revenir au mode d’énergie automatique";
@@ -503,6 +514,8 @@
 "Sağ tık" = "Clic droit";
 "Sağa taşı" = "Déplacer à droite";
 "Sağlık" = "État";
+"Sağlık değişimi" = "Évolution de l’état";
+"Sağlık eğilimi için en az iki günlük ölçüm gerekiyor. Cellkeep açık kaldıkça her gün bir özet kaydedilir." = "La tendance de l’état nécessite des mesures sur au moins deux jours. Tant que Cellkeep est ouvert, un résumé est enregistré chaque jour.";
 "Sekiz yerel eylem. Okumalar güncel veri döndürür; denetimler Cellkeep'in güvenli işlem hattını kullanır." = "Huit actions locales. Les lectures renvoient des données actuelles ; les commandes passent par le circuit sécurisé de Cellkeep.";
 "Sensör yoksa, veri geçersizse veya ölçüm 10 saniyeden eskiyse Cellkeep tahmin üretmez." = "S’il n’y a pas de capteur, si les données sont invalides ou si la mesure date de plus de 10 secondes, Cellkeep n’estime aucune valeur.";
 "Ses cihazı" = "Appareil audio";
@@ -523,6 +536,8 @@
 "Sistem yükü" = "Charge du système";
 "Sistem, yeşil, turuncu veya kapalı" = "Système, vert, orange ou éteint";
 "Sola taşı" = "Déplacer à gauche";
+"Son 30 gün" = "30 derniers jours";
+"Son 7 gün" = "7 derniers jours";
 "Son geçmiş yedeğini geri al" = "Restaurer la dernière sauvegarde de l’historique";
 "Son ölçüm: %@%@" = "Dernière mesure : %@%@";
 "Spotlight indeksleme" = "Indexation Spotlight";
@@ -593,6 +608,7 @@
 "Uyku davranışını macOS yönetiyor." = "macOS gère le comportement en suspension.";
 "Uyku engeli oluşturulamadı (%d)." = "L’assertion de suspension n’a pas pu être créée (%d).";
 "Uyku sırasında şarjı durdur" = "Mettre la charge en pause pendant la suspension";
+"Uzun vadeli sağlık" = "État à long terme";
 "Vazgeç" = "Annuler";
 "Veriler ve sıfırlama" = "Données et réinitialisation";
 "Yakında · donanım doğrulaması bekliyor" = "Bientôt · vérification matérielle en attente";

@@ -92,6 +92,8 @@ struct SupportCenterView: View {
                 Button("Arayüz ayarlarını sıfırla") { showResetConfirmation = true }
                 Button("Geçmişi CSV olarak dışa aktar") { exportHistoryCSV() }
                     .disabled(battery.history.isEmpty)
+                Button("Günlük özetleri CSV olarak dışa aktar") { exportDailyCSV() }
+                    .disabled(battery.dailySummaries.isEmpty)
                 Button("Geçmişi temizle", role: .destructive) { showClearHistoryConfirmation = true }
                 if battery.historyBackupAvailable {
                     Button("Son geçmiş yedeğini geri al") { battery.restoreHistoryBackup { message = $0 } }
@@ -142,6 +144,19 @@ struct SupportCenterView: View {
         do {
             try Data(HistoryCSV.make(rows).utf8).write(to: url, options: .atomic)
             message = String(localized: "Geçmiş dışa aktarıldı: \(rows.count) ölçüm.")
+        } catch { message = String(localized: "Geçmiş dışa aktarılamadı: \(error.localizedDescription)") }
+    }
+
+    private func exportDailyCSV() {
+        let panel = NSSavePanel()
+        panel.nameFieldStringValue = "Cellkeep-Daily.csv"
+        panel.allowedContentTypes = [.commaSeparatedText]
+        panel.canCreateDirectories = true
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        let days = battery.dailySummaries
+        do {
+            try Data(HistoryCSV.makeDaily(days).utf8).write(to: url, options: .atomic)
+            message = String(localized: "Günlük özetler dışa aktarıldı: \(days.count) gün.")
         } catch { message = String(localized: "Geçmiş dışa aktarılamadı: \(error.localizedDescription)") }
     }
 

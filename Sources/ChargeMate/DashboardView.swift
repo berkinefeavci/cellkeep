@@ -72,6 +72,7 @@ struct DashboardView: View {
                 Text("Gerçek ölçümler, bu Mac’te 24 saat saklanır. Grafiğin üzerine gelerek ölçüm inceleyebilirsiniz.")
                 Spacer()
             }.font(.system(size: 10)).foregroundStyle(Color.primary.opacity(0.5))
+            LongTermHealthCard()
         }
     }
     private func powerItem(_ icon: String, _ title: String, _ value: String, _ color: Color) -> some View {

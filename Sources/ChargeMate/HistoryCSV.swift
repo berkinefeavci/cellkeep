@@ -40,6 +40,23 @@ enum HistoryCSV {
         return lines.joined(separator: "\n") + "\n"
     }
 
+    static let dailyHeader = "day,samples,min_percent,max_percent,average_percent,observed_minutes,"
+        + "minutes_at_or_above_90,health_percent,full_capacity_mah,cycle_count,max_temperature_c"
+
+    /// One row per local calendar day from the long-term summaries.
+    static func makeDaily(_ days: [DailySummary]) -> String {
+        var lines = [dailyHeader]
+        for day in days.sorted(by: { $0.day < $1.day }) {
+            lines.append([
+                day.day, String(day.samples), int(day.minPercent), int(day.maxPercent),
+                number(day.averagePercent, digits: 1), number(day.observedMinutes, digits: 1),
+                number(day.minutesAtOrAbove90, digits: 1), number(day.healthPercent, digits: 1),
+                int(day.fullCapacityMAh), int(day.cycleCount), number(day.maxTemperatureC, digits: 1),
+            ].joined(separator: ","))
+        }
+        return lines.joined(separator: "\n") + "\n"
+    }
+
     private static func int(_ value: Int?) -> String { value.map(String.init) ?? "" }
 
     private static func number(_ value: Double?, digits: Int) -> String {

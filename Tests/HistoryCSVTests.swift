@@ -24,6 +24,17 @@ import Foundation
         // Non-finite values are treated as missing.
         let nan = HistoryCSV.make([HistoryCSV.Row(date: early, batteryWatts: .nan, systemWatts: .infinity)])
         precondition(nan.hasSuffix("2027-01-15T08:00:00Z,,,,,,,,,,,\n"))
-        print("History CSV: header, ordering, empty cells, rounding and non-finite assertions passed.")
+        // Daily summaries: one row per day, sorted, missing values empty.
+        let days = [DailySummary(day: "2027-01-16", samples: 5, minPercent: nil, maxPercent: nil, averagePercent: nil,
+                                 observedMinutes: 0, minutesAtOrAbove90: 0, healthPercent: nil, fullCapacityMAh: nil,
+                                 cycleCount: nil, maxTemperatureC: nil),
+                    DailySummary(day: "2027-01-15", samples: 2880, minPercent: 70, maxPercent: 95, averagePercent: 82.345,
+                                 observedMinutes: 1439.5, minutesAtOrAbove90: 120, healthPercent: 97.25,
+                                 fullCapacityMAh: 4980, cycleCount: 121, maxTemperatureC: 36.04)]
+        let daily = HistoryCSV.makeDaily(days).split(separator: "\n")
+        precondition(daily.count == 3 && daily[0] == Substring(HistoryCSV.dailyHeader))
+        precondition(daily[1] == "2027-01-15,2880,70,95,82.3,1439.5,120.0,97.2,4980,121,36.0")
+        precondition(daily[2] == "2027-01-16,5,,,,0.0,0.0,,,,")
+        print("History CSV: header, ordering, empty cells, rounding, non-finite and daily assertions passed.")
     }
 }
