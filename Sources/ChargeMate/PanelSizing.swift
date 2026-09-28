@@ -93,7 +93,7 @@ enum PanelSizing {
 
     /// Doğrulama/log çıktısı için tek satırlık özet.
     static func debugDescription(mode: PanelSizeMode, content: CGSize, screen: CGRect, result: CGRect) -> String {
-        String(format: String(localized: "PanelSizing · mod=%@ genişlik=%.0f içerik=%.0fx%.0f ekran=%.0fx%.0f → panel=%.0fx%.0f @ (%.0f, %.0f)"),
+        String(format: "PanelSizing · mod=%@ genişlik=%.0f içerik=%.0fx%.0f ekran=%.0fx%.0f → panel=%.0fx%.0f @ (%.0f, %.0f)",
                mode.displayName, mode.width,
                content.width, content.height, screen.width, screen.height,
                result.width, result.height, result.minX, result.minY)

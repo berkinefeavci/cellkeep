@@ -115,7 +115,7 @@ struct SupportCenterView: View {
                 .font(.caption).foregroundStyle(.secondary)
             UpdateCheckSection()
             DisclosureGroup("Uygulamayı kaldırma") {
-                Text("Önce Oturum açılışında başlat seçeneğini kapatın, Cellkeep’ten çıkın ve Applications içindeki Cellkeep’i Çöp Sepeti’ne taşıyın. Bu düğme sistem dosyalarını kendiliğinden silmez.")
+                Text("Ayarlar → Genel’deki “Cellkeep’i kaldır” düğmesi yardımcıları ve arka plan servislerini kaldırır. Ardından Applications içindeki Cellkeep’i Çöp Sepeti’ne taşıyın.")
                     .font(.caption).foregroundStyle(.secondary).padding(.top, 6)
             }.frame(maxWidth: 520)
         }.frame(maxWidth: .infinity).padding(.vertical, 12).chargeCard()
