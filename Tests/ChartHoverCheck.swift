@@ -8,6 +8,7 @@ struct LimitEvent: Equatable {
 
 enum BatteryMetric: String, Equatable {
     case level = "Batarya seviyesi"
+    var title: String { rawValue }
     var color: Color { .green }
     func hoverText(_ value: Double) -> String { String(format: "%.1f %%", value) }
 }

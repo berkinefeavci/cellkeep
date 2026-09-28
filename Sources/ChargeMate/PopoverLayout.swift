@@ -6,30 +6,30 @@ enum PanelWidget: String, CaseIterable, Codable, Identifiable {
     var id: String { rawValue }
     var detail: String {
         switch self {
-        case .statusExplanation: return "Güncel şarj durumunun açıklaması"
-        case .powerFlow: return "Adaptör, MacBook ve batarya arasındaki ölçülen güç"
-        case .significantEnergy: return "En yüksek etkinliğe sahip uygulamalar"
-        case .powerMode: return "Düşük Güç Modu açıkken görünen bilgi"
-        case .specifications: return "Kapasite, döngü, sıcaklık ve güç özeti"
-        case .chartLevel: return "Doluluk ve gözlenen limit değişimleri"
-        case .chartTemperature: return "Gerçek sıcaklık ölçümleri, °C"
-        case .chartPower: return "Ölçülen toplam sistem tüketimi, W"
-        case .chartHealth: return "Maksimum kapasitenin tasarıma oranı, %"
-        case .chartCycles: return "Ölçüm geçmişindeki döngü sayısı"
+        case .statusExplanation: return String(localized: "Güncel şarj durumunun açıklaması")
+        case .powerFlow: return String(localized: "Adaptör, MacBook ve batarya arasındaki ölçülen güç")
+        case .significantEnergy: return String(localized: "En yüksek etkinliğe sahip uygulamalar")
+        case .powerMode: return String(localized: "Düşük Güç Modu açıkken görünen bilgi")
+        case .specifications: return String(localized: "Kapasite, döngü, sıcaklık ve güç özeti")
+        case .chartLevel: return String(localized: "Doluluk ve gözlenen limit değişimleri")
+        case .chartTemperature: return String(localized: "Gerçek sıcaklık ölçümleri, °C")
+        case .chartPower: return String(localized: "Ölçülen toplam sistem tüketimi, W")
+        case .chartHealth: return String(localized: "Maksimum kapasitenin tasarıma oranı, %")
+        case .chartCycles: return String(localized: "Ölçüm geçmişindeki döngü sayısı")
         }
     }
     var title: String {
         switch self {
-        case .statusExplanation: return "Şarj durumu"
-        case .powerFlow: return "Güç akışı"
-        case .significantEnergy: return "Uygulama etkinliği"
-        case .powerMode: return "Güç modu"
-        case .specifications: return "Batarya bilgileri"
-        case .chartLevel: return "Batarya seviyesi grafiği"
-        case .chartTemperature: return "Sıcaklık grafiği"
-        case .chartPower: return "Sistem gücü grafiği"
-        case .chartHealth: return "Kapasite grafiği"
-        case .chartCycles: return "Döngü grafiği"
+        case .statusExplanation: return String(localized: "Şarj durumu")
+        case .powerFlow: return String(localized: "Güç akışı")
+        case .significantEnergy: return String(localized: "Uygulama etkinliği")
+        case .powerMode: return String(localized: "Güç modu")
+        case .specifications: return String(localized: "Batarya bilgileri")
+        case .chartLevel: return String(localized: "Batarya seviyesi grafiği")
+        case .chartTemperature: return String(localized: "Sıcaklık grafiği")
+        case .chartPower: return String(localized: "Sistem gücü grafiği")
+        case .chartHealth: return String(localized: "Kapasite grafiği")
+        case .chartCycles: return String(localized: "Döngü grafiği")
         }
     }
     /// Bu kart türünün desteklediği boyutlar. `.wide` her zaman desteklenir;
@@ -103,16 +103,16 @@ struct PopoverLayout: Codable {
         if let value = try? JSONDecoder().decode(Self.self, from: data), value.schemaVersion == 2 {
             var seen = Set<PanelWidget>()
             let items = value.widgets.filter { seen.insert($0.widget).inserted }
-            return (items, items.count == value.widgets.count ? nil : "Tanımsız veya tekrarlanan kartlar gösterilmedi; diğer kartlar korundu.")
+            return (items, items.count == value.widgets.count ? nil : String(localized: "Tanımsız veya tekrarlanan kartlar gösterilmedi; diğer kartlar korundu."))
         }
         if let value = try? JSONDecoder().decode(LegacyPayload.self, from: data), value.schemaVersion == 1 {
             var seen = Set<PanelWidget>()
             let items = value.widgets.compactMap(PanelWidget.init(rawValue:))
                 .filter { seen.insert($0).inserted }
                 .map { PlacedWidget($0, size: .wide) }
-            return (items, items.count == value.widgets.count ? nil : "Tanımsız veya tekrarlanan kartlar gösterilmedi; diğer kartlar korundu.")
+            return (items, items.count == value.widgets.count ? nil : String(localized: "Tanımsız veya tekrarlanan kartlar gösterilmedi; diğer kartlar korundu."))
         }
-        return (legacyPlaced, "Kaydedilmiş düzen okunamadı; varsayılan düzen gösteriliyor. Kaydetmeden önce düzeni kontrol edin.")
+        return (legacyPlaced, String(localized: "Kaydedilmiş düzen okunamadı; varsayılan düzen gösteriliyor. Kaydetmeden önce düzeni kontrol edin."))
     }
 
     static func encode(_ items: [PlacedWidget]) throws -> Data {

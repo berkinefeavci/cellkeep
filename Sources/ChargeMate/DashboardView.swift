@@ -6,33 +6,33 @@ struct DashboardView: View {
     var body: some View {
         VStack(spacing: 19) {
             HStack(spacing: 12) {
-                powerItem("powerplug.portrait.fill", "Adaptör", s.reading(.adapterPower).text(), .yellow)
+                powerItem("powerplug.portrait.fill", String(localized: "Adaptör"), s.reading(.adapterPower).text(), .yellow)
                 Divider().frame(height: 15)
                 powerItem("laptopcomputer", "MacBook", s.reading(.systemPower).text(), .blue)
                 Divider().frame(height: 15)
-                powerItem("battery.100percent", "Batarya", s.reading(.batteryPower).text(), .green)
+                powerItem("battery.100percent", String(localized: "Batarya"), s.reading(.batteryPower).text(), .green)
                 Spacer(minLength: 0)
                 Image(systemName: "waveform.path").foregroundStyle(Color.primary.opacity(0.72))
             }.font(.system(size: 10)).padding(.horizontal, 14).padding(.vertical, 11).modifier(GlassSurface(radius: 22))
             HStack(alignment: .top, spacing: 15) {
-                specCard("Batarya", icon: "bolt.fill", rows: [
-                    ("Akım", s.reading(.current).text(digits: 0)),
-                    ("Gerilim", s.reading(.voltage).text(digits: 2)),
-                    ("Güç", s.reading(.batteryPower).text()),
-                    ("Sistem yükü", s.reading(.systemPower).text()),
-                    ("Kalan kapasite", s.reading(.remainingCapacity).text(digits: 0))])
-                specCard("Batarya sağlığı", icon: "heart.fill", rows: [
-                    ("Tasarım", s.reading(.designCapacity).text(digits: 0)),
-                    ("Maksimum", s.reading(.fullCapacity).text(digits: 0)),
-                    ("Sağlık", s.reading(.health).text()),
-                    ("Döngü sayısı", s.reading(.cycles).text(digits: 0)),
-                    ("Donanım yüzdesi", s.reading(.hardwarePercentage).text(digits: 0))])
-                specCard("Güç adaptörü", icon: "powerplug.portrait.fill", rows: [
-                    ("Bağlantı", s.externalConnected ? "Bağlı" : "Bağlı değil"),
-                    ("Anlık güç", s.reading(.adapterPower).text()),
-                    ("Nominal güç", s.reading(.adapterRatedPower).text()),
-                    ("Nominal gerilim", s.reading(.adapterVoltage).text(digits: 2)),
-                    ("Nominal akım", s.reading(.adapterCurrent).text(digits: 2))])
+                specCard(String(localized: "Batarya"), icon: "bolt.fill", rows: [
+                    (String(localized: "Akım"), s.reading(.current).text(digits: 0)),
+                    (String(localized: "Gerilim"), s.reading(.voltage).text(digits: 2)),
+                    (String(localized: "Güç"), s.reading(.batteryPower).text()),
+                    (String(localized: "Sistem yükü"), s.reading(.systemPower).text()),
+                    (String(localized: "Kalan kapasite"), s.reading(.remainingCapacity).text(digits: 0))])
+                specCard(String(localized: "Batarya sağlığı"), icon: "heart.fill", rows: [
+                    (String(localized: "Tasarım"), s.reading(.designCapacity).text(digits: 0)),
+                    (String(localized: "Maksimum"), s.reading(.fullCapacity).text(digits: 0)),
+                    (String(localized: "Sağlık"), s.reading(.health).text()),
+                    (String(localized: "Döngü sayısı"), s.reading(.cycles).text(digits: 0)),
+                    (String(localized: "Donanım yüzdesi"), s.reading(.hardwarePercentage).text(digits: 0))])
+                specCard(String(localized: "Güç adaptörü"), icon: "powerplug.portrait.fill", rows: [
+                    (String(localized: "Bağlantı"), s.externalConnected ? String(localized: "Bağlı") : String(localized: "Bağlı değil")),
+                    (String(localized: "Anlık güç"), s.reading(.adapterPower).text()),
+                    (String(localized: "Nominal güç"), s.reading(.adapterRatedPower).text()),
+                    (String(localized: "Nominal gerilim"), s.reading(.adapterVoltage).text(digits: 2)),
+                    (String(localized: "Nominal akım"), s.reading(.adapterCurrent).text(digits: 2))])
             }
             HStack {
                 Label("Batarya geçmişi", systemImage: "chart.xyaxis.line").font(.system(size: 12, weight: .medium)).foregroundStyle(Color.primary.opacity(0.72))

@@ -92,11 +92,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             capabilities: { [weak battery] in battery?.scheduleCapabilities ?? .unavailable },
             chargeLimit: { [weak battery] limit in
                 battery?.applyScheduledLimit(limit)
-                    ?? .init(operationID: UUID(), status: .rejected, state: nil, message: "Cellkeep kullanılamıyor.")
+                    ?? .init(operationID: UUID(), status: .rejected, state: nil, message: String(localized: "Cellkeep kullanılamıyor."))
             },
             topUp: { [weak battery] executionID in
                 battery?.startScheduledTopUp(executionID: executionID)
-                    ?? .init(operationID: UUID(), status: .rejected, state: nil, message: "Cellkeep kullanılamıyor.")
+                    ?? .init(operationID: UUID(), status: .rejected, state: nil, message: String(localized: "Cellkeep kullanılamıyor."))
             })
         scheduleRuntime?.start()
         // Opt-in only; a no-op unless the user enabled the weekly release check.
@@ -190,9 +190,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         let menu = NSMenu()
         let item = NSMenuItem()
         let appMenu = NSMenu(title: "Cellkeep")
-        appMenu.addItem(withTitle: "Gösterge Tablosu’nu aç", action: #selector(openDashboard), keyEquivalent: "d").target = self
+        appMenu.addItem(withTitle: String(localized: "Gösterge Tablosu’nu aç"), action: #selector(openDashboard), keyEquivalent: "d").target = self
         appMenu.addItem(.separator())
-        appMenu.addItem(withTitle: "Cellkeep’ten çık", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        appMenu.addItem(withTitle: String(localized: "Cellkeep’ten çık"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         item.submenu = appMenu
         menu.addItem(item)
         NSApp.mainMenu = menu
@@ -209,7 +209,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         case .openDashboard: showSettings(page: .dashboard)
         case .toggleCharging, .toggleLowPower:
             // Preferences may come from a newer build: never dispatch an unverified writer.
-            statusItem?.button?.toolTip = "Bu sağ tık eylemi henüz kullanılamıyor. Menü ayarlarından başka bir eylem seçin."
+            statusItem?.button?.toolTip = String(localized: "Bu sağ tık eylemi henüz kullanılamıyor. Menü ayarlarından başka bir eylem seçin.")
         }
     }
 

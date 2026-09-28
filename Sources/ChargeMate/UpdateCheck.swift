@@ -66,7 +66,7 @@ enum UpdateCheck {
     }
 
     static func outcome(for release: Release?, currentVersion: String) -> Outcome {
-        guard let release else { return .failed("GitHub yanıtı okunamadı.") }
+        guard let release else { return .failed(String(localized: "GitHub yanıtı okunamadı.")) }
         return isNewer(release.version, than: currentVersion) ? .available(release) : .upToDate(current: currentVersion)
     }
 
@@ -93,10 +93,10 @@ enum UpdateCheck {
         let data: Data
         do {
             let (body, response) = try await session.data(for: request)
-            guard (response as? HTTPURLResponse)?.statusCode == 200 else { return .failed("GitHub şu an yanıt vermiyor.") }
+            guard (response as? HTTPURLResponse)?.statusCode == 200 else { return .failed(String(localized: "GitHub şu an yanıt vermiyor.")) }
             data = body
         } catch {
-            return .failed("GitHub'a bağlanılamadı.")
+            return .failed(String(localized: "GitHub'a bağlanılamadı."))
         }
         let release = parseLatestRelease(data)
         let result = outcome(for: release, currentVersion: currentVersion)

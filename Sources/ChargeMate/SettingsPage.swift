@@ -7,17 +7,17 @@ enum SettingsPage: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .dashboard: return "Gösterge Tablosu"
-        case .charge: return "Şarj Kontrolü"
-        case .sleep: return "Uyku Davranışı"
-        case .energy: return "Enerji Kullanımı"
-        case .schedule: return "Takvim"
-        case .shortcuts: return "Kısayollar"
-        case .popover: return "Açılır Panel"
-        case .menubar: return "Menü Çubuğu"
-        case .general: return "Genel"
-        case .magsafeLED: return "MagSafe Işığı"
-        case .about: return "Hakkında"
+        case .dashboard: return String(localized: "Gösterge Tablosu")
+        case .charge: return String(localized: "Şarj Kontrolü")
+        case .sleep: return String(localized: "Uyku Davranışı")
+        case .energy: return String(localized: "Enerji Kullanımı")
+        case .schedule: return String(localized: "Takvim")
+        case .shortcuts: return String(localized: "Kısayollar")
+        case .popover: return String(localized: "Açılır Panel")
+        case .menubar: return String(localized: "Menü Çubuğu")
+        case .general: return String(localized: "Genel")
+        case .magsafeLED: return String(localized: "MagSafe Işığı")
+        case .about: return String(localized: "Hakkında")
         }
     }
 

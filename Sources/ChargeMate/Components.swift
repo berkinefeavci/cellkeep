@@ -1,6 +1,6 @@
 import SwiftUI
 
-let controlNotice = "macOS limiti açıkça Uygula’ya bastığınızda kaydedilir. Başka bir şarj uygulaması açıkken değişiklik yapılamaz."
+let controlNotice = String(localized: "macOS limiti açıkça Uygula’ya bastığınızda kaydedilir. Başka bir şarj uygulaması açıkken değişiklik yapılamaz.")
 
 enum HistoryCoverage {
     /// Saf, test edilebilir kapsam metni üretici. Uydurma veri yok: eksik ölçüm metinde açıkça belirtilir.
@@ -16,12 +16,12 @@ enum HistoryCoverage {
         return "24 sa"
     }
     static func text(count: Int, oldestDate: Date?, now: Date, rangeHours: Int) -> String {
-        guard count > 0, let oldest = oldestDate else { return "Ölçüm toplanıyor…" }
+        guard count > 0, let oldest = oldestDate else { return String(localized: "Ölçüm toplanıyor…") }
         let span = min(max(0, now.timeIntervalSince(oldest)), Double(rangeHours) * 3600)
-        guard count >= 5 else { return "Ölçüm toplanıyor… (ölçüm: \(count))" }
-        let base = "Kapsam: son \(durationText(span)) · \(count) ölçüm"
+        guard count >= 5 else { return String(localized: "Ölçüm toplanıyor… (ölçüm: \(count))") }
+        let base = String(localized: "Kapsam: son \(durationText(span)) · \(count) ölçüm")
         if span < Double(rangeHours) * 3600 - 60 {
-            return "\(base) · Veri toplama sürüyor — 24 saate kadar birikecek"
+            return String(localized: "\(base) · Veri toplama sürüyor — 24 saate kadar birikecek")
         }
         return base
     }
@@ -417,7 +417,7 @@ private struct IconCircleButtonBody: View {
 struct ReadOnlyBadge: View {
     @EnvironmentObject var battery: BatteryMonitor
     private var verified: Bool { !battery.otherControllerRunning && battery.committedLimit != nil }
-    private var text: String { verified ? "macOS limiti · doğrulandı" : "İzleme modu" }
+    private var text: String { verified ? String(localized: "macOS limiti · doğrulandı") : String(localized: "İzleme modu") }
     private var icon: String { battery.otherControllerRunning ? "eye" : verified ? "checkmark.seal" : "eye" }
     var body: some View {
         Label(text, systemImage: icon)
@@ -465,11 +465,11 @@ struct NativeLimitControls: View {
                 Text("Bu Mac %80–100 arasında beşer puan sunuyor.").font(caption).foregroundStyle(.secondary).lineLimit(1)
             }
             HStack(spacing: 8) {
-                Text(battery.nativeLimit == Int(battery.chargeLimit) ? "macOS ile eşleşiyor" : "Seçilen %\(Int(battery.chargeLimit))")
+                Text(battery.nativeLimit == Int(battery.chargeLimit) ? String(localized: "macOS ile eşleşiyor") : String(localized: "Seçilen %\(Int(battery.chargeLimit))"))
                     .font(caption).foregroundStyle(.secondary).lineLimit(1)
                 Spacer(minLength: 4)
                 if battery.applyingLimit {
-                    Button(battery.cancellationRequested ? "Bekleniyor…" : "Durdur") { battery.cancelLimitRequest() }
+                    Button(battery.cancellationRequested ? String(localized: "Bekleniyor…") : String(localized: "Durdur")) { battery.cancelLimitRequest() }
                         .chargeMateButtonStyle()
                         .disabled(battery.cancellationRequested || battery.controlRecoveryRequired)
                 } else {
@@ -477,7 +477,7 @@ struct NativeLimitControls: View {
                         .chargeMateButtonStyle()
                         .disabled((battery.nativeLimit ?? battery.committedLimit) == nil || battery.nativeLimit == Int(battery.chargeLimit))
                 }
-                Button(battery.applyingLimit ? "Kaydediliyor…" : "Uygula") { battery.applyNativeLimit() }
+                Button(battery.applyingLimit ? String(localized: "Kaydediliyor…") : String(localized: "Uygula")) { battery.applyNativeLimit() }
                     .chargeMateButtonStyle().disabled(!battery.hardwareControlAvailable || battery.nativeLimit == Int(battery.chargeLimit))
                     .help("Seçilen sınırı macOS'a kaydeder")
             }
@@ -545,12 +545,12 @@ struct PowerFlowView: View {
                     if let other = positions[.other] {
                         if !presentation.edges.contains(where: { $0.target == .other }), let mac = positions[.mac] {
                             FlowRouteView(curve: FlowCurve(from: mac, to: other), watts: nil,
-                                          color: .secondary, help: "Diğer yükün gücü ölçülemiyor")
+                                          color: .secondary, help: String(localized: "Diğer yükün gücü ölçülemiyor"))
                         }
                         ForEach(Array(connectedDevices.enumerated()), id: \.element.id) { index, device in
                             let position = accessoryPosition(index: index, in: proxy.size)
                             let deviceHelp = device.powerWatts != nil
-                                ? "\(device.name) · \(watts(device.powerWatts))" : "\(device.name) · anlık güç ölçülemiyor"
+                                ? "\(device.name) · \(watts(device.powerWatts))" : String(localized: "\(device.name) · anlık güç ölçülemiyor")
                             FlowRouteView(curve: FlowCurve(from: other, to: position), watts: device.powerWatts,
                                           color: .cyan, help: deviceHelp)
                         }
@@ -574,15 +574,15 @@ struct PowerFlowView: View {
     }
     private var flowTitle: String {
         switch flow.mode {
-        case .charging: return "Adaptör MacBook’u ve bataryayı besliyor"
-        case .adapterOnly: return "MacBook adaptörden çalışıyor"
-        case .batteryOnly: return "Batarya MacBook’u besliyor"
-        case .batteryAssist: return "Adaptör ve batarya birlikte çalışıyor"
-        case .unavailable: return "Güç akışı doğrulanamıyor"
+        case .charging: return String(localized: "Adaptör MacBook’u ve bataryayı besliyor")
+        case .adapterOnly: return String(localized: "MacBook adaptörden çalışıyor")
+        case .batteryOnly: return String(localized: "Batarya MacBook’u besliyor")
+        case .batteryAssist: return String(localized: "Adaptör ve batarya birlikte çalışıyor")
+        case .unavailable: return String(localized: "Güç akışı doğrulanamıyor")
         }
     }
     private func description(_ edge: PowerFlowEdge) -> String {
-        "\(edge.source.rawValue) → \(edge.target.rawValue) · \(watts(edge.watts))"
+        "\(edge.source.title) → \(edge.target.title) · \(watts(edge.watts))"
     }
     private var batteryColor: Color {
         switch PowerFlowLayout.batteryTone(for: snapshot.percentage) {
@@ -598,10 +598,10 @@ struct PowerFlowView: View {
     }
     private func details(_ presentation: PowerFlowPresentation) -> String {
         presentation.notice ?? (connectedDevices.isEmpty
-            ? "Toplam, işlemci ve ekran gerçek sensörlerden; Diğer GPU, bellek, depolama, fan ve ayrılamayan yüktür."
+            ? String(localized: "Toplam, işlemci ve ekran gerçek sensörlerden; Diğer GPU, bellek, depolama, fan ve ayrılamayan yüktür.")
             : connectedDevices.contains(where: { $0.powerWatts != nil })
-                ? "Dolu kollar ölçülen cihaz gücünü gösterir; kesikli kollarda anlık güç ölçülemiyor."
-                : "Kesikli kollar bağlı cihazları gösterir; cihaz başına anlık güç ölçülemiyor.")
+                ? String(localized: "Dolu kollar ölçülen cihaz gücünü gösterir; kesikli kollarda anlık güç ölçülemiyor.")
+                : String(localized: "Kesikli kollar bağlı cihazları gösterir; cihaz başına anlık güç ölçülemiyor."))
     }
 
     private func visibleNodes(_ presentation: PowerFlowPresentation) -> [PowerFlowNode] {
@@ -655,7 +655,7 @@ struct PowerFlowView: View {
             Text(watts(device.powerWatts)).font(.system(size: 9)).monospacedDigit().foregroundStyle(.secondary)
         }
         .frame(width: 76, height: 58).modifier(GlassSurface(radius: 13))
-        .help(device.powerWatts != nil ? "\(device.name) · \(watts(device.powerWatts))" : "\(device.name) · anlık güç ölçülemiyor")
+        .help(device.powerWatts != nil ? "\(device.name) · \(watts(device.powerWatts))" : String(localized: "\(device.name) · anlık güç ölçülemiyor"))
         .accessibilityElement(children: .combine)
     }
 
@@ -696,12 +696,12 @@ struct PowerFlowView: View {
     private func flowNode(_ node: PowerFlowNode, icon: String, value: Double?, color: Color) -> some View {
         return VStack(spacing: 3) {
             Image(systemName: icon).font(.system(size: 17, weight: .medium)).foregroundStyle(value == nil ? .secondary : color)
-            Text(node.rawValue).font(.system(size: 9, weight: .medium))
+            Text(node.title).font(.system(size: 9, weight: .medium))
             Text(watts(value)).font(.system(size: 9)).monospacedDigit().foregroundStyle(.secondary)
         }
         .frame(width: 62, height: 58).modifier(GlassSurface(radius: 13))
         .contentShape(RoundedRectangle(cornerRadius: 12))
-        .help("\(node.rawValue) · \(watts(value))")
+        .help("\(node.title) · \(watts(value))")
         .accessibilityElement(children: .combine)
     }
 }
@@ -758,25 +758,25 @@ struct QuickStatsView: View {
         if square {
             VStack(alignment: .leading, spacing: 10) {
                 Text("Batarya bilgileri").font(.system(size: 11, weight: .medium)).foregroundStyle(.secondary)
-                squareStat("Sağlık", icon: "heart", value: battery.snapshot.reading(.health).text())
+                squareStat(String(localized: "Sağlık"), icon: "heart", value: battery.snapshot.reading(.health).text())
                 Divider()
-                squareStat("Sıcaklık", icon: "thermometer.medium", value: battery.temperatureText)
+                squareStat(String(localized: "Sıcaklık"), icon: "thermometer.medium", value: battery.temperatureText)
             }
             .padding(12)
             .frame(maxWidth: .infinity, minHeight: 150, maxHeight: 150, alignment: .topLeading)
             .modifier(GlassSurface())
         } else {
             VStack(spacing: 10) {
-                stat("Maksimum kapasite", icon: "heart", value: "\(battery.snapshot.reading(.fullCapacity).text(digits: 0)) · \(battery.snapshot.reading(.health).text())")
-                stat("Döngü sayısı", icon: "clock.arrow.circlepath", value: battery.snapshot.reading(.cycles).text(digits: 0))
+                stat(String(localized: "Maksimum kapasite"), icon: "heart", value: String(localized: "\(battery.snapshot.reading(.fullCapacity).text(digits: 0)) · \(battery.snapshot.reading(.health).text())"))
+                stat(String(localized: "Döngü sayısı"), icon: "clock.arrow.circlepath", value: battery.snapshot.reading(.cycles).text(digits: 0))
                 Divider()
-                stat("Batarya sıcaklığı", icon: "thermometer.medium", value: battery.temperatureText).help(battery.snapshot.temperatureSource)
-                stat(battery.snapshot.isCharging ? "Tam doluma kalan" : "Kalan süre", icon: "clock", value: battery.snapshot.reading(.timeRemaining).text(digits: 0))
+                stat(String(localized: "Batarya sıcaklığı"), icon: "thermometer.medium", value: battery.temperatureText).help(battery.snapshot.temperatureSource)
+                stat(battery.snapshot.isCharging ? String(localized: "Tam doluma kalan") : String(localized: "Kalan süre"), icon: "clock", value: battery.snapshot.reading(.timeRemaining).text(digits: 0))
                 Divider()
-                stat("Batarya gücü", icon: "battery.100percent", value: battery.snapshot.reading(.batteryPower).text())
-                stat("Sistem yükü", icon: "laptopcomputer", value: battery.snapshot.reading(.systemPower).text())
+                stat(String(localized: "Batarya gücü"), icon: "battery.100percent", value: battery.snapshot.reading(.batteryPower).text())
+                stat(String(localized: "Sistem yükü"), icon: "laptopcomputer", value: battery.snapshot.reading(.systemPower).text())
                 Divider()
-                stat("Adaptör gücü", icon: "powerplug.portrait.fill", value: "\(battery.snapshot.reading(.adapterPower).text()) / \(battery.snapshot.reading(.adapterRatedPower).text())")
+                stat(String(localized: "Adaptör gücü"), icon: "powerplug.portrait.fill", value: "\(battery.snapshot.reading(.adapterPower).text()) / \(battery.snapshot.reading(.adapterRatedPower).text())")
             }
         }
     }
@@ -853,7 +853,7 @@ struct EnergyUsageView: View {
             HStack {
                 Label("Düşük Güç Modu", systemImage: "battery.25")
                 Spacer()
-                Text(battery.lowPowerModeEnabled ? "Açık" : "Kapalı")
+                Text(battery.lowPowerModeEnabled ? String(localized: "Açık") : String(localized: "Kapalı"))
                     .fontWeight(.semibold)
                     .foregroundStyle(battery.lowPowerModeEnabled ? .green : .secondary)
             }.font(.system(size: 12))
@@ -865,7 +865,7 @@ struct EnergyUsageView: View {
                 Spacer()
             }
             if let date = battery.energySampleDate {
-                Text("Son ölçüm: \(date.formatted(date: .omitted, time: .standard))\(stale ? " · Güncel değil" : "")")
+                Text("Son ölçüm: \(date.formatted(date: .omitted, time: .standard))\(stale ? String(localized: " · Güncel değil") : "")")
                     .font(.system(size: 10)).foregroundStyle(stale ? .orange : .secondary).monospacedDigit()
             }
             if case .failed(let message) = battery.energySampleState, !apps.isEmpty {
@@ -1080,7 +1080,7 @@ struct EnergyAppRow: View {
             Spacer(minLength: 8)
             Text(EnergyPresentation.impact(for: app.power))
                 .fontWeight(.semibold)
-                .help(String(format: "macOS POWER puanı: %.1f", app.power))
+                .help(String(format: String(localized: "macOS POWER puanı: %.1f"), app.power))
             Text(String(format: "%%%.0f CPU", app.cpu))
                 .font(.system(size: 10)).foregroundStyle(.secondary).monospacedDigit()
                 .help("Birden çok çekirdek kullanıldığında yüzde 100'ü aşabilir.")
@@ -1133,7 +1133,7 @@ struct ConnectedDevicesView: View {
                         Spacer(minLength: 8)
                         Text(watts(device.powerWatts)).font(.system(size: 10)).monospacedDigit().foregroundStyle(.secondary)
                         if device.canEject {
-                            Button(ejectingDisk == device.diskIdentifier ? "Çıkarılıyor…" : "Çıkar") {
+                            Button(ejectingDisk == device.diskIdentifier ? String(localized: "Çıkarılıyor…") : String(localized: "Çıkar")) {
                                 guard ejectingDisk == nil else { return }
                                 ejectingDisk = device.diskIdentifier
                                 ejectError = nil
@@ -1172,6 +1172,16 @@ struct ConnectedDevicesView: View {
 
 enum BatteryMetric: String, CaseIterable {
     case level = "Batarya seviyesi", temperature = "Batarya sıcaklığı", power = "Sistem gücü", health = "Maksimum kapasite", cycles = "Döngü sayısı"
+    /// Display name. The Turkish raw values stay as they are because they identify the metric.
+    var title: String {
+        switch self {
+        case .level: return String(localized: "Batarya seviyesi")
+        case .temperature: return String(localized: "Batarya sıcaklığı")
+        case .power: return String(localized: "Sistem gücü")
+        case .health: return String(localized: "Maksimum kapasite")
+        case .cycles: return String(localized: "Döngü sayısı")
+        }
+    }
     var color: Color { switch self { case .level: return .green; case .temperature: return .blue; case .power: return .purple; case .health: return .orange; case .cycles: return .teal } }
     var icon: String { switch self { case .level: return "battery.100percent"; case .temperature: return "thermometer.medium"; case .power: return "bolt.fill"; case .health: return "heart.fill"; case .cycles: return "clock.arrow.circlepath" } }
     func value(_ point: BatteryHistoryPoint) -> Double? {
@@ -1214,12 +1224,12 @@ struct MetricChartView: View {
             if square {
                 HStack(spacing: 5) {
                     Image(systemName: metric.icon).font(.system(size: 11)).foregroundStyle(metric.color)
-                    Text(metric.rawValue).font(.system(size: 11, weight: .medium)).foregroundStyle(.secondary).lineLimit(1)
+                    Text(metric.title).font(.system(size: 11, weight: .medium)).foregroundStyle(.secondary).lineLimit(1)
                 }
                 Text(metric.text(battery.snapshot)).font(.system(size: 22, weight: .bold, design: .rounded)).monospacedDigit()
             } else {
                 HStack {
-                    Text(metric.rawValue).font(.system(size: 12, weight: .medium)).foregroundStyle(Color.primary.opacity(0.72))
+                    Text(metric.title).font(.system(size: 12, weight: .medium)).foregroundStyle(Color.primary.opacity(0.72))
                     Spacer()
                     Image(systemName: metric.icon).foregroundStyle(metric.color)
                     Text(metric.text(battery.snapshot)).font(.system(size: 14, weight: .semibold)).monospacedDigit()
@@ -1311,7 +1321,7 @@ struct HistoryRangePicker: View {
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(range.1)
-                .accessibilityValue(selected ? "Seçili" : "Seçili değil")
+                .accessibilityValue(selected ? String(localized: "Seçili") : String(localized: "Seçili değil"))
                 .accessibilityAddTraits(selected ? .isSelected : [])
             }
         }

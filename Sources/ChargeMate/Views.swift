@@ -47,8 +47,8 @@ struct PopoverView: View {
                             Text("Sınır:\(Int(battery.chargeLimit))%")
                         }
                         .popoverToolbarButtonStyle(active: limitEditor)
-                        .help(limitEditor ? "Şarj hedefi düzenleyicisini kapat" : "Şarj hedefini düzenle")
-                        .accessibilityLabel("Şarj hedefi yüzde \(Int(battery.chargeLimit)); düzenleyiciyi \(limitEditor ? "kapat" : "aç")")
+                        .help(limitEditor ? String(localized: "Şarj hedefi düzenleyicisini kapat") : String(localized: "Şarj hedefini düzenle"))
+                        .accessibilityLabel("Şarj hedefi yüzde \(Int(battery.chargeLimit)); düzenleyiciyi \(limitEditor ? String(localized: "kapat") : String(localized: "aç"))")
                         Spacer(minLength: 0)
                         Button {} label: {
                             HStack(spacing: 6) {
@@ -69,8 +69,8 @@ struct PopoverView: View {
                         }
                             .popoverToolbarButtonStyle(active: battery.topUpActive)
                             .disabled(!battery.topUpControlAvailable)
-                            .accessibilityLabel(battery.topUpActive ? "Doldurmayı iptal et" : "Doldurmayı başlat")
-                            .help(battery.topUpActive ? "Önceki limite dön" : battery.topUpBlockReason ?? "Yüzde 100'e şarj et ve önceki limiti geri yükle")
+                            .accessibilityLabel(battery.topUpActive ? String(localized: "Doldurmayı iptal et") : String(localized: "Doldurmayı başlat"))
+                            .help(battery.topUpActive ? String(localized: "Önceki limite dön") : battery.topUpBlockReason ?? String(localized: "Yüzde 100'e şarj et ve önceki limiti geri yükle"))
                         Button {
                             AppDelegate.shared?.showSettings(page: .dashboard)
                         } label: {
@@ -120,7 +120,7 @@ struct PopoverView: View {
                                     .popoverToolbarButtonStyle()
                                 Button("Kaydet") {
                                     do { savedLayout = try PopoverLayout.encode(draft); editing = false; dragging = nil; galleryOpen = false }
-                                    catch { saveError = "Düzen kaydedilemedi: \(error.localizedDescription)" }
+                                    catch { saveError = String(localized: "Düzen kaydedilemedi: \(error.localizedDescription)") }
                                 }.popoverToolbarButtonStyle().keyboardShortcut("s", modifiers: .command)
                             } else {
                                 Spacer()
@@ -208,7 +208,7 @@ struct PopoverView: View {
                             WidgetEditBadge(systemImage: item.size == .square ? "rectangle" : "square") {
                                 toggleSize(item.widget)
                             }
-                            .accessibilityLabel("\(item.widget.title) boyutunu \(item.size == .square ? "geniş" : "kare") yap")
+                            .accessibilityLabel("\(item.widget.title) boyutunu \(item.size == .square ? String(localized: "geniş") : String(localized: "kare")) yap")
                         }
                         .padding(6)
                     }
@@ -289,9 +289,9 @@ struct WidgetGallerySheet: View {
                 .fixedSize(horizontal: false, vertical: true)
             Spacer(minLength: 4)
             HStack(spacing: 6) {
-                sizeChip("Geniş", size: .wide, item: item, disabled: placed)
+                sizeChip(String(localized: "Geniş"), size: .wide, item: item, disabled: placed)
                 if item.supportedSizes.contains(.square) {
-                    sizeChip("Kare", size: .square, item: item, disabled: placed)
+                    sizeChip(String(localized: "Kare"), size: .square, item: item, disabled: placed)
                 }
                 Spacer(minLength: 0)
                 if placed { Image(systemName: "checkmark.circle.fill").foregroundStyle(.green) }
@@ -450,7 +450,7 @@ private struct ChargeLimitBar: View {
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("Şarj hedefi; bar üzerinde sürükleyip bırakınca uygulanır, yön tuşlarıyla taslak değişir")
-        .accessibilityValue("Doluluk \(battery.percentageText), kayıtlı \(saved.map(String.init) ?? "bilinmiyor"), taslak %\(Int(target))")
+        .accessibilityValue("Doluluk \(battery.percentageText), kayıtlı \(saved.map(String.init) ?? String(localized: "bilinmiyor")), taslak %\(Int(target))")
         .accessibilityAdjustableAction { direction in
             step(direction == .increment)
         }
@@ -593,10 +593,10 @@ struct SettingsView: View {
                     Text("Cellkeep").font(.system(size: 13, weight: .semibold))
                 }.padding(.horizontal, 12).padding(.top, 43).padding(.bottom, 13)
                 sidebarButton(.dashboard)
-                sidebarGroup("PİL BAKIMI", pages: [.charge, .sleep, .energy])
+                sidebarGroup(String(localized: "PİL BAKIMI"), pages: [.charge, .sleep, .energy])
                 sidebarGroup("OTOMASYONLAR", pages: [.schedule, .shortcuts])
-                sidebarGroup("GÖRÜNÜM", pages: [.popover, .menubar])
-                sidebarGroup("DİĞER", pages: [.general, .magsafeLED, .about])
+                sidebarGroup(String(localized: "GÖRÜNÜM"), pages: [.popover, .menubar])
+                sidebarGroup(String(localized: "DİĞER"), pages: [.general, .magsafeLED, .about])
                 Spacer()
                 Divider().padding(.horizontal, 10)
                 HStack {
@@ -678,13 +678,13 @@ struct SettingsView: View {
             PowerFlowView(snapshot: battery.snapshot, connectedDevices: battery.connectedDevices).chargeCard()
             QuickStatsView().chargeCard()
             VStack(spacing: 12) {
-                energyDetailRow("Gerilim", value: battery.snapshot.reading(.voltage).text(digits: 2))
-                energyDetailRow("Batarya akımı", value: battery.snapshot.reading(.current).text(digits: 0))
-                energyDetailRow("Batarya gücü (+ şarj / − tüketim)", value: battery.snapshot.reading(.batteryPower).text())
-                energyDetailRow("Tam şarj kapasitesi", value: battery.snapshot.reading(.fullCapacity).text(digits: 0))
-                energyDetailRow("Tasarım kapasitesi", value: battery.snapshot.reading(.designCapacity).text(digits: 0))
-                energyDetailRow("Adaptörün nominal gücü", value: watts(battery.snapshot.adapterRatedWatts))
-                energyDetailRow("Sıcaklık kaynağı", value: battery.snapshot.temperatureSource)
+                energyDetailRow(String(localized: "Gerilim"), value: battery.snapshot.reading(.voltage).text(digits: 2))
+                energyDetailRow(String(localized: "Batarya akımı"), value: battery.snapshot.reading(.current).text(digits: 0))
+                energyDetailRow(String(localized: "Batarya gücü (+ şarj / − tüketim)"), value: battery.snapshot.reading(.batteryPower).text())
+                energyDetailRow(String(localized: "Tam şarj kapasitesi"), value: battery.snapshot.reading(.fullCapacity).text(digits: 0))
+                energyDetailRow(String(localized: "Tasarım kapasitesi"), value: battery.snapshot.reading(.designCapacity).text(digits: 0))
+                energyDetailRow(String(localized: "Adaptörün nominal gücü"), value: watts(battery.snapshot.adapterRatedWatts))
+                energyDetailRow(String(localized: "Sıcaklık kaynağı"), value: battery.snapshot.temperatureSource)
             }.font(.system(size: 12)).chargeCard()
         case .sleep:
             SleepBehaviorView()
@@ -749,7 +749,7 @@ struct SettingsView: View {
             Divider()
             HStack {
                 if battery.applyingLimit {
-                    Button(battery.cancellationRequested ? "İptal bekleniyor…" : "İsteği iptal et") { battery.cancelLimitRequest() }
+                    Button(battery.cancellationRequested ? String(localized: "İptal bekleniyor…") : String(localized: "İsteği iptal et")) { battery.cancelLimitRequest() }
                         .chargeMateButtonStyle()
                         .disabled(battery.cancellationRequested || battery.controlRecoveryRequired)
                 } else {
@@ -758,7 +758,7 @@ struct SettingsView: View {
                         .disabled((battery.nativeLimit ?? battery.committedLimit) == nil)
                 }
                 Spacer()
-                Button(battery.applyingLimit ? "Kaydediliyor…" : "macOS’a uygula") { battery.applyNativeLimit() }
+                Button(battery.applyingLimit ? String(localized: "Kaydediliyor…") : String(localized: "macOS’a uygula")) { battery.applyNativeLimit() }
                     .chargeMateButtonStyle()
                     .disabled(!battery.hardwareControlAvailable || battery.nativeLimit == Int(battery.chargeLimit))
             }
@@ -800,10 +800,10 @@ struct SettingsView: View {
 
     private var limitCaption: String {
         if !battery.nativeLimits.contains(Int(battery.chargeLimit)) {
-            return "Bu Mac’in yerel arayüzü %80–100 arasında, beşer puanlık limitler sunuyor."
+            return String(localized: "Bu Mac’in yerel arayüzü %80–100 arasında, beşer puanlık limitler sunuyor.")
         }
         return battery.nativeLimit == Int(battery.chargeLimit)
-            ? "macOS kaydıyla eşleşiyor" : "Taslak hedef: %\(Int(battery.chargeLimit)) · henüz uygulanmadı"
+            ? String(localized: "macOS kaydıyla eşleşiyor") : String(localized: "Taslak hedef: %\(Int(battery.chargeLimit)) · henüz uygulanmadı")
     }
 
     private var topUpCard: some View {
@@ -811,18 +811,18 @@ struct SettingsView: View {
             Label("Doldur (Top Up)", systemImage: "plus.circle").font(.headline)
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
-                    Text(battery.topUpActive ? "Doldurma sürüyor" : "Hazır").font(.system(size: 12, weight: .semibold))
+                    Text(battery.topUpActive ? String(localized: "Doldurma sürüyor") : String(localized: "Hazır")).font(.system(size: 12, weight: .semibold))
                     Text("Yüzde 100’e şarj eder, sonra önceki limite döner.")
                         .font(.caption).foregroundStyle(.secondary)
                 }
                 Spacer()
-                Button(battery.topUpActive ? "İptal et" : "Başlat") {
+                Button(battery.topUpActive ? String(localized: "İptal et") : String(localized: "Başlat")) {
                     battery.topUpActive ? battery.stopTopUp() : battery.startTopUp()
                 }
                 .chargeMateButtonStyle()
                 .disabled(!battery.topUpControlAvailable)
-                .accessibilityLabel(battery.topUpActive ? "Doldurmayı iptal et" : "Doldurmayı başlat")
-                .help(battery.topUpActive ? "Önceki limite dön" : "Yüzde 100'e şarj et ve önceki limiti geri yükle")
+                .accessibilityLabel(battery.topUpActive ? String(localized: "Doldurmayı iptal et") : String(localized: "Doldurmayı başlat"))
+                .help(battery.topUpActive ? String(localized: "Önceki limite dön") : String(localized: "Yüzde 100'e şarj et ve önceki limiti geri yükle"))
             }
         }.chargeCard()
     }
@@ -830,13 +830,13 @@ struct SettingsView: View {
     private var advancedLockedCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             Label("Gelişmiş", systemImage: "lock.fill").font(.headline)
-            lockedRow("Deşarj", icon: "minus.circle", detail: "Bataryadan çalışmayı zorlar; güvenli bataryadan çalışma kontrolü henüz doğrulanmadı.")
+            lockedRow(String(localized: "Deşarj"), icon: "minus.circle", detail: String(localized: "Bataryadan çalışmayı zorlar; güvenli bataryadan çalışma kontrolü henüz doğrulanmadı."))
             Divider()
-            lockedRow("Yelken modu", icon: "sailboat", detail: "Şarj ve boşalmayı hedef bandında dengeler.")
+            lockedRow(String(localized: "Yelken modu"), icon: "sailboat", detail: String(localized: "Şarj ve boşalmayı hedef bandında dengeler."))
             Divider()
-            lockedRow("Isı koruması", icon: "thermometer.snowflake", detail: "Yüksek sıcaklıkta şarjı geçici olarak durdurur.")
+            lockedRow(String(localized: "Isı koruması"), icon: "thermometer.snowflake", detail: String(localized: "Yüksek sıcaklıkta şarjı geçici olarak durdurur."))
             Divider()
-            lockedRow("Kalibrasyon", icon: "arrow.triangle.2.circlepath", detail: "Beş aşamalı tam şarj/deşarj döngüsünü otomatik yönetir.")
+            lockedRow(String(localized: "Kalibrasyon"), icon: "arrow.triangle.2.circlepath", detail: String(localized: "Beş aşamalı tam şarj/deşarj döngüsünü otomatik yönetir."))
             Text("Fiziksel durdurma desteği doğrulanınca eklenecek. Etkisiz anahtar gösterilmez.")
                 .font(.caption).foregroundStyle(.secondary)
         }.chargeCard()
@@ -847,7 +847,7 @@ struct SettingsView: View {
             Image(systemName: icon).font(.system(size: 15)).foregroundStyle(.secondary).frame(width: 20)
             Text(title).font(.system(size: 12, weight: .semibold)).foregroundStyle(.secondary)
             Spacer()
-            StatusBadge(text: "Yakında · donanım doğrulaması bekliyor", color: .secondary, icon: "clock")
+            StatusBadge(text: String(localized: "Yakında · donanım doğrulaması bekliyor"), color: .secondary, icon: "clock")
         }
         .help(detail)
         .opacity(0.72)
@@ -885,7 +885,7 @@ private struct AppearanceView: View {
                     Text("Koyu").tag("dark")
                 }.pickerStyle(.segmented)
                 Divider()
-                TrailingToggle(title: "Saydamlığı azalt", isOn: $reduceTransparency)
+                TrailingToggle(title: String(localized: "Saydamlığı azalt"), isOn: $reduceTransparency)
                 Text("Kart eklemek, kaldırmak ve sıralamak için paneldeki Düzenle düğmesini kullanın. Kompakt boyutta da seçtiğiniz kartlar korunur.")
                     .font(.caption).foregroundStyle(.secondary)
         }.toggleStyle(.switch).chargeCard()
@@ -894,9 +894,9 @@ private struct AppearanceView: View {
     /// Panel boyut modu seçiminin ne yaptığını açıklayan kısa metin.
     var panelSizeHint: String {
         switch PanelSizeMode(rawValue: panelSizeMode) ?? .normal {
-        case .compact: return "Kompakt: 340 pt genişlik — dar ekranlar ve sade görünüm için."
-        case .normal: return "Normal: 400 pt genişlik — varsayılan düzen."
-        case .detailed: return "Detaylı: 520 pt genişlik — grafikler ve istatistikler için daha fazla yer."
+        case .compact: return String(localized: "Kompakt: 340 pt genişlik — dar ekranlar ve sade görünüm için.")
+        case .normal: return String(localized: "Normal: 400 pt genişlik — varsayılan düzen.")
+        case .detailed: return String(localized: "Detaylı: 520 pt genişlik — grafikler ve istatistikler için daha fazla yer.")
         }
     }
 

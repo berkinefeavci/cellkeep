@@ -58,7 +58,7 @@ struct MagSafeLEDSettingsView: View {
                         .font(.callout).foregroundStyle(.secondary)
                 }
                 Spacer()
-                StatusBadge(text: helperInstalled ? "Işık denetimi hazır" : "Kurulum gerekli",
+                StatusBadge(text: helperInstalled ? String(localized: "Işık denetimi hazır") : String(localized: "Kurulum gerekli"),
                             color: helperInstalled ? .green : .orange,
                             icon: helperInstalled ? "checkmark.circle" : "shield.lefthalf.filled")
             }
@@ -87,17 +87,17 @@ struct MagSafeLEDSettingsView: View {
             .disabled(isWorking || battery.otherControllerRunning)
             if policy.wrappedValue == .scheduled {
                 HStack(spacing: 24) {
-                    timeControl("Kapanış", minutes: $startMinute)
-                    timeControl("Açılış", minutes: $endMinute)
+                    timeControl(String(localized: "Kapanış"), minutes: $startMinute)
+                    timeControl(String(localized: "Açılış"), minutes: $endMinute)
                 }.disabled(isWorking)
-                Text(startMinute == endMinute ? "Aynı başlangıç ve bitiş saati: bütün gün kapalı." : "Her gün bu aralıkta kapalı; aralık dışında macOS yönetir. Gece yarısını aşan aralıklar desteklenir.")
+                Text(startMinute == endMinute ? String(localized: "Aynı başlangıç ve bitiş saati: bütün gün kapalı.") : String(localized: "Her gün bu aralıkta kapalı; aralık dışında macOS yönetir. Gece yarısını aşan aralıklar desteklenir."))
                     .font(.caption).foregroundStyle(.secondary)
             }
             Button("Uygula") { applyPolicy(policy.wrappedValue) }
                 .chargeMateButtonStyle()
                 .disabled(isWorking || battery.otherControllerRunning)
             if battery.otherControllerRunning { Text("Başka bir şarj uygulaması açıkken ışık denetimi bekler.").font(.caption) }
-            if isWorking { ProgressView("Ayar uygulanıyor…") }
+            if isWorking { ProgressView(String(localized: "Ayar uygulanıyor…")) }
             if !testMessage.isEmpty { Text(testMessage).font(.caption).foregroundStyle(.secondary) }
 
             if policy.wrappedValue == .status {
@@ -124,12 +124,12 @@ struct MagSafeLEDSettingsView: View {
     private var mappingCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             Label("Duruma göre renkler", systemImage: "circle.hexagongrid.fill").font(.headline)
-            mappingRow("Şarj oluyor", color: .orange, result: "Turuncu")
-            mappingRow("Şarj hedefi tamamlandı", color: completion.wrappedValue == .green ? .green : .secondary,
+            mappingRow(String(localized: "Şarj oluyor"), color: .orange, result: String(localized: "Turuncu"))
+            mappingRow(String(localized: "Şarj hedefi tamamlandı"), color: completion.wrappedValue == .green ? .green : .secondary,
                        result: completion.wrappedValue.title)
-            mappingRow("Isı koruması bekletiyor", color: .orange, result: "Turuncu")
-            mappingRow("Boşalıyor", color: .orange,
-                       result: blinkWhileDischarging ? "Turuncu yanıp sönme" : "Turuncu")
+            mappingRow(String(localized: "Isı koruması bekletiyor"), color: .orange, result: String(localized: "Turuncu"))
+            mappingRow(String(localized: "Boşalıyor"), color: .orange,
+                       result: blinkWhileDischarging ? String(localized: "Turuncu yanıp sönme") : String(localized: "Turuncu"))
             Text("Bilinmeyen, çelişkili veya eski ölçümde Cellkeep ışığı değiştirmez.")
                 .font(.caption).foregroundStyle(.secondary)
         }.chargeCard()
@@ -153,15 +153,15 @@ struct MagSafeLEDSettingsView: View {
                 .disabled(isWorking)
             }
             HStack {
-                testButton("Sistem", icon: "gearshape", output: .system)
-                testButton("Yeşil", icon: "circle.fill", output: .green)
-                testButton("Turuncu", icon: "circle.fill", output: .orange)
-                testButton("Kapalı", icon: "lightbulb.slash", output: .off)
+                testButton(String(localized: "Sistem"), icon: "gearshape", output: .system)
+                testButton(String(localized: "Yeşil"), icon: "circle.fill", output: .green)
+                testButton(String(localized: "Turuncu"), icon: "circle.fill", output: .orange)
+                testButton(String(localized: "Kapalı"), icon: "lightbulb.slash", output: .off)
                 Button("Başlangıca dön") { restoreLED() }
                     .chargeMateButtonStyle()
                     .disabled(!helperInstalled || isWorking)
             }
-            if isWorking { ProgressView("Işık doğrulanıyor…") }
+            if isWorking { ProgressView(String(localized: "Işık doğrulanıyor…")) }
             if !testMessage.isEmpty {
                 Text(testMessage).font(.caption).foregroundStyle(.orange)
                     .textSelection(.enabled)
@@ -187,13 +187,13 @@ struct MagSafeLEDSettingsView: View {
 
     private var capabilityExplanation: String {
         switch capability.probeState {
-        case .checking: return "MagSafe LED yeteneği salt okunur olarak denetleniyor."
-        case .noAdapter: return "Adaptör bağlı değil. MagSafe bağlantı türü doğrulanamadı."
+        case .checking: return String(localized: "MagSafe LED yeteneği salt okunur olarak denetleniyor.")
+        case .noAdapter: return String(localized: "Adaptör bağlı değil. MagSafe bağlantı türü doğrulanamadı.")
         case .candidateKeyFound: return helperInstalled
-            ? "LED denetimi bağlı. Kalıcı ayarı veya aşağıdaki manuel düğmeleri kullanabilirsiniz."
-            : "LED anahtarı okunuyor. Manuel deneme için aşağıdaki yardımcının kurulması gerekiyor."
-        case .candidateKeyUnavailable: return "Adaptör bağlı, fakat aday LED denetleyici anahtarı bu kullanıcı oturumunda okunamadı."
-        case .malformedCandidate: return "Aday LED verisi beklenen güvenli biçimle uyuşmuyor; kontrol devre dışı tutuldu."
+            ? String(localized: "LED denetimi bağlı. Kalıcı ayarı veya aşağıdaki manuel düğmeleri kullanabilirsiniz.")
+            : String(localized: "LED anahtarı okunuyor. Manuel deneme için aşağıdaki yardımcının kurulması gerekiyor.")
+        case .candidateKeyUnavailable: return String(localized: "Adaptör bağlı, fakat aday LED denetleyici anahtarı bu kullanıcı oturumunda okunamadı.")
+        case .malformedCandidate: return String(localized: "Aday LED verisi beklenen güvenli biçimle uyuşmuyor; kontrol devre dışı tutuldu.")
         }
     }
 
@@ -231,14 +231,14 @@ struct MagSafeLEDSettingsView: View {
         guard !isWorking else { return }
         let start = startMinute, end = endMinute
         isWorking = true
-        testMessage = "Ayar kaydediliyor…"
+        testMessage = String(localized: "Ayar kaydediliyor…")
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 try MagSafeLEDHardwareService.configure(policy: selected, start: start, end: end)
                 DispatchQueue.main.async {
                     policyRaw = selected.rawValue
                     helperInstalled = MagSafeLEDHardwareService.installed()
-                    testMessage = "\(selected.title) etkin. Işık en geç birkaç saniye içinde güncellenir."
+                    testMessage = String(localized: "\(selected.title) etkin. Işık en geç birkaç saniye içinde güncellenir.")
                     isWorking = false
                 }
             } catch {
@@ -249,12 +249,12 @@ struct MagSafeLEDSettingsView: View {
 
     private func installHelper() {
         isWorking = true
-        testMessage = "Yönetici izni bekleniyor…"
+        testMessage = String(localized: "Yönetici izni bekleniyor…")
         DispatchQueue.global(qos: .userInitiated).async {
             let message: String
             do {
                 try MagSafeLEDHardwareService.install()
-                message = "Işık yardımcısı kuruldu. Manuel renk düğmeleri hazır."
+                message = String(localized: "Işık yardımcısı kuruldu. Manuel renk düğmeleri hazır.")
             } catch {
                 message = error.localizedDescription
             }
@@ -268,7 +268,7 @@ struct MagSafeLEDSettingsView: View {
 
     private func runTest(_ output: MagSafeLEDOutput) {
         isWorking = true
-        testMessage = "Komut gönderiliyor; kararlı geri okuma bekleniyor…"
+        testMessage = String(localized: "Komut gönderiliyor; kararlı geri okuma bekleniyor…")
         DispatchQueue.global(qos: .userInitiated).async {
             let outcome = MagSafeLEDHardwareService.shared.apply(output)
             DispatchQueue.main.async {
@@ -280,7 +280,7 @@ struct MagSafeLEDSettingsView: View {
 
     private func restoreLED() {
         isWorking = true
-        testMessage = "Başlangıç durumu geri yükleniyor…"
+        testMessage = String(localized: "Başlangıç durumu geri yükleniyor…")
         DispatchQueue.global(qos: .userInitiated).async {
             let outcome = MagSafeLEDHardwareService.shared.restore()
             DispatchQueue.main.async {
@@ -292,10 +292,10 @@ struct MagSafeLEDSettingsView: View {
 
     private func outcomeMessage(_ outcome: MagSafeLEDControlCoordinator.Outcome) -> String {
         switch outcome {
-        case .applied: return "Komutun geri okuması doğrulandı. Işığın gerçek rengini gözle kontrol edin."
-        case .unchanged: return "LED durumu değişmedi."
-        case .restored: return "Önceki LED durumu geri okuma ile doğrulandı."
-        case .blocked(let reason): return "İşlem durduruldu: \(reason)"
+        case .applied: return String(localized: "Komutun geri okuması doğrulandı. Işığın gerçek rengini gözle kontrol edin.")
+        case .unchanged: return String(localized: "LED durumu değişmedi.")
+        case .restored: return String(localized: "Önceki LED durumu geri okuma ile doğrulandı.")
+        case .blocked(let reason): return String(localized: "İşlem durduruldu: \(reason)")
         }
     }
 }

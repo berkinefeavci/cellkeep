@@ -41,7 +41,7 @@ struct HistoryPlot: View, Equatable {
                         .frame(width: plot.width, height: plot.height).offset(x: plot.minX, y: plot.minY)
                         .allowsHitTesting(false)
                 }
-                ChartInput(label: "\(metric.rawValue) grafiği", value: selectionText,
+                ChartInput(label: String(localized: "\(metric.title) grafiği"), value: selectionText,
                            onPointer: { inspect($0, plot: plot) }, onCommand: navigate,
                            onKeyboardFocus: { onHoverChanged($0) }, onHoverChanged: onHoverChanged)
                 if let selection, let value = selection.value {
@@ -69,10 +69,10 @@ struct HistoryPlot: View, Equatable {
         if let sample = selected, let value = sample.value {
             return "\(sample.date.formatted(date: .omitted, time: .shortened)) · \(metric.hoverText(value))"
         }
-        if missing { return "Bu aralıkta ölçüm yok" }
-        if data.samples.isEmpty { return "Ölçüm toplanıyor…" }
-        if data.samples.count < 5 { return "\(data.samples.count) gerçek ölçüm · Veri birikiyor" }
-        return "\(data.samples.count) ölçüm · Son \(hours) saat"
+        if missing { return String(localized: "Bu aralıkta ölçüm yok") }
+        if data.samples.isEmpty { return String(localized: "Ölçüm toplanıyor…") }
+        if data.samples.count < 5 { return String(localized: "\(data.samples.count) gerçek ölçüm · Veri birikiyor") }
+        return String(localized: "\(data.samples.count) ölçüm · Son \(hours) saat")
     }
 
     private func selectionDate(_ date: Date) -> String {
@@ -199,7 +199,7 @@ private struct ChartInput: NSViewRepresentable {
         view.onPointer = onPointer; view.onCommand = onCommand; view.onKeyboardFocus = onKeyboardFocus; view.onHoverChanged = onHoverChanged
         view.setAccessibilityElement(true); view.setAccessibilityRole(.image)
         view.setAccessibilityLabel(label); view.setAccessibilityValue(value)
-        view.setAccessibilityHelp("Fareyle inceleyin veya tıklayıp yön tuşlarını kullanın. Home/End ilk/son ölçüm; Escape seçimi temizler.")
+        view.setAccessibilityHelp(String(localized: "Fareyle inceleyin veya tıklayıp yön tuşlarını kullanın. Home/End ilk/son ölçüm; Escape seçimi temizler."))
     }
 }
 

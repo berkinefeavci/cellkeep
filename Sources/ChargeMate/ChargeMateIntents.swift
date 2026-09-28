@@ -342,18 +342,18 @@ private enum ChargeMateShortcutService {
             throw ChargeMateShortcutError.commandFailed("\(mode.title) bu Mac'te desteklenmiyor.")
         }
         switch SystemPowerModeService.applyInstalled(mode) {
-        case .success(let confirmed): return "\(confirmed.title) seçildi."
+        case .success(let confirmed): return String(localized: "\(confirmed.title) seçildi.")
         case .failure(let error): throw ChargeMateShortcutError.commandFailed(error.localizedDescription)
         }
     }
 
     static func setMagSafe(_ output: MagSafeLEDOutput) async throws -> String {
         switch MagSafeLEDHardwareService.shared.apply(output) {
-        case .applied: return "MagSafe ışığı: \(output.rawValue)."
-        case .unchanged: return "MagSafe ışığı zaten seçilen durumda."
+        case .applied: return String(localized: "MagSafe ışığı: \(output.rawValue).")
+        case .unchanged: return String(localized: "MagSafe ışığı zaten seçilen durumda.")
         case .blocked(let message): throw ChargeMateShortcutError.commandFailed(message)
         case .restored:
-            return "MagSafe ışığı sistem durumuna döndü."
+            return String(localized: "MagSafe ışığı sistem durumuna döndü.")
         }
     }
 
@@ -361,7 +361,7 @@ private enum ChargeMateShortcutService {
         guard result.status == .configurationVerified else {
             throw ChargeMateShortcutError.commandFailed(result.message)
         }
-        return "\(result.message) İşlem: \(result.operationID.uuidString)"
+        return String(localized: "\(result.message) İşlem: \(result.operationID.uuidString)")
     }
 }
 

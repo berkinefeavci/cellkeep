@@ -151,26 +151,26 @@ final class ChargeControlCoordinator {
         guard admit() else {
             let status: Status = requiresRecovery ? .recoveryRequired : .busy
             let message = status == .recoveryRequired
-                ? "Önceki işlemin sonucu belirsiz. macOS Batarya ayarını kontrol edin; yeni işlem engellendi."
-                : "Bir şarj işlemi zaten sürüyor."
+                ? String(localized: "Önceki işlemin sonucu belirsiz. macOS Batarya ayarını kontrol edin; yeni işlem engellendi.")
+                : String(localized: "Bir şarj işlemi zaten sürüyor.")
             return .init(operationID: request.id, status: status, state: nil, message: message)
         }
         defer { lock.withLock { active = false } }
 
         if request.isCancelled {
             return .init(operationID: request.id, status: .cancelled, state: nil,
-                         message: "İstek iptal edildi; ayar değiştirilmedi.")
+                         message: String(localized: "İstek iptal edildi; ayar değiştirilmedi."))
         }
 
         let before: NativeChargeState
         do { before = try backend.readState() }
         catch {
             return .init(operationID: request.id, status: .rejected, state: nil,
-                         message: "Şarj durumu okunamadı; ayar değiştirilmedi: \(error.localizedDescription)")
+                         message: String(localized: "Şarj durumu okunamadı; ayar değiştirilmedi: \(error.localizedDescription)"))
         }
         guard !rival(), before.availableLimits.contains(request.requested) else {
             return .init(operationID: request.id, status: .rejected, state: before,
-                         message: "Şarj denetimi durumu değişti veya hedef desteklenmiyor. Ayar değiştirilmedi.")
+                         message: String(localized: "Şarj denetimi durumu değişti veya hedef desteklenmiyor. Ayar değiştirilmedi."))
         }
 
         var session = Session(id: request.id, requested: request.requested,
@@ -179,7 +179,7 @@ final class ChargeControlCoordinator {
         do { try persist(session) }
         catch {
             return .init(operationID: request.id, status: .rejected, state: before,
-                         message: "İşlem kaydı yazılamadı; ayar değiştirilmedi: \(error.localizedDescription)")
+                         message: String(localized: "İşlem kaydı yazılamadı; ayar değiştirilmedi: \(error.localizedDescription)"))
         }
 
         let latest: NativeChargeState
@@ -188,21 +188,21 @@ final class ChargeControlCoordinator {
             session.status = .rejected
             session.failureReason = error.localizedDescription
             return finishWithoutWrite(session, state: nil,
-                                      message: "Kontrol durumu yeniden okunamadı; ayar değiştirilmedi.")
+                                      message: String(localized: "Kontrol durumu yeniden okunamadı; ayar değiştirilmedi."))
         }
         if request.isCancelled {
             session.status = .cancelled
-            return finishWithoutWrite(session, state: latest, message: "İstek iptal edildi; ayar değiştirilmedi.")
+            return finishWithoutWrite(session, state: latest, message: String(localized: "İstek iptal edildi; ayar değiştirilmedi."))
         }
         guard !rival(), latest.manualLimit == before.manualLimit,
               latest.availableLimits.contains(request.requested) else {
             session.status = .rejected
             return finishWithoutWrite(session, state: latest,
-                                      message: "Kontrol durumu işlem sırasında değişti. Ayar değiştirilmedi; güncel değeri inceleyip yeniden deneyin.")
+                                      message: String(localized: "Kontrol durumu işlem sırasında değişti. Ayar değiştirilmedi; güncel değeri inceleyip yeniden deneyin."))
         }
         guard request.beginWrite() else {
             session.status = .cancelled
-            return finishWithoutWrite(session, state: latest, message: "İstek iptal edildi; ayar değiştirilmedi.")
+            return finishWithoutWrite(session, state: latest, message: String(localized: "İstek iptal edildi; ayar değiştirilmedi."))
         }
 
         if before.manualLimit == request.requested {
@@ -211,7 +211,7 @@ final class ChargeControlCoordinator {
             do { try persist(session) }
             catch { return journalFailure(session, state: latest, error: error) }
             return .init(operationID: request.id, status: .configurationVerified, state: latest,
-                         message: "%\(request.requested) macOS kaydı okuma ile doğrulandı.")
+                         message: String(localized: "%\(request.requested) macOS kaydı okuma ile doğrulandı."))
         }
 
         var writerError: Error?
@@ -222,18 +222,18 @@ final class ChargeControlCoordinator {
         session.status = verified ? .configurationVerified : .recoveryRequired
         session.finishedAt = now()
         session.failureReason = writerError?.localizedDescription
-            ?? (verified ? nil : "Okunan limit veya kontrol sahibi değişti.")
+            ?? (verified ? nil : String(localized: "Okunan limit veya kontrol sahibi değişti."))
         do { try persist(session) }
         catch { return journalFailure(session, state: after, error: error) }
         guard verified else {
             lock.withLock { recovery = true }
-            let detail = session.failureReason ?? "İşlem sonucu doğrulanamadı."
+            let detail = session.failureReason ?? String(localized: "İşlem sonucu doğrulanamadı.")
             return .init(operationID: request.id, status: .recoveryRequired, state: after,
-                         message: detail + " Sonuç belirsiz; otomatik geri yazma yapılmadı. macOS Batarya ayarını kontrol edin.")
+                         message: detail + String(localized: " Sonuç belirsiz; otomatik geri yazma yapılmadı. macOS Batarya ayarını kontrol edin."))
         }
         let message = request.isCancelled
-            ? "İptal isteği macOS işlemi başladıktan sonra geldi. Kayıtlı %\(request.requested) okuma ile doğrulandı; geri alma yapılmadı."
-            : "%\(request.requested) macOS kaydı okuma ile doğrulandı."
+            ? String(localized: "İptal isteği macOS işlemi başladıktan sonra geldi. Kayıtlı %\(request.requested) okuma ile doğrulandı; geri alma yapılmadı.")
+            : String(localized: "%\(request.requested) macOS kaydı okuma ile doğrulandı.")
         return .init(operationID: request.id, status: .configurationVerified, state: after, message: message)
     }
 
@@ -243,12 +243,12 @@ final class ChargeControlCoordinator {
         guard !active else {
             lock.unlock()
             return .init(operationID: id, status: .busy, state: nil,
-                         message: "Devam eden macOS işleminin bitmesini bekleyin.")
+                         message: String(localized: "Devam eden macOS işleminin bitmesini bekleyin."))
         }
         guard recovery else {
             lock.unlock()
             return .init(operationID: id, status: .rejected, state: nil,
-                         message: "Çözülmesi gereken belirsiz bir işlem yok.")
+                         message: String(localized: "Çözülmesi gereken belirsiz bir işlem yok."))
         }
         active = true
         lock.unlock()
@@ -258,12 +258,12 @@ final class ChargeControlCoordinator {
         do { state = try backend.readState() }
         catch {
             return .init(operationID: id, status: .recoveryRequired, state: nil,
-                         message: "Güncel ayar okunamadı: \(error.localizedDescription)")
+                         message: String(localized: "Güncel ayar okunamadı: \(error.localizedDescription)"))
         }
         guard !rival(), state.manualLimit == expectedLimit,
               state.availableLimits.contains(expectedLimit) else {
             return .init(operationID: id, status: .recoveryRequired, state: state,
-                         message: "Gösterilen ayar değişti, okunamadı veya başka bir şarj uygulaması açık. Güncel durumu yeniden inceleyin.")
+                         message: String(localized: "Gösterilen ayar değişti, okunamadı veya başka bir şarj uygulaması açık. Güncel durumu yeniden inceleyin."))
         }
         let session = Session(id: id, requested: expectedLimit, previous: expectedLimit,
                               startedAt: now(), status: .reconciled, source: .wakeRecovery,
@@ -277,11 +277,11 @@ final class ChargeControlCoordinator {
             try persist(session)
         } catch {
             return .init(operationID: id, status: .recoveryRequired, state: state,
-                         message: "İşlem kaydı korunamadı; kilit kaldırılmadı: \(error.localizedDescription)")
+                         message: String(localized: "İşlem kaydı korunamadı; kilit kaldırılmadı: \(error.localizedDescription)"))
         }
         lock.withLock { recovery = false }
         return .init(operationID: id, status: .reconciled, state: state,
-                     message: "Mevcut %\(expectedLimit) ayarı kontrol edildi. Kilit kaldırıldı; macOS ayarı değiştirilmedi. Yeni hedef için ayrıca Uygula’yı kullanın.")
+                     message: String(localized: "Mevcut %\(expectedLimit) ayarı kontrol edildi. Kilit kaldırıldı; macOS ayarı değiştirilmedi. Yeni hedef için ayrıca Uygula’yı kullanın."))
     }
 
     private func admit() -> Bool {
@@ -307,7 +307,7 @@ final class ChargeControlCoordinator {
     private func journalFailure(_ session: Session, state: NativeChargeState?, error: Error) -> Result {
         lock.withLock { recovery = true }
         return .init(operationID: session.id, status: .recoveryRequired, state: state,
-                     message: "İşlem sonucu kaydedilemedi. Yeni işlem engellendi: \(error.localizedDescription)")
+                     message: String(localized: "İşlem sonucu kaydedilemedi. Yeni işlem engellendi: \(error.localizedDescription)"))
     }
 }
 

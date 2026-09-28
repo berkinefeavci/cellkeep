@@ -26,18 +26,18 @@ struct SupportCenterView: View {
                 if onboardingCompleted { Label("Tamamlandı", systemImage: "checkmark.circle.fill").foregroundStyle(.green).font(.caption) }
             }
             HStack(alignment: .top, spacing: 10) {
-                guideStep(1, "Ölçümleri oku", "Kaynak ve tazelik doğrulanmıyorsa değer yerine — gösterilir.", "waveform.path.ecg")
-                guideStep(2, "Limitin sınırı", "Yerel limit yalnız macOS’un sunduğu değerlerde ve açık Uygula eylemiyle değişir.", "battery.100percent")
-                guideStep(3, "Kontrol yetenekleri", "Pause, discharge ve kalibrasyon doğrulanana kadar kapalı kalır; başka denetleyici varsa işlem yapılmaz.", "shield.lefthalf.filled")
+                guideStep(1, String(localized: "Ölçümleri oku"), String(localized: "Kaynak ve tazelik doğrulanmıyorsa değer yerine — gösterilir."), "waveform.path.ecg")
+                guideStep(2, String(localized: "Limitin sınırı"), String(localized: "Yerel limit yalnız macOS’un sunduğu değerlerde ve açık Uygula eylemiyle değişir."), "battery.100percent")
+                guideStep(3, String(localized: "Kontrol yetenekleri"), String(localized: "Pause, discharge ve kalibrasyon doğrulanana kadar kapalı kalır; başka denetleyici varsa işlem yapılmaz."), "shield.lefthalf.filled")
             }
             HStack {
                 Text("Başla yalnız izlemeyi sürdürür; şarj kontrolünü veya otomasyonu etkinleştirmez.")
                     .font(.caption).foregroundStyle(.secondary)
                 Spacer()
-                Button(onboardingCompleted ? "Rehberi yeniden tamamla" : "Başla") {
+                Button(onboardingCompleted ? String(localized: "Rehberi yeniden tamamla") : String(localized: "Başla")) {
                     battery.start()
                     onboardingCompleted = true
-                    message = "İzleme etkin. Hiçbir şarj kontrolü açılmadı."
+                    message = String(localized: "İzleme etkin. Hiçbir şarj kontrolü açılmadı.")
                 }.chargeMateButtonStyle()
             }
         }.chargeCard()
@@ -98,7 +98,7 @@ struct SupportCenterView: View {
             .confirmationDialog("Yalnız Cellkeep arayüz ayarları sıfırlansın mı?", isPresented: $showResetConfirmation) {
                 Button("Arayüz ayarlarını sıfırla", role: .destructive) {
                     ChargeMatePreferences.resetUI(in: .standard)
-                    message = "Arayüz ayarları sıfırlandı; geçmiş ve sistem limiti korundu."
+                    message = String(localized: "Arayüz ayarları sıfırlandı; geçmiş ve sistem limiti korundu.")
                 }
             }
             .confirmationDialog("Geçmiş temizlensin mi? Önce yerel yedek oluşturulur.", isPresented: $showClearHistoryConfirmation) {
@@ -115,7 +115,7 @@ struct SupportCenterView: View {
                 .font(.caption).foregroundStyle(.secondary)
             UpdateCheckSection()
             DisclosureGroup("Uygulamayı kaldırma") {
-                Text("Önce Oturum açılışında başlat seçeneğini kapatın, Cellkeep’ten çıkın ve Applications içindeki Cellkeep’i Çöp Sepeti’ne taşıyın. Bu düğme sistem dosyalarını kendiliğinden silmez.")
+                Text("Ayarlar → Genel’deki “Cellkeep’i kaldır” düğmesi yardımcıları ve arka plan servislerini kaldırır. Ardından Applications içindeki Cellkeep’i Çöp Sepeti’ne taşıyın.")
                     .font(.caption).foregroundStyle(.secondary).padding(.top, 6)
             }.frame(maxWidth: 520)
         }.frame(maxWidth: .infinity).padding(.vertical, 12).chargeCard()
@@ -137,7 +137,7 @@ struct SupportCenterView: View {
             historyError: battery.historyError != nil, energyState: battery.energySampleState)
         do {
             try report.data(using: .utf8)!.write(to: url, options: .atomic)
-            message = "Tanılama raporu kaydedildi."
-        } catch { message = "Rapor kaydedilemedi: \(error.localizedDescription)" }
+            message = String(localized: "Tanılama raporu kaydedildi.")
+        } catch { message = String(localized: "Rapor kaydedilemedi: \(error.localizedDescription)") }
     }
 }

@@ -9,10 +9,10 @@ enum MagSafeLEDPolicy: String, CaseIterable, Codable, Identifiable {
     var id: String { rawValue }
     var title: String {
         switch self {
-        case .system: return "Sistem yönetsin"
-        case .status: return "Duruma göre"
-        case .alwaysOff: return "Her zaman kapalı"
-        case .scheduled: return "Saat aralığında kapalı"
+        case .system: return String(localized: "Sistem yönetsin")
+        case .status: return String(localized: "Duruma göre")
+        case .alwaysOff: return String(localized: "Her zaman kapalı")
+        case .scheduled: return String(localized: "Saat aralığında kapalı")
         }
     }
 }
@@ -22,7 +22,7 @@ enum MagSafeLEDCompletionBehavior: String, CaseIterable, Codable, Identifiable {
     case off
 
     var id: String { rawValue }
-    var title: String { self == .green ? "Yeşil" : "Kapalı" }
+    var title: String { self == .green ? String(localized: "Yeşil") : String(localized: "Kapalı") }
 }
 
 enum MagSafeLEDOutput: String, CaseIterable, Codable, Hashable {

@@ -13,6 +13,12 @@ Requires Xcode 27, Apple Silicon Mac.
 
 Read `check.sh` and `build.sh` before running them — they're plain shell scripts, not a black box.
 
+## Translations
+
+Cellkeep ships in English, Turkish, German, French and Spanish. Turkish is the source language: user-facing text in the code is Turkish (`Text("…")`, `String(localized: "…")`), and each `Localization/<lang>.lproj/Localizable.strings` maps that Turkish key to its translation.
+
+When you add or change a user-facing string, `./build.sh` will fail and list it as `MISSING` for every language. Add the key to each `Localizable.strings` (Turkish maps the key to itself). Keep format specifiers such as `%@`, `%lld` and `%%` exactly as in the key. Identifiers — enum raw values, `UserDefaults` keys, process names, SF Symbol names — must stay unwrapped.
+
 ## Rules
 
 - **No hardware-writing tests in CI.** Anything that would write to the battery controller, SMC, `pmset`, or a privileged helper must be a pure-logic or fake-backend test that runs offline. Real hardware writes are only ever exercised manually, locally, by someone with the physical Mac in front of them.

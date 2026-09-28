@@ -25,9 +25,9 @@ enum PanelSizeMode: String, CaseIterable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .compact: return "Kompakt"
-        case .normal: return "Normal"
-        case .detailed: return "Detaylı"
+        case .compact: return String(localized: "Kompakt")
+        case .normal: return String(localized: "Normal")
+        case .detailed: return String(localized: "Detaylı")
         }
     }
 

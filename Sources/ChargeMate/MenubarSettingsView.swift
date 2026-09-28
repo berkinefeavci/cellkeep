@@ -65,11 +65,11 @@ struct MenubarSettingsView: View {
                         if id == "percentage" {
                             catalogButton(selected: preferences.style == .iosBattery || preferences.metrics.contains(.percentage),
                                           enabled: preferences.style != .iosBattery,
-                                          help: preferences.style == .iosBattery ? "iOS stilinde yüzde pilin içinde gösterilir." : "Menüde yüzde metnini göster veya gizle") {
+                                          help: preferences.style == .iosBattery ? String(localized: "iOS stilinde yüzde pilin içinde gösterilir.") : String(localized: "Menüde yüzde metnini göster veya gizle")) {
                                 if preferences.style != .iosBattery { change { $0.toggle(.percentage) } }
                             } label: { Label("Yüzdeyi göster", systemImage: "percent") }
                         } else {
-                            catalogButton(selected: preferences.lowPowerTint, help: "Gerçek Düşük Güç Modunda simgeyi sarı göster") {
+                            catalogButton(selected: preferences.lowPowerTint, help: String(localized: "Gerçek Düşük Güç Modunda simgeyi sarı göster")) {
                                 change { $0.lowPowerTint.toggle() }
                             } label: { Label("Düşük Güç Modu rengi", systemImage: "paintpalette") }
                         }
@@ -112,10 +112,10 @@ struct MenubarSettingsView: View {
 
     private func groupTitle(_ group: String) -> String {
         switch group {
-        case "Sağlık": return "Batarya sağlığı"
-        case "Batarya": return "Batarya özellikleri"
-        case "Adaptör": return "Güç adaptörü özellikleri"
-        default: return "Cellkeep durumları"
+        case "Sağlık": return String(localized: "Batarya sağlığı")
+        case "Batarya": return String(localized: "Batarya özellikleri")
+        case "Adaptör": return String(localized: "Güç adaptörü özellikleri")
+        default: return String(localized: "Cellkeep durumları")
         }
     }
     private func change(_ update: (inout MenubarPreferences) -> Void) {
@@ -170,7 +170,7 @@ struct MenubarSettingsView: View {
         }
         .buttonStyle(ChipButtonStyle(selected: selected))
         .disabled(!enabled).help(help)
-            .accessibilityValue(selected ? "Seçili" : "Seçili değil")
+            .accessibilityValue(selected ? String(localized: "Seçili") : String(localized: "Seçili değil"))
     }
 }
 
@@ -242,6 +242,6 @@ private struct MenubarCatalogScroller<Content: View>: View {
     private func arrow(_ symbol: String, enabled: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) { Image(systemName: symbol).font(.system(size: 12)) }
             .buttonStyle(IconCircleButtonStyle()).disabled(!enabled).opacity(enabled ? 1 : 0.2)
-            .accessibilityLabel(symbol == "chevron.left" ? "Kataloğu sola kaydır" : "Kataloğu sağa kaydır")
+            .accessibilityLabel(symbol == "chevron.left" ? String(localized: "Kataloğu sola kaydır") : String(localized: "Kataloğu sağa kaydır"))
     }
 }

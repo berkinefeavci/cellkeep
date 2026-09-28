@@ -23,11 +23,11 @@ enum NativeChargeBackendError: LocalizedError, Equatable {
 
     var errorDescription: String? {
         switch self {
-        case .helperMissing: return "Yerel şarj yardımcısı bulunamadı."
-        case .timedOut: return "Yerel şarj yardımcısı zaman aşımına uğradı."
+        case .helperMissing: return String(localized: "Yerel şarj yardımcısı bulunamadı.")
+        case .timedOut: return String(localized: "Yerel şarj yardımcısı zaman aşımına uğradı.")
         case .rejected(let message): return message
-        case .malformedResponse: return "Yerel şarj yardımcısı geçersiz yanıt verdi."
-        case .oversizedResponse: return "Yerel şarj yardımcısının yanıtı sınırı aştı."
+        case .malformedResponse: return String(localized: "Yerel şarj yardımcısı geçersiz yanıt verdi.")
+        case .oversizedResponse: return String(localized: "Yerel şarj yardımcısının yanıtı sınırı aştı.")
         }
     }
 }
@@ -77,7 +77,7 @@ struct NativeChargeBackend {
 
     func setLimit(_ limit: Int) throws -> NativeChargeState {
         guard Self.allowedLimits.contains(limit) else {
-            throw NativeChargeBackendError.rejected("Bu şarj limiti desteklenmiyor.")
+            throw NativeChargeBackendError.rejected(String(localized: "Bu şarj limiti desteklenmiyor."))
         }
         return try request(["set", String(limit)])
     }
@@ -92,7 +92,7 @@ struct NativeChargeBackend {
         catch { throw NativeChargeBackendError.malformedResponse }
         guard envelope.schemaVersion == 1 else { throw NativeChargeBackendError.malformedResponse }
         guard result.status == 0, envelope.ok, let raw = envelope.state else {
-            throw NativeChargeBackendError.rejected(envelope.error ?? "Yerel şarj işlemi reddedildi.")
+            throw NativeChargeBackendError.rejected(envelope.error ?? String(localized: "Yerel şarj işlemi reddedildi."))
         }
         let limits = raw.availableLimits.sorted()
         guard Set(limits).count == limits.count,
@@ -118,7 +118,7 @@ struct NativeChargeBackend {
         guard FileManager.default.createFile(atPath: outputURL.path, contents: nil,
                                              attributes: [.posixPermissions: 0o600]),
               let output = try? FileHandle(forWritingTo: outputURL) else {
-            throw NativeChargeBackendError.rejected("Yerel şarj yanıt dosyası oluşturulamadı.")
+            throw NativeChargeBackendError.rejected(String(localized: "Yerel şarj yanıt dosyası oluşturulamadı."))
         }
         defer {
             try? output.close()

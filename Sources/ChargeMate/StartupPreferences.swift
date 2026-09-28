@@ -21,10 +21,10 @@ enum LoginItemState: Equatable {
 
     var explanation: String {
         switch self {
-        case .off: return "Oturum açıldığında otomatik başlamaz."
-        case .on: return "macOS bu uygulamayı oturum açılışında başlatmak üzere etkinleştirdi."
-        case .needsApproval: return "İstek kaydedildi; Sistem Ayarları’nda onay gerekiyor."
-        case .unavailable: return "Giriş öğesi bulunamadı. Uygulamayı Applications içinden açıp tekrar deneyin."
+        case .off: return String(localized: "Oturum açıldığında otomatik başlamaz.")
+        case .on: return String(localized: "macOS bu uygulamayı oturum açılışında başlatmak üzere etkinleştirdi.")
+        case .needsApproval: return String(localized: "İstek kaydedildi; Sistem Ayarları’nda onay gerekiyor.")
+        case .unavailable: return String(localized: "Giriş öğesi bulunamadı. Uygulamayı Applications içinden açıp tekrar deneyin.")
         }
     }
 }
