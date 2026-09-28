@@ -101,6 +101,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         scheduleRuntime?.start()
         // Opt-in only; a no-op unless the user enabled the weekly release check.
         Task { await UpdateCheck.checkIfDue() }
+        GlobalHotKey.shared.action = { [weak self] in self?.togglePanel(nil) }
+        GlobalHotKey.shared.apply(.current)
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         item.autosaveName = "Cellkeep"
         statusItem = item

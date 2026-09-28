@@ -422,6 +422,7 @@
 "Koyu" = "Dark";
 "Kullanılamıyor" = "Unavailable";
 "Kurulum gerekli" = "Setup required";
+"Kısayol kaydedilemedi; başka bir uygulama kullanıyor olabilir. Diğer seçeneği deneyin." = "The shortcut could not be registered; another app may be using it. Try the other option.";
 "Kısayollar" = "Shortcuts";
 "LED anahtarı okunuyor. Manuel deneme için aşağıdaki yardımcının kurulması gerekiyor." = "Reading the LED key. The helper below must be installed for manual testing.";
 "LED denetimi bağlı. Kalıcı ayarı veya aşağıdaki manuel düğmeleri kullanabilirsiniz." = "LED control is connected. You can use the persistent setting or the manual buttons below.";
@@ -486,6 +487,7 @@
 "Panel boyutu" = "Panel size";
 "Panel yüksekliği seçilen moda ve ekrana göre sınırlanır; kartlar içeride kaydırılır." = "Panel height is limited by the chosen mode and the screen; cards scroll inside.";
 "Paneli aç / kapat" = "Open / close panel";
+"Paneli aç/kapat kısayolu" = "Open/close panel shortcut";
 "Pause, discharge ve kalibrasyon doğrulanana kadar kapalı kalır; başka denetleyici varsa işlem yapılmaz." = "Pause, discharge and calibration stay off until verified; nothing is done while another controller is present.";
 "Pazartesi tam dolum" = "Monday full charge";
 "Pencereler kapalıyken uygulama etkinliğini yenile" = "Refresh app activity while windows are closed";
@@ -597,6 +599,7 @@
 "Uyanınca son kaçırılan çalışmayı değerlendir" = "Evaluate the last missed run on wake";
 "Uygula" = "Apply";
 "Uygulama" = "App";
+"Uygulama açıkken her yerden çalışır. Erişilebilirlik izni gerekmez; Cellkeep yalnızca bu tuş birleşimini görür." = "Works from anywhere while the app is running. No Accessibility permission is needed; Cellkeep only sees this key combination.";
 "Uygulama erişimi" = "App access";
 "Uygulama etkinliği" = "App activity";
 "Uygulama listesi dakikada bir, bağlı cihazlar birkaç saniyede bir yenilenir. Kapalı pencerelerde uygulama ölçümü tercihe bağlıdır." = "The app list refreshes every minute, connected devices every few seconds. Measuring apps while windows are closed is optional.";

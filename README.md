@@ -27,6 +27,7 @@ A macOS menu-bar app that helps you look after your MacBook's battery: a native 
 - **High-energy apps, with Quit.** The energy list groups helper processes under their owning app, shows a real icon, and lets you quit an app straight from the list.
 - **Optional update notice.** Off by default. When turned on in Settings → About, Cellkeep asks GitHub for the latest release number at most once a week and links to its page. Nothing is downloaded or sent; see [PRIVACY.md](PRIVACY.md).
 - **Conflict guard.** When another charge-limit tool is running or installed (AlDente, Battery Toolkit, BatFi, batt, battery, bclm), Cellkeep keeps monitoring but locks its own limit writes, so two apps never fight over the same setting.
+- **Global shortcut (optional).** Off by default. Pick ⌃⌥⌘B or ⌃⌥⌘C in Settings → General to open or close the panel from anywhere; it needs no Accessibility permission and sees only that key combination.
 - **Languages.** English, Türkçe, Deutsch, Français and Español; Cellkeep follows your macOS language and falls back to English.
 - **Customizable panel.** Drag to reorder, add or remove cards, and pick square or wide widgets.
 
@@ -46,10 +47,18 @@ These are shown in the UI as locked and marked **"Yakında"** (Coming soon). The
 
 ## Install
 
-1. Download the latest `.dmg` from [Releases](../../releases).
+1. Download the latest `.dmg` from [Releases](../../releases). Release builds are signed with Developer ID and notarized by Apple.
 2. Open it and drag Cellkeep to Applications.
-3. On first launch, macOS may warn that the app is from an unidentified developer if it isn't notarized yet — open System Settings → Privacy & Security and allow it.
+3. A build you made yourself with `./build.sh` is only ad-hoc signed; macOS will warn about it on first launch — open System Settings → Privacy & Security and allow it.
 4. The first time you use a feature that needs a privileged helper (power-mode switching or MagSafe LED control), macOS will ask for administrator approval once for that helper. No password is stored by Cellkeep.
+
+### With Homebrew
+
+Once the `berkinefeavci/homebrew-cellkeep` tap is published (see [Packaging/homebrew](Packaging/homebrew/README.md)):
+
+```sh
+brew install --cask berkinefeavci/cellkeep/cellkeep
+```
 
 ## Build from source
 

@@ -14,6 +14,8 @@ struct GeneralSettingsView: View {
     @State private var uninstallRemoveData = UninstallPlan.Options.default.removeApplicationSupportData
     @State private var uninstalling = false
     @State private var uninstallError: String?
+    @AppStorage(HotKeyChoice.storageKey) private var hotKey = HotKeyChoice.off.rawValue
+    @State private var hotKeyFailed = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: SettingsLayout.cardSpacing) {
@@ -48,6 +50,25 @@ struct GeneralSettingsView: View {
                     Button("Giriş Öğeleri ayarlarını aç") { SMAppService.openSystemSettingsLoginItems() }
                         .buttonStyle(.link)
                 }
+                Divider()
+                HStack {
+                    Text("Paneli aç/kapat kısayolu")
+                    Spacer()
+                    Picker("Paneli aç/kapat kısayolu", selection: $hotKey) {
+                        ForEach(HotKeyChoice.allCases) { choice in
+                            if let symbols = choice.symbols { Text(verbatim: symbols).tag(choice.rawValue) }
+                            else { Text("Kapalı").tag(choice.rawValue) }
+                        }
+                    }
+                    .labelsHidden().fixedSize()
+                    .onChange(of: hotKey) { value in
+                        hotKeyFailed = !GlobalHotKey.shared.apply(HotKeyChoice(rawValue: value) ?? .off)
+                    }
+                }
+                Text(hotKeyFailed ? String(localized: "Kısayol kaydedilemedi; başka bir uygulama kullanıyor olabilir. Diğer seçeneği deneyin.")
+                                  : String(localized: "Uygulama açıkken her yerden çalışır. Erişilebilirlik izni gerekmez; Cellkeep yalnızca bu tuş birleşimini görür."))
+                    .font(.caption)
+                    .foregroundStyle(hotKeyFailed ? Color.orange : Color.secondary)
             }
             .chargeCard()
 

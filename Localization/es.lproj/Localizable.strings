@@ -422,6 +422,7 @@
 "Koyu" = "Oscuro";
 "Kullanılamıyor" = "No disponible";
 "Kurulum gerekli" = "Configuración necesaria";
+"Kısayol kaydedilemedi; başka bir uygulama kullanıyor olabilir. Diğer seçeneği deneyin." = "No se pudo registrar el atajo; puede que otra app lo esté usando. Prueba la otra opción.";
 "Kısayollar" = "Atajos";
 "LED anahtarı okunuyor. Manuel deneme için aşağıdaki yardımcının kurulması gerekiyor." = "Leyendo la clave LED. Para las pruebas manuales debe instalarse el auxiliar de abajo.";
 "LED denetimi bağlı. Kalıcı ayarı veya aşağıdaki manuel düğmeleri kullanabilirsiniz." = "El control LED está conectado. Puedes usar el ajuste permanente o los botones manuales de abajo.";
@@ -486,6 +487,7 @@
 "Panel boyutu" = "Tamaño del panel";
 "Panel yüksekliği seçilen moda ve ekrana göre sınırlanır; kartlar içeride kaydırılır." = "La altura del panel está limitada por el modo elegido y la pantalla; las tarjetas se desplazan dentro.";
 "Paneli aç / kapat" = "Abrir / cerrar el panel";
+"Paneli aç/kapat kısayolu" = "Atajo para abrir/cerrar el panel";
 "Pause, discharge ve kalibrasyon doğrulanana kadar kapalı kalır; başka denetleyici varsa işlem yapılmaz." = "La pausa, la descarga y la calibración siguen desactivadas hasta su verificación; no se hace nada mientras haya otro controlador.";
 "Pazartesi tam dolum" = "Carga completa del lunes";
 "Pencereler kapalıyken uygulama etkinliğini yenile" = "Actualizar la actividad de apps con las ventanas cerradas";
@@ -597,6 +599,7 @@
 "Uyanınca son kaçırılan çalışmayı değerlendir" = "Evaluar la última ejecución perdida al despertar";
 "Uygula" = "Aplicar";
 "Uygulama" = "App";
+"Uygulama açıkken her yerden çalışır. Erişilebilirlik izni gerekmez; Cellkeep yalnızca bu tuş birleşimini görür." = "Funciona desde cualquier lugar mientras la app está abierta. No requiere permiso de accesibilidad; Cellkeep solo ve esta combinación de teclas.";
 "Uygulama erişimi" = "Acceso de apps";
 "Uygulama etkinliği" = "Actividad de apps";
 "Uygulama listesi dakikada bir, bağlı cihazlar birkaç saniyede bir yenilenir. Kapalı pencerelerde uygulama ölçümü tercihe bağlıdır." = "La lista de apps se actualiza cada minuto y los dispositivos conectados cada pocos segundos. Medir apps con las ventanas cerradas es opcional.";
