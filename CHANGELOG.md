@@ -1,11 +1,16 @@
 # Changelog
 
+## 1.1.1
+
+- Menu bar panel: toolbar labels stay on one line instead of wrapping mid-word; the limit reads "Sınır: %80" in Turkish, and the French and Spanish Top Up labels are shorter.
+- Homebrew: upgrades keep Cellkeep's helpers; `brew uninstall --zap --cask cellkeep` removes them.
+
 ## 1.1.0
 
 - Languages: English, German, French and Spanish, plus a language picker in Settings → General.
 - Optional system-wide shortcut (⌃⌥⌘B or ⌃⌥⌘C) that opens and closes the menu bar panel.
 - Long-term battery health trend, charging statistics, and CSV export of history and daily summaries.
-- Detects other charge-limit tools (AlDente, Battery Toolkit, BatFi, batt, battery, bclm), not just AlDente; the MagSafe LED helper also steps aside for them. Existing LED helpers ask to be reinstalled once.
+- Detects other charge-limit tools (AlDente, Battery Toolkit, BatFi, batt, battery, bclm), not just AlDente; the MagSafe LED helper also steps aside while AlDente, Battery Toolkit, BatFi or batt is running. Existing LED helpers ask to be reinstalled once.
 - Optional, off-by-default check for a newer release.
 - Homebrew: `brew install --cask berkinefeavci/cellkeep/cellkeep`.
 
