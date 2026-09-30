@@ -1,6 +1,6 @@
 cask "cellkeep" do
-  version "1.1.2"
-  sha256 "3c6177b81aacb93c2260daa48c1a007ddcd797a2e5d43a213a144cb8417f9e96"
+  version "1.1.3"
+  sha256 "9f8b808f7bdbebde290c558b0db7a19583b010ddc8a1618daec54a2dad7e4c26"
 
   url "https://github.com/berkinefeavci/cellkeep/releases/download/v#{version}/Cellkeep-#{version}.dmg"
   name "Cellkeep"
