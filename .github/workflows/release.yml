@@ -1,0 +1,83 @@
+name: Release
+
+# Builds, signs, notarizes and publishes a release on the maintainer's own Mac, through a
+# self-hosted runner labelled `cellkeep-release`. That Mac has Xcode 27 (hosted runners do not
+# yet, so a hosted build would ship without the app icon and Shortcuts metadata) and keeps the
+# Developer ID certificate and the `cellkeep-notary` keychain profile, so no signing secret is
+# ever stored in GitHub.
+#
+# Only ever started by hand (Actions → Release → Run workflow). It never runs for pushes or pull
+# requests, so code from a pull request cannot reach the maintainer's Mac through this file.
+# The version comes from Packaging/Info.plist on the chosen commit; bump it in a PR first.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: [self-hosted, macOS, cellkeep-release]
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Read version
+        id: version
+        run: |
+          version="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' Packaging/Info.plist)"
+          [[ "$version" =~ ^[0-9]+(\.[0-9]+){1,3}$ ]] || { echo "::error::Bad version '$version'"; exit 1; }
+          if git ls-remote --exit-code --tags origin "refs/tags/v$version" >/dev/null; then
+            echo "::error::Tag v$version already exists. Bump the version in Packaging/Info.plist first."
+            exit 1
+          fi
+          grep -q "^## $version\$" CHANGELOG.md || { echo "::error::CHANGELOG.md has no '## $version' section."; exit 1; }
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      # Actions sets CI=true, which makes build.sh skip the asset catalog and App Intents steps.
+      # A release must include them, so CI is removed for this step only.
+      - name: Build, sign and notarize (release.sh)
+        run: env -u CI ./release.sh
+
+      - name: Verify the DMG is notarized
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          dmg="dist/Cellkeep-$VERSION.dmg"
+          test -f "$dmg"
+          # release.sh falls back to ad-hoc signing when no Developer ID or notary profile is
+          # found; such a build must never be published.
+          xcrun stapler validate "$dmg"
+          codesign -dv --verbose=2 "$dmg" 2>&1 | grep -q '^Authority=Developer ID Application:'
+
+      - name: Publish GitHub release
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          notes="$(awk -v v="## $VERSION" '$0==v{f=1;next} /^## /{if(f)exit} f' CHANGELOG.md)"
+          body="$(NOTES="$notes" VERSION="$VERSION" SHA="$SHA" /usr/bin/python3 -c '
+          import json, os
+          print(json.dumps({"tag_name": "v" + os.environ["VERSION"], "target_commitish": os.environ["SHA"],
+                            "name": "Cellkeep " + os.environ["VERSION"], "body": os.environ["NOTES"].strip() + "\n"}))')"
+          api="https://api.github.com/repos/$REPO"
+          auth=(-H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json")
+          release="$(curl -fsS "${auth[@]}" -X POST "$api/releases" -d "$body")"
+          upload_url="$(printf '%s' "$release" | /usr/bin/python3 -c 'import json,sys; print(json.load(sys.stdin)["upload_url"].split("{")[0])')"
+          for file in "dist/Cellkeep-$VERSION.dmg" "dist/Cellkeep-$VERSION.dmg.sha256"; do
+            name="$(basename "$file")"
+            case "$name" in *.dmg) type=application/x-apple-diskimage ;; *) type=text/plain ;; esac
+            curl -fsS "${auth[@]}" -H "Content-Type: $type" --data-binary @"$file" \
+              "$upload_url?name=$name" >/dev/null
+            echo "uploaded $name"
+          done
+          echo "### Published Cellkeep $VERSION" >> "$GITHUB_STEP_SUMMARY"
+          cat "dist/Cellkeep-$VERSION.dmg.sha256" >> "$GITHUB_STEP_SUMMARY"
