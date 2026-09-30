@@ -18,7 +18,12 @@
 
 ## Ekran görüntüleri
 
-<p align="center"><img src="docs/screenshots/menu-bar-panel.png" alt="Cellkeep menü çubuğu paneli: şarj barı, güç modları ve canlı güç akışı" width="420"></p>
+<p align="center"><img src="docs/screenshots/demo.gif" alt="Cellkeep menü çubuğu paneli: adaptörden işlemciye, ekrana ve diğer bileşenlere canlı güç akışı" width="400"></p>
+
+<table>
+<tr><td width="50%"><img src="docs/screenshots/panel-light.png" alt="Menü çubuğu paneli: %80 şarj sınırı, Doldur, canlı güç akışı ve güç modları" width="100%"></td><td width="50%"><img src="docs/screenshots/dashboard-light.png" alt="Gösterge Tablosu: batarya geçmişi grafikleri, şarj durumu ve uzun vadeli sağlık eğilimi" width="100%"></td></tr>
+<tr><td width="50%"><img src="docs/screenshots/energy-light.png" alt="Enerji Kullanımı: macOS enerji etkisine göre uygulamalar, bağlı cihazlar ve güç akışı" width="100%"></td><td width="50%"><img src="docs/screenshots/magsafe-light.png" alt="MagSafe Işığı: macOS yönetsin, hep kapalı ya da belirli saatlerde kapalı" width="100%"></td></tr>
+</table>
 
 > Cellkeep daha önce "ChargeMate" adıyla geliştirildi; birkaç dosya yolu hâlâ eski adı kullanıyor.
 

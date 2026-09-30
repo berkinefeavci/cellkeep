@@ -18,7 +18,12 @@
 
 ## Screenshots
 
-<p align="center"><img src="docs/screenshots/menu-bar-panel.png" alt="Cellkeep menu bar panel: charge bar, power modes and live power flow" width="420"></p>
+<p align="center"><img src="docs/screenshots/demo.gif" alt="Cellkeep menu bar panel with live power flow from the adapter to the processor, display and other" width="400"></p>
+
+<table>
+<tr><td width="50%"><img src="docs/screenshots/panel-light.png" alt="Menu bar panel: 80% charge limit, Top Up, live power flow and power modes" width="100%"></td><td width="50%"><img src="docs/screenshots/dashboard-light.png" alt="Dashboard: battery history charts, charging state and long-term health trend" width="100%"></td></tr>
+<tr><td width="50%"><img src="docs/screenshots/energy-light.png" alt="Energy Usage: apps ranked by macOS energy impact, connected devices and power flow" width="100%"></td><td width="50%"><img src="docs/screenshots/magsafe-light.png" alt="MagSafe Light: let macOS manage it, always off, or off during a time range" width="100%"></td></tr>
+</table>
 
 > Cellkeep was previously developed under the name "ChargeMate"; a few file paths still use the old name.
 
