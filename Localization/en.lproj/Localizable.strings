@@ -5,7 +5,9 @@
 " kopyası" = " copy";
 " yardımcı işlemi" = " helper process";
 " · Güncel değil" = " · Not current";
+"%%%@" = "%@%%";
 "%%%lld" = "%lld%%";
+"%%%lld CPU" = "%lld%% CPU";
 "%%%lld bu Mac'in desteklediği şarj hedeflerinden biri değil." = "%lld%% is not one of the charge targets this Mac supports.";
 "%%%lld macOS kaydı okuma ile doğrulandı." = "The %lld%% macOS setting was verified by reading it back.";
 "%100" = "100%";
@@ -25,6 +27,7 @@
 "%@ kaldır" = "Remove %@";
 "%@ profili: %@" = "%@ profile: %@";
 "%@ puan" = "%@ points";
+"%@ sa" = "%@ h";
 "%@ saati" = "%@ hour";
 "%@ seçildi." = "%@ selected.";
 "%@ uygulamasını kapat" = "Quit %@";
@@ -41,9 +44,11 @@
 "%lld bozuk görev atlandı; özgün dosya yedeklendi." = "Skipped %lld corrupt tasks; the original file was backed up.";
 "%lld bozuk çalışma kaydı atlandı; özgün dosya yedeklendi." = "Skipped %lld corrupt run records; the original file was backed up.";
 "%lld cihaz" = "%lld devices";
+"%lld dk" = "%lld min";
 "%lld gerçek ölçüm · Veri birikiyor" = "%lld real readings · Data is building up";
 "%lld günlük kayıt" = "%lld days recorded";
 "%lld kayıt" = "%lld records";
+"%lld sa" = "%lld h";
 "%lld sa %lld dk" = "%lld h %lld min";
 "%lld ölçüm · Son %lld saat" = "%lld readings · Last %lld hours";
 "%lld öğe gizlendi" = "%lld items hidden";
@@ -236,6 +241,7 @@
 "Doğrulama bekliyor" = "Awaiting verification";
 "Doğrulanan Top Up durumu kaydedilemedi." = "The verified Top Up state could not be saved.";
 "Doğrulanan geri yükleme kaydı temizlenemedi." = "The verified restore record could not be cleared.";
+"Doğrulandı" = "Verified";
 "Durdur" = "Stop";
 "Durum" = "Status";
 "Duruma göre" = "By state";
@@ -438,6 +444,7 @@
 "LED yazması tamamlanamadı; geri yükleme gerekli." = "The LED write did not complete; a restore is needed.";
 "Limit doğrulandı fakat politika kaydı korunamadı." = "The limit was verified, but the policy record could not be kept.";
 "Limit doğrulandı fakat politika kaydı korunamadı; yeni işlem engellendi." = "The limit was verified, but the policy record could not be kept; new operations are blocked.";
+"Limit korunuyor: %%%lld" = "Holding the limit: %lld%%";
 "Limiti ayarla" = "Set limit";
 "Limitin sınırı" = "Limit boundary";
 "MacBook adaptörden çalışıyor" = "The MacBook is running on the adapter";
@@ -474,6 +481,7 @@
 "Nominal güç" = "Rated power";
 "Normal" = "Normal";
 "Normal: 400 pt genişlik — varsayılan düzen." = "Normal: 400 pt wide — the default layout.";
+"OTOMASYONLAR" = "AUTOMATIONS";
 "Oku" = "Read";
 "Okunan limit veya kontrol sahibi değişti." = "The read limit or the controlling owner changed.";
 "Orta etki" = "Medium impact";
@@ -588,6 +596,7 @@
 "Top Up kullanılamıyor." = "Top Up is unavailable.";
 "Top Up sırasında yerel limit dışarıdan değişti." = "The native limit was changed from outside during Top Up.";
 "Top Up tamamlandı; önceki limit geri yüklendi." = "Top Up finished; the previous limit was restored.";
+"Top Up: %%%lld → %%100" = "Top Up: %lld%% → 100%%";
 "Toplam, işlemci ve ekran gerçek sensörlerden; Diğer GPU, bellek, depolama, fan ve ayrılamayan yüktür." = "Total, processor and display come from real sensors; Other is GPU, memory, storage, fans and load that cannot be separated.";
 "Turbo" = "High Power";
 "Turuncu" = "Orange";
@@ -813,9 +822,3 @@
 "Şu anda ne oluyor?" = "What is happening right now?";
 "—" = "—";
 "“%@” silindi." = "“%@” was deleted.";
-"OTOMASYONLAR" = "AUTOMATIONS";
-"%%%@" = "%@%%";
-"%lld dk" = "%lld min";
-"%@ sa" = "%@ h";
-"%lld sa" = "%lld h";
-"%%%lld CPU" = "%lld%% CPU";

@@ -284,9 +284,9 @@ extension ChargePolicyState {
     var title: String {
         switch self {
         case .idle: return String(localized: "Şarj denetimi hazır")
-        case .maintainingLimit(let limit): return "Limit korunuyor: %\(limit)"
+        case .maintainingLimit(let limit): return String(localized: "Limit korunuyor: %\(limit)")
         case .topUpStarting: return String(localized: "Top Up başlatılıyor")
-        case .topUpCharging(let percent): return "Top Up: %\(percent ?? 0) → %100"
+        case .topUpCharging(let percent): return String(localized: "Top Up: %\(percent ?? 0) → %100")
         case .topUpRestoring(let limit): return String(localized: "Önceki limite dönülüyor: %\(limit)")
         case .pausedByConflict(_, let observed): return String(localized: "macOS limiti dışarıdan %\(observed) yapıldı")
         case .recoveryRequired: return String(localized: "Kontrol gerekli; yeni işlem durduruldu")

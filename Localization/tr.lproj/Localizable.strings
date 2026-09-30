@@ -5,7 +5,9 @@
 " kopyası" = " kopyası";
 " yardımcı işlemi" = " yardımcı işlemi";
 " · Güncel değil" = " · Güncel değil";
+"%%%@" = "%%%@";
 "%%%lld" = "%%%lld";
+"%%%lld CPU" = "%%%lld CPU";
 "%%%lld bu Mac'in desteklediği şarj hedeflerinden biri değil." = "%%%lld bu Mac'in desteklediği şarj hedeflerinden biri değil.";
 "%%%lld macOS kaydı okuma ile doğrulandı." = "%%%lld macOS kaydı okuma ile doğrulandı.";
 "%100" = "%100";
@@ -25,6 +27,7 @@
 "%@ kaldır" = "%@ kaldır";
 "%@ profili: %@" = "%@ profili: %@";
 "%@ puan" = "%@ puan";
+"%@ sa" = "%@ sa";
 "%@ saati" = "%@ saati";
 "%@ seçildi." = "%@ seçildi.";
 "%@ uygulamasını kapat" = "%@ uygulamasını kapat";
@@ -41,9 +44,11 @@
 "%lld bozuk görev atlandı; özgün dosya yedeklendi." = "%lld bozuk görev atlandı; özgün dosya yedeklendi.";
 "%lld bozuk çalışma kaydı atlandı; özgün dosya yedeklendi." = "%lld bozuk çalışma kaydı atlandı; özgün dosya yedeklendi.";
 "%lld cihaz" = "%lld cihaz";
+"%lld dk" = "%lld dk";
 "%lld gerçek ölçüm · Veri birikiyor" = "%lld gerçek ölçüm · Veri birikiyor";
 "%lld günlük kayıt" = "%lld günlük kayıt";
 "%lld kayıt" = "%lld kayıt";
+"%lld sa" = "%lld sa";
 "%lld sa %lld dk" = "%lld sa %lld dk";
 "%lld ölçüm · Son %lld saat" = "%lld ölçüm · Son %lld saat";
 "%lld öğe gizlendi" = "%lld öğe gizlendi";
@@ -236,6 +241,7 @@
 "Doğrulama bekliyor" = "Doğrulama bekliyor";
 "Doğrulanan Top Up durumu kaydedilemedi." = "Doğrulanan Top Up durumu kaydedilemedi.";
 "Doğrulanan geri yükleme kaydı temizlenemedi." = "Doğrulanan geri yükleme kaydı temizlenemedi.";
+"Doğrulandı" = "Doğrulandı";
 "Durdur" = "Durdur";
 "Durum" = "Durum";
 "Duruma göre" = "Duruma göre";
@@ -438,6 +444,7 @@
 "LED yazması tamamlanamadı; geri yükleme gerekli." = "LED yazması tamamlanamadı; geri yükleme gerekli.";
 "Limit doğrulandı fakat politika kaydı korunamadı." = "Limit doğrulandı fakat politika kaydı korunamadı.";
 "Limit doğrulandı fakat politika kaydı korunamadı; yeni işlem engellendi." = "Limit doğrulandı fakat politika kaydı korunamadı; yeni işlem engellendi.";
+"Limit korunuyor: %%%lld" = "Limit korunuyor: %%%lld";
 "Limiti ayarla" = "Limiti ayarla";
 "Limitin sınırı" = "Limitin sınırı";
 "MacBook adaptörden çalışıyor" = "MacBook adaptörden çalışıyor";
@@ -474,6 +481,7 @@
 "Nominal güç" = "Nominal güç";
 "Normal" = "Normal";
 "Normal: 400 pt genişlik — varsayılan düzen." = "Normal: 400 pt genişlik — varsayılan düzen.";
+"OTOMASYONLAR" = "OTOMASYONLAR";
 "Oku" = "Oku";
 "Okunan limit veya kontrol sahibi değişti." = "Okunan limit veya kontrol sahibi değişti.";
 "Orta etki" = "Orta etki";
@@ -588,6 +596,7 @@
 "Top Up kullanılamıyor." = "Top Up kullanılamıyor.";
 "Top Up sırasında yerel limit dışarıdan değişti." = "Top Up sırasında yerel limit dışarıdan değişti.";
 "Top Up tamamlandı; önceki limit geri yüklendi." = "Top Up tamamlandı; önceki limit geri yüklendi.";
+"Top Up: %%%lld → %%100" = "Top Up: %%%lld → %%100";
 "Toplam, işlemci ve ekran gerçek sensörlerden; Diğer GPU, bellek, depolama, fan ve ayrılamayan yüktür." = "Toplam, işlemci ve ekran gerçek sensörlerden; Diğer GPU, bellek, depolama, fan ve ayrılamayan yüktür.";
 "Turbo" = "Turbo";
 "Turuncu" = "Turuncu";
@@ -813,9 +822,3 @@
 "Şu anda ne oluyor?" = "Şu anda ne oluyor?";
 "—" = "—";
 "“%@” silindi." = "“%@” silindi.";
-"OTOMASYONLAR" = "OTOMASYONLAR";
-"%%%@" = "%%%@";
-"%lld dk" = "%lld dk";
-"%@ sa" = "%@ sa";
-"%lld sa" = "%lld sa";
-"%%%lld CPU" = "%%%lld CPU";
