@@ -47,9 +47,9 @@ grep -Fq 'if let message = battery.powerModeMessage' Sources/ChargeMate/PowerMod
 ! grep -Eq 'Top Up.*disabled\(true\)|disabled\(true\).*Top Up' Sources/ChargeMate/Views.swift
 # Popover quick actions stay explicit: Top Up is shown as Doldur; unsupported
 # force-battery control is visible but cannot pretend to work.
-grep -Fq 'Text("Deşarj")' Sources/ChargeMate/Views.swift
+grep -Fq '.accessibilityLabel("Deşarj yakında; henüz kullanılamıyor")' Sources/ChargeMate/Views.swift
 grep -Fq 'Text("Doldur")' Sources/ChargeMate/Views.swift
-grep -Fq '.popoverToolbarButtonStyle().disabled(true)' Sources/ChargeMate/Views.swift
+grep -Fq '.popoverToolbarButtonStyle(iconOnly: true).disabled(true)' Sources/ChargeMate/Views.swift
 grep -Fq 'Text("Sınır: %\(Int(battery.chargeLimit))")' Sources/ChargeMate/Views.swift
 ! grep -Fq 'slider.horizontal.3' Sources/ChargeMate/Views.swift
 ! grep -Fq 'Image(systemName: limitEditor ? "chevron.up" : "chevron.down")' Sources/ChargeMate/Views.swift
