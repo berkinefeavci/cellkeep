@@ -597,7 +597,7 @@ struct SettingsView: View {
                 Spacer()
                 Divider().padding(.horizontal, 10)
                 HStack {
-                    ReadOnlyBadge()
+                    ReadOnlyBadge(compact: true)
                     Spacer()
                     Button { NSApp.terminate(nil) } label: { Image(systemName: "power") }
                         .buttonStyle(IconCircleButtonStyle()).help("Cellkeep’ten çık")

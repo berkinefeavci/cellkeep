@@ -5,7 +5,9 @@
 " kopyası" = " copia";
 " yardımcı işlemi" = " proceso auxiliar";
 " · Güncel değil" = " · No actualizado";
+"%%%@" = "%@ %%";
 "%%%lld" = "%lld %%";
+"%%%lld CPU" = "%lld %% CPU";
 "%%%lld bu Mac'in desteklediği şarj hedeflerinden biri değil." = "%lld %% no es uno de los objetivos de carga que admite este Mac.";
 "%%%lld macOS kaydı okuma ile doğrulandı." = "El ajuste de macOS del %lld %% se verificó mediante relectura.";
 "%100" = "100 %";
@@ -25,6 +27,7 @@
 "%@ kaldır" = "Eliminar %@";
 "%@ profili: %@" = "Perfil %@: %@";
 "%@ puan" = "%@ puntos";
+"%@ sa" = "%@ h";
 "%@ saati" = "Hora de %@";
 "%@ seçildi." = "%@ seleccionado.";
 "%@ uygulamasını kapat" = "Cerrar %@";
@@ -41,9 +44,11 @@
 "%lld bozuk görev atlandı; özgün dosya yedeklendi." = "Se omitieron %lld tareas dañadas; se hizo una copia del archivo original.";
 "%lld bozuk çalışma kaydı atlandı; özgün dosya yedeklendi." = "Se omitieron %lld registros de ejecución dañados; se hizo una copia del archivo original.";
 "%lld cihaz" = "%lld dispositivos";
+"%lld dk" = "%lld min";
 "%lld gerçek ölçüm · Veri birikiyor" = "%lld lecturas reales · Acumulando datos";
 "%lld günlük kayıt" = "%lld días registrados";
 "%lld kayıt" = "%lld registros";
+"%lld sa" = "%lld h";
 "%lld sa %lld dk" = "%lld h %lld min";
 "%lld ölçüm · Son %lld saat" = "%lld lecturas · Últimas %lld horas";
 "%lld öğe gizlendi" = "%lld elementos ocultos";
@@ -236,6 +241,7 @@
 "Doğrulama bekliyor" = "Pendiente de verificación";
 "Doğrulanan Top Up durumu kaydedilemedi." = "No se pudo guardar el estado verificado de la carga completa.";
 "Doğrulanan geri yükleme kaydı temizlenemedi." = "No se pudo borrar el registro de restauración verificado.";
+"Doğrulandı" = "Verificado";
 "Durdur" = "Detener";
 "Durum" = "Estado";
 "Duruma göre" = "Según el estado";
@@ -438,6 +444,7 @@
 "LED yazması tamamlanamadı; geri yükleme gerekli." = "La escritura LED no terminó; hace falta restaurar.";
 "Limit doğrulandı fakat politika kaydı korunamadı." = "El límite se verificó, pero no se pudo conservar el registro de la regla.";
 "Limit doğrulandı fakat politika kaydı korunamadı; yeni işlem engellendi." = "El límite se verificó, pero no se pudo conservar el registro de la regla; las nuevas operaciones están bloqueadas.";
+"Limit korunuyor: %%%lld" = "Límite mantenido: %lld %%";
 "Limiti ayarla" = "Establecer límite";
 "Limitin sınırı" = "Borde del límite";
 "MacBook adaptörden çalışıyor" = "El MacBook funciona con el adaptador";
@@ -474,6 +481,7 @@
 "Nominal güç" = "Potencia nominal";
 "Normal" = "Normal";
 "Normal: 400 pt genişlik — varsayılan düzen." = "Normal: 400 pt de ancho — el diseño predeterminado.";
+"OTOMASYONLAR" = "AUTOMATIZACIONES";
 "Oku" = "Leer";
 "Okunan limit veya kontrol sahibi değişti." = "Cambió el límite leído o el propietario del control.";
 "Orta etki" = "Impacto medio";
@@ -588,6 +596,7 @@
 "Top Up kullanılamıyor." = "La carga completa no está disponible.";
 "Top Up sırasında yerel limit dışarıdan değişti." = "El límite nativo se cambió desde fuera durante la carga completa.";
 "Top Up tamamlandı; önceki limit geri yüklendi." = "Carga completa terminada; se restauró el límite anterior.";
+"Top Up: %%%lld → %%100" = "Carga completa: %lld %% → 100 %%";
 "Toplam, işlemci ve ekran gerçek sensörlerden; Diğer GPU, bellek, depolama, fan ve ayrılamayan yüktür." = "El total, el procesador y la pantalla provienen de sensores reales; Otros incluye GPU, memoria, almacenamiento, ventiladores y la carga que no se puede separar.";
 "Turbo" = "Alto rendimiento";
 "Turuncu" = "Naranja";
@@ -813,9 +822,3 @@
 "Şu anda ne oluyor?" = "¿Qué está pasando ahora?";
 "—" = "—";
 "“%@” silindi." = "Se eliminó «%@».";
-"OTOMASYONLAR" = "AUTOMATIZACIONES";
-"%%%@" = "%@ %%";
-"%lld dk" = "%lld min";
-"%@ sa" = "%@ h";
-"%lld sa" = "%lld h";
-"%%%lld CPU" = "%lld %% CPU";

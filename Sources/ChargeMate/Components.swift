@@ -421,8 +421,13 @@ private struct IconCircleButtonBody: View {
 /// attention for a passive status indicator).
 struct ReadOnlyBadge: View {
     @EnvironmentObject var battery: BatteryMonitor
+    /// Short wording for the narrow settings sidebar; the full sentence stays in the tooltip.
+    var compact = false
     private var verified: Bool { !battery.otherControllerRunning && battery.committedLimit != nil }
-    private var text: String { verified ? String(localized: "macOS limiti · doğrulandı") : String(localized: "İzleme modu") }
+    private var text: String {
+        if !verified { return String(localized: "İzleme modu") }
+        return compact ? String(localized: "Doğrulandı") : String(localized: "macOS limiti · doğrulandı")
+    }
     private var icon: String { battery.otherControllerRunning ? "eye" : verified ? "checkmark.seal" : "eye" }
     var body: some View {
         Label(text, systemImage: icon)
