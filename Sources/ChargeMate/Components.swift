@@ -427,6 +427,7 @@ struct ReadOnlyBadge: View {
     var body: some View {
         Label(text, systemImage: icon)
             .font(.system(size: 10, weight: .medium)).foregroundStyle(.secondary)
+            .lineLimit(1).minimumScaleFactor(0.8)
             .padding(.horizontal, 8).padding(.vertical, 3)
             .background(Color.primary.opacity(0.06), in: Capsule())
             .help(controlNotice)

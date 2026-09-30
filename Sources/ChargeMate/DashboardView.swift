@@ -62,8 +62,8 @@ struct DashboardView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         Label("Döngü sayısı", systemImage: "clock.arrow.circlepath").font(.system(size: 11)).foregroundStyle(Color.primary.opacity(0.72))
                         Text(s.reading(.cycles).text(digits: 0)).font(.system(size: 27, weight: .light)).monospacedDigit()
-                        Text("Sıcaklık: \(s.temperatureSource)").font(.system(size: 9)).foregroundStyle(Color.primary.opacity(0.5))
                     }.frame(maxWidth: .infinity, alignment: .leading).chargeCard()
+                    .help(String(localized: "Sıcaklık: \(s.temperatureSource)"))
                     EnergyUsageView(compact: true, maximumApps: 5)
                 }.frame(width: 190)
             }.frame(maxWidth: .infinity)

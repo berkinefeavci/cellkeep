@@ -50,13 +50,10 @@ struct PopoverView: View {
                         .help(limitEditor ? String(localized: "Şarj hedefi düzenleyicisini kapat") : String(localized: "Şarj hedefini düzenle"))
                         .accessibilityLabel("Şarj hedefi yüzde \(Int(battery.chargeLimit)); düzenleyiciyi \(limitEditor ? String(localized: "kapat") : String(localized: "aç"))")
                         Spacer(minLength: 0)
-                        Button {} label: {
-                            HStack(spacing: 6) {
-                                Text("Deşarj")
-                                Image(systemName: "minus.circle")
-                            }
-                        }
-                            .popoverToolbarButtonStyle().disabled(true)
+                        // Locked feature: icon only, so the usable actions keep their full labels in
+                        // every language within the 360 pt panel.
+                        Button {} label: { Image(systemName: "minus.circle") }
+                            .popoverToolbarButtonStyle(iconOnly: true).disabled(true)
                             .accessibilityLabel("Deşarj yakında; henüz kullanılamıyor")
                             .help("Yakında · güvenli bataryadan çalışma kontrolü henüz doğrulanmadı")
                         Button {
