@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.3
+
+- Menu bar panel: the locked Discharge action is a small icon, so "Limit" and "Top Up" keep their full labels in every language.
+- Charge Control: the status header ("Holding the limit: 80%", "Top Up: 73% → 100%") is translated instead of staying in Turkish.
+- Settings sidebar: the status badge reads "Verified" on one line instead of a cut-off "macOS limit · ver…".
+- Dashboard: the cycle-count card no longer shows the raw temperature sensor id; it moved to the card's tooltip.
+
 ## 1.1.2
 
 - English, German, French and Spanish: percentages read "62%" (or "62 %") instead of the Turkish "%62", chart ranges and durations use h/min, and the "Automations" sidebar heading is translated.
