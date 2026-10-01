@@ -5,7 +5,7 @@
 - MagSafe Light tests no longer get stuck. Switching from one test colour to another writes the new colour directly; before, Cellkeep first restored the old colour and then wrote the new one, two waits of about 8 seconds each, and any hiccup left the page blocked until a restore.
 - "System" hands the light back to macOS instead of writing a value it then tried to read back: macOS shows its own colour in that mode, so that check could never pass.
 - "Back to start" and any half-finished test re-apply the light policy chosen on the page (for example Always off), instead of forcing the colour that happened to be showing before the test.
-- Clearer progress text while a colour is being checked (about 8 seconds).
+- A test colour reports done as soon as the light reads back the new colour, instead of waiting about 8 seconds for the helper's own settle check.
 
 ## 1.1.5
 

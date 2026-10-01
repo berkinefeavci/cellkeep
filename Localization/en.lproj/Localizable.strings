@@ -430,7 +430,6 @@
 "Kestirmeler'i Aç" = "Open Shortcuts";
 "Kompakt" = "Compact";
 "Kompakt: 340 pt genişlik — dar ekranlar ve sade görünüm için." = "Compact: 340 pt wide — for narrow screens and a simpler look.";
-"Komutun geri okuması doğrulandı. Işığın gerçek rengini gözle kontrol edin." = "The command's read-back is verified. Check the light's actual color with your own eyes.";
 "Kontrol durumu işlem sırasında değişti. Ayar değiştirilmedi; güncel değeri inceleyip yeniden deneyin." = "The control state changed during the operation. The setting was not changed; review the current value and try again.";
 "Kontrol durumu yeniden okunamadı; ayar değiştirilmedi." = "The control state could not be read again; the setting was not changed.";
 "Kontrol gerekli" = "Check needed";
@@ -851,6 +850,8 @@
 "Tümü panelde" = "All on panel";
 "Işık macOS'a bırakıldı; rengi macOS seçer." = "The light is back with macOS; macOS picks its colour.";
 "Işık macOS'a bırakılıyor…" = "Handing the light back to macOS…";
-"Işığın sabit kaldığı doğrulanıyor (yaklaşık 8 saniye)…" = "Checking that the light stays put (about 8 seconds)…";
 "Kayıtlı ışık politikası yeniden uygulanıyor…" = "Re-applying the saved light policy…";
 "Test bitti; kayıtlı ışık politikası yeniden uygulandı." = "Test finished; the saved light policy is applied again.";
+"Işık değişti." = "The light changed.";
+"Işık değiştiriliyor…" = "Changing the light…";
+"Işık istenen renge geçmedi." = "The light didn’t switch to the requested colour.";

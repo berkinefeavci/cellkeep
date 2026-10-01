@@ -430,7 +430,6 @@
 "Kestirmeler'i Aç" = "Ouvrir Raccourcis";
 "Kompakt" = "Compact";
 "Kompakt: 340 pt genişlik — dar ekranlar ve sade görünüm için." = "Compact : 340 pt de large — pour les écrans étroits et un affichage plus sobre.";
-"Komutun geri okuması doğrulandı. Işığın gerçek rengini gözle kontrol edin." = "La relecture de la commande est vérifiée. Contrôlez vous-même la couleur réelle du voyant.";
 "Kontrol durumu işlem sırasında değişti. Ayar değiştirilmedi; güncel değeri inceleyip yeniden deneyin." = "L’état du contrôle a changé pendant l’opération. Le réglage n’a pas été modifié ; examinez la valeur actuelle et réessayez.";
 "Kontrol durumu yeniden okunamadı; ayar değiştirilmedi." = "L’état du contrôle n’a pas pu être relu ; le réglage n’a pas été modifié.";
 "Kontrol gerekli" = "Vérification nécessaire";
@@ -851,6 +850,8 @@
 "Tümü panelde" = "Tout est dans le panneau";
 "Işık macOS'a bırakıldı; rengi macOS seçer." = "Le voyant est rendu à macOS ; macOS choisit sa couleur.";
 "Işık macOS'a bırakılıyor…" = "Restitution du voyant à macOS…";
-"Işığın sabit kaldığı doğrulanıyor (yaklaşık 8 saniye)…" = "Vérification que le voyant reste stable (environ 8 secondes)…";
 "Kayıtlı ışık politikası yeniden uygulanıyor…" = "Réapplication de la règle de voyant enregistrée…";
 "Test bitti; kayıtlı ışık politikası yeniden uygulandı." = "Test terminé ; la règle de voyant enregistrée est de nouveau appliquée.";
+"Işık değişti." = "Le voyant a changé.";
+"Işık değiştiriliyor…" = "Changement du voyant…";
+"Işık istenen renge geçmedi." = "Le voyant n’est pas passé à la couleur demandée.";

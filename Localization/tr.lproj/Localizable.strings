@@ -430,7 +430,6 @@
 "Kestirmeler'i Aç" = "Kestirmeler'i Aç";
 "Kompakt" = "Kompakt";
 "Kompakt: 340 pt genişlik — dar ekranlar ve sade görünüm için." = "Kompakt: 340 pt genişlik — dar ekranlar ve sade görünüm için.";
-"Komutun geri okuması doğrulandı. Işığın gerçek rengini gözle kontrol edin." = "Komutun geri okuması doğrulandı. Işığın gerçek rengini gözle kontrol edin.";
 "Kontrol durumu işlem sırasında değişti. Ayar değiştirilmedi; güncel değeri inceleyip yeniden deneyin." = "Kontrol durumu işlem sırasında değişti. Ayar değiştirilmedi; güncel değeri inceleyip yeniden deneyin.";
 "Kontrol durumu yeniden okunamadı; ayar değiştirilmedi." = "Kontrol durumu yeniden okunamadı; ayar değiştirilmedi.";
 "Kontrol gerekli" = "Kontrol gerekli";
@@ -851,6 +850,8 @@
 "Tümü panelde" = "Tümü panelde";
 "Işık macOS'a bırakıldı; rengi macOS seçer." = "Işık macOS'a bırakıldı; rengi macOS seçer.";
 "Işık macOS'a bırakılıyor…" = "Işık macOS'a bırakılıyor…";
-"Işığın sabit kaldığı doğrulanıyor (yaklaşık 8 saniye)…" = "Işığın sabit kaldığı doğrulanıyor (yaklaşık 8 saniye)…";
 "Kayıtlı ışık politikası yeniden uygulanıyor…" = "Kayıtlı ışık politikası yeniden uygulanıyor…";
 "Test bitti; kayıtlı ışık politikası yeniden uygulandı." = "Test bitti; kayıtlı ışık politikası yeniden uygulandı.";
+"Işık değişti." = "Işık değişti.";
+"Işık değiştiriliyor…" = "Işık değiştiriliyor…";
+"Işık istenen renge geçmedi." = "Işık istenen renge geçmedi.";

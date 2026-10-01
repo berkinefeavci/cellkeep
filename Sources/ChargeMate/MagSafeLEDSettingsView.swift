@@ -281,7 +281,7 @@ struct MagSafeLEDSettingsView: View {
     private func runTest(_ output: MagSafeLEDOutput) {
         isWorking = true
         testMessage = output == .system ? String(localized: "Işık macOS'a bırakılıyor…")
-            : String(localized: "Işığın sabit kaldığı doğrulanıyor (yaklaşık 8 saniye)…")
+            : String(localized: "Işık değiştiriliyor…")
         DispatchQueue.global(qos: .userInitiated).async {
             let outcome = MagSafeLEDHardwareService.shared.apply(output)
             DispatchQueue.main.async {
@@ -306,7 +306,7 @@ struct MagSafeLEDSettingsView: View {
 
     private func outcomeMessage(_ outcome: MagSafeLEDControlCoordinator.Outcome) -> String {
         switch outcome {
-        case .applied: return String(localized: "Komutun geri okuması doğrulandı. Işığın gerçek rengini gözle kontrol edin.")
+        case .applied: return String(localized: "Işık değişti.")
         case .unchanged: return String(localized: "LED durumu değişmedi.")
         case .restored: return String(localized: "Test bitti; kayıtlı ışık politikası yeniden uygulandı.")
         case .blocked(let reason): return String(localized: "İşlem durduruldu: \(reason)")

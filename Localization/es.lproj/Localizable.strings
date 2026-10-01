@@ -430,7 +430,6 @@
 "Kestirmeler'i Aç" = "Abrir Atajos";
 "Kompakt" = "Compacto";
 "Kompakt: 340 pt genişlik — dar ekranlar ve sade görünüm için." = "Compacto: 340 pt de ancho — para pantallas estrechas y un aspecto más sencillo.";
-"Komutun geri okuması doğrulandı. Işığın gerçek rengini gözle kontrol edin." = "La relectura del comando está verificada. Comprueba con tus propios ojos el color real de la luz.";
 "Kontrol durumu işlem sırasında değişti. Ayar değiştirilmedi; güncel değeri inceleyip yeniden deneyin." = "El estado del control cambió durante la operación. El ajuste no se modificó; revisa el valor actual e inténtalo de nuevo.";
 "Kontrol durumu yeniden okunamadı; ayar değiştirilmedi." = "No se pudo volver a leer el estado del control; el ajuste no se modificó.";
 "Kontrol gerekli" = "Revisión necesaria";
@@ -851,6 +850,8 @@
 "Tümü panelde" = "Todo en el panel";
 "Işık macOS'a bırakıldı; rengi macOS seçer." = "La luz vuelve a macOS; macOS elige su color.";
 "Işık macOS'a bırakılıyor…" = "Devolviendo la luz a macOS…";
-"Işığın sabit kaldığı doğrulanıyor (yaklaşık 8 saniye)…" = "Comprobando que la luz se mantiene (unos 8 segundos)…";
 "Kayıtlı ışık politikası yeniden uygulanıyor…" = "Volviendo a aplicar la regla de luz guardada…";
 "Test bitti; kayıtlı ışık politikası yeniden uygulandı." = "Prueba terminada; la regla de luz guardada vuelve a aplicarse.";
+"Işık değişti." = "La luz ha cambiado.";
+"Işık değiştiriliyor…" = "Cambiando la luz…";
+"Işık istenen renge geçmedi." = "La luz no cambió al color pedido.";

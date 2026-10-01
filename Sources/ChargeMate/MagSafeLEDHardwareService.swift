@@ -183,12 +183,21 @@ final class MagSafeLEDHardwareService {
     private static func writeLED(_ output: MagSafeLEDOutput) throws {
         guard installed() else { throw ServiceError.helperNotTrusted }
         guard let value = MagSafeLEDRawCodec.encode(output) else { throw ServiceError.unsupportedValue }
-        try request("W \(value)")
+        // The helper only answers after eight settled 1 s samples (~8.5 s), though the light changes
+        // at once. Send without waiting for that answer and confirm with our own read instead; a
+        // press right after another waits for the helper to free up, hence the 12 s limit.
+        try request("W \(value)", awaitReply: false)
+        let deadline = Date().addingTimeInterval(12)
+        repeat {
+            if (try? readLED()) == output { return }
+            Thread.sleep(forTimeInterval: 0.1)
+        } while Date() < deadline
+        throw ServiceError.commandFailed(String(localized: "Işık istenen renge geçmedi."))
     }
 
     static func verifyConnection() throws { try request("PING") }
 
-    private static func request(_ command: String) throws {
+    private static func request(_ command: String, awaitReply: Bool = true) throws {
         let fd = socket(AF_UNIX, SOCK_STREAM, 0)
         guard fd >= 0 else { throw ServiceError.helperMissing }
         defer { close(fd) }
@@ -218,6 +227,7 @@ final class MagSafeLEDHardwareService {
             guard count > 0 else { throw ServiceError.commandFailed(String(localized: "Yardımcıya ulaşılamadı.")) }
             sent += count
         }
+        guard awaitReply else { return }
         var response = [UInt8]()
         while response.count < 16 {
             var byte: UInt8 = 0
