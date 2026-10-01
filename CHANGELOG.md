@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.6
+
+- MagSafe Light tests no longer get stuck. Switching from one test colour to another writes the new colour directly; before, Cellkeep first restored the old colour and then wrote the new one, two waits of about 8 seconds each, and any hiccup left the page blocked until a restore.
+- "System" hands the light back to macOS instead of writing a value it then tried to read back: macOS shows its own colour in that mode, so that check could never pass.
+- "Back to start" and any half-finished test re-apply the light policy chosen on the page (for example Always off), instead of forcing the colour that happened to be showing before the test.
+- A test colour reports done as soon as the light reads back the new colour, instead of waiting about 8 seconds for the helper's own settle check.
+
 ## 1.1.5
 
 - Panel edit mode no longer freezes Cellkeep. Cards used AppKit drag-and-drop, which kept the panel re-laying out every frame (100% CPU) from entering edit mode, so pressing Done hung the app. Cards are now dragged with a plain SwiftUI gesture.

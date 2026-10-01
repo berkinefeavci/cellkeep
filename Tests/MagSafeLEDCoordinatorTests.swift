@@ -26,14 +26,17 @@ import Foundation
         expect(writes.isEmpty)
         expect(coordinator.apply(.orange) == .applied)
         expect(value == .orange && writes == [.orange] && coordinator.requiresRecovery)
-        expect(coordinator.apply(.off) == .blocked("Önceki LED oturumu geri yüklenmeyi bekliyor."))
+        // A second test colour is written directly; the original baseline is kept.
+        expect(coordinator.apply(.off) == .applied)
+        expect(value == .off && writes == [.orange, .off] && coordinator.sessionActive)
+        expect(coordinator.apply(.off) == .unchanged && writes == [.orange, .off])
 
         let restarted = MagSafeLEDControlCoordinator(journal: journal, backend: .init(
             supportedOutputs: supported, read: { value }, write: { value = $0; writes.append($0) }
         ))
-        expect(restarted.requiresRecovery)
+        expect(restarted.requiresRecovery && restarted.sessionActive)
         expect(restarted.restore() == .restored)
-        expect(value == .green && writes == [.orange, .green])
+        expect(value == .green && writes == [.orange, .off, .green])
         expect(!FileManager.default.fileExists(atPath: journal.path))
 
         var unsupportedWrites = 0
@@ -50,7 +53,8 @@ import Foundation
             supportedOutputs: supported, read: { mismatch }, write: { uncertainWrites.append($0) }
         ))
         expect(uncertain.apply(.off) == .blocked("LED yazma sonucu doğrulanamadı; geri yükleme gerekli."))
-        expect(uncertain.requiresRecovery)
+        expect(uncertain.requiresRecovery && !uncertain.sessionActive)
+        expect(uncertain.apply(.orange) == .blocked("Önceki LED oturumu geri yüklenmeyi bekliyor."))
         expect(uncertain.restore() == .restored)
         expect(uncertainWrites == [.off, .green])
 

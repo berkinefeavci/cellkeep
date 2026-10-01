@@ -107,16 +107,38 @@ final class MagSafeLEDHardwareService {
 
     func apply(_ output: MagSafeLEDOutput) -> MagSafeLEDControlCoordinator.Outcome {
         guard Self.installed() else { return .blocked(String(localized: "LED yardımcısı kurulmamış.")) }
-        if coordinator.requiresRecovery {
-            let result = coordinator.restore()
-            guard result == .restored || result == .unchanged else { return result }
+        if output == .system {
+            // In system mode macOS picks the colour, so the light reads back green or orange, never
+            // "system": a verified write could never succeed. Hand the light to macOS instead.
+            do { try Self.configure(policy: .system, start: 0, end: 0); return .applied }
+            catch { return .blocked(error.localizedDescription) }
+        }
+        // A half-finished or unreadable test is settled by the saved policy, not by forcing the
+        // colour read before it (that colour may have been macOS's own choice).
+        if coordinator.requiresRecovery && !coordinator.sessionActive {
+            let resumed = resumeSavedPolicy()
+            guard resumed == .restored else { return resumed }
         }
         return coordinator.apply(output)
     }
 
+    /// Ends a manual test: the light goes back to the policy chosen on the MagSafe page.
     func restore() -> MagSafeLEDControlCoordinator.Outcome {
         guard Self.installed() else { return .blocked(String(localized: "LED yardımcısı kurulmamış.")) }
-        return coordinator.restore()
+        return resumeSavedPolicy()
+    }
+
+    private func resumeSavedPolicy() -> MagSafeLEDControlCoordinator.Outcome {
+        let defaults = UserDefaults.standard
+        let saved = MagSafeLEDPolicy(rawValue: defaults.string(forKey: MagSafeLEDPreferences.policyKey) ?? "") ?? .system
+        let start = defaults.object(forKey: "magSafeLEDStartMinute") as? Int ?? 1320
+        let end = defaults.object(forKey: "magSafeLEDEndMinute") as? Int ?? 480
+        do {
+            try Self.configure(policy: saved == .status ? .system : saved, start: start, end: end)
+            return .restored
+        } catch {
+            return .blocked(error.localizedDescription)
+        }
     }
 
     var requiresRecovery: Bool { coordinator.requiresRecovery }
@@ -161,12 +183,21 @@ final class MagSafeLEDHardwareService {
     private static func writeLED(_ output: MagSafeLEDOutput) throws {
         guard installed() else { throw ServiceError.helperNotTrusted }
         guard let value = MagSafeLEDRawCodec.encode(output) else { throw ServiceError.unsupportedValue }
-        try request("W \(value)")
+        // The helper only answers after eight settled 1 s samples (~8.5 s), though the light changes
+        // at once. Send without waiting for that answer and confirm with our own read instead; a
+        // press right after another waits for the helper to free up, hence the 12 s limit.
+        try request("W \(value)", awaitReply: false)
+        let deadline = Date().addingTimeInterval(12)
+        repeat {
+            if (try? readLED()) == output { return }
+            Thread.sleep(forTimeInterval: 0.1)
+        } while Date() < deadline
+        throw ServiceError.commandFailed(String(localized: "Işık istenen renge geçmedi."))
     }
 
     static func verifyConnection() throws { try request("PING") }
 
-    private static func request(_ command: String) throws {
+    private static func request(_ command: String, awaitReply: Bool = true) throws {
         let fd = socket(AF_UNIX, SOCK_STREAM, 0)
         guard fd >= 0 else { throw ServiceError.helperMissing }
         defer { close(fd) }
@@ -196,6 +227,7 @@ final class MagSafeLEDHardwareService {
             guard count > 0 else { throw ServiceError.commandFailed(String(localized: "Yardımcıya ulaşılamadı.")) }
             sent += count
         }
+        guard awaitReply else { return }
         var response = [UInt8]()
         while response.count < 16 {
             var byte: UInt8 = 0

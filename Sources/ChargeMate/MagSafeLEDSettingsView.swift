@@ -280,11 +280,13 @@ struct MagSafeLEDSettingsView: View {
 
     private func runTest(_ output: MagSafeLEDOutput) {
         isWorking = true
-        testMessage = String(localized: "Komut gönderiliyor; kararlı geri okuma bekleniyor…")
+        testMessage = output == .system ? String(localized: "Işık macOS'a bırakılıyor…")
+            : String(localized: "Işık değiştiriliyor…")
         DispatchQueue.global(qos: .userInitiated).async {
             let outcome = MagSafeLEDHardwareService.shared.apply(output)
             DispatchQueue.main.async {
-                testMessage = outcomeMessage(outcome)
+                testMessage = output == .system && outcome == .applied
+                    ? String(localized: "Işık macOS'a bırakıldı; rengi macOS seçer.") : outcomeMessage(outcome)
                 isWorking = false
             }
         }
@@ -292,7 +294,7 @@ struct MagSafeLEDSettingsView: View {
 
     private func restoreLED() {
         isWorking = true
-        testMessage = String(localized: "Başlangıç durumu geri yükleniyor…")
+        testMessage = String(localized: "Kayıtlı ışık politikası yeniden uygulanıyor…")
         DispatchQueue.global(qos: .userInitiated).async {
             let outcome = MagSafeLEDHardwareService.shared.restore()
             DispatchQueue.main.async {
@@ -304,9 +306,9 @@ struct MagSafeLEDSettingsView: View {
 
     private func outcomeMessage(_ outcome: MagSafeLEDControlCoordinator.Outcome) -> String {
         switch outcome {
-        case .applied: return String(localized: "Komutun geri okuması doğrulandı. Işığın gerçek rengini gözle kontrol edin.")
+        case .applied: return String(localized: "Işık değişti.")
         case .unchanged: return String(localized: "LED durumu değişmedi.")
-        case .restored: return String(localized: "Önceki LED durumu geri okuma ile doğrulandı.")
+        case .restored: return String(localized: "Test bitti; kayıtlı ışık politikası yeniden uygulandı.")
         case .blocked(let reason): return String(localized: "İşlem durduruldu: \(reason)")
         }
     }

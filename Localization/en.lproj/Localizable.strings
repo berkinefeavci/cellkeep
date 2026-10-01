@@ -142,7 +142,6 @@
 "Başlangıç LED durumu geri yüklenemedi." = "The original LED state could not be restored.";
 "Başlangıç LED durumu güvenle geri yüklenemiyor." = "The original LED state cannot be restored safely.";
 "Başlangıç LED durumu okunamadı." = "The original LED state could not be read.";
-"Başlangıç durumu geri yükleniyor…" = "Restoring the original state…";
 "Başlangıç rehberi" = "Getting started";
 "Başlangıç tarihi eksik." = "Start date is missing.";
 "Başlat" = "Start";
@@ -431,8 +430,6 @@
 "Kestirmeler'i Aç" = "Open Shortcuts";
 "Kompakt" = "Compact";
 "Kompakt: 340 pt genişlik — dar ekranlar ve sade görünüm için." = "Compact: 340 pt wide — for narrow screens and a simpler look.";
-"Komut gönderiliyor; kararlı geri okuma bekleniyor…" = "Sending command; waiting for a stable read-back…";
-"Komutun geri okuması doğrulandı. Işığın gerçek rengini gözle kontrol edin." = "The command's read-back is verified. Check the light's actual color with your own eyes.";
 "Kontrol durumu işlem sırasında değişti. Ayar değiştirilmedi; güncel değeri inceleyip yeniden deneyin." = "The control state changed during the operation. The setting was not changed; review the current value and try again.";
 "Kontrol durumu yeniden okunamadı; ayar değiştirilmedi." = "The control state could not be read again; the setting was not changed.";
 "Kontrol gerekli" = "Check needed";
@@ -764,7 +761,6 @@
 "Önceden etkinleştirilmiş Cellkeep yardımcısıyla macOS güç modunu değiştirir." = "Changes the macOS power mode through Cellkeep's previously enabled helper.";
 "Önceden etkinleştirilmiş LED denetimi gerekir" = "Requires previously enabled LED control";
 "Önceden etkinleştirilmiş helper gerekir" = "Requires a previously enabled helper";
-"Önceki LED durumu geri okuma ile doğrulandı." = "The previous LED state was verified by read-back.";
 "Önceki LED oturumu geri yüklenmeyi bekliyor." = "The previous LED session is waiting to be restored.";
 "Önceki LED oturumu okunamıyor." = "The previous LED session cannot be read.";
 "Önceki işlem kontrol edilmeli" = "The previous operation needs checking";
@@ -852,3 +848,10 @@
 "Kartları sürükleyerek sıralayın; kaldırmak için eksiye basın, boyutunu sağ alt köşeden değiştirin." = "Drag cards to reorder; press minus to remove, resize from the bottom-right corner.";
 "Panelde olmayan bir kart ya da grafik ekle" = "Add a card or chart that isn’t on the panel";
 "Tümü panelde" = "All on panel";
+"Işık macOS'a bırakıldı; rengi macOS seçer." = "The light is back with macOS; macOS picks its colour.";
+"Işık macOS'a bırakılıyor…" = "Handing the light back to macOS…";
+"Kayıtlı ışık politikası yeniden uygulanıyor…" = "Re-applying the saved light policy…";
+"Test bitti; kayıtlı ışık politikası yeniden uygulandı." = "Test finished; the saved light policy is applied again.";
+"Işık değişti." = "The light changed.";
+"Işık değiştiriliyor…" = "Changing the light…";
+"Işık istenen renge geçmedi." = "The light didn’t switch to the requested colour.";

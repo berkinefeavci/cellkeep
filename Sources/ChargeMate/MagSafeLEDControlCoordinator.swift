@@ -53,6 +53,8 @@ final class MagSafeLEDControlCoordinator {
     private(set) var journalCorrupt = false
 
     var requiresRecovery: Bool { session != nil || journalCorrupt }
+    /// A manual test whose last write was verified; another test colour can follow directly.
+    var sessionActive: Bool { !journalCorrupt && session?.stage == .active }
 
     init(journal: URL, backend: Backend) {
         self.journal = journal
@@ -64,9 +66,21 @@ final class MagSafeLEDControlCoordinator {
 
     func apply(_ output: MagSafeLEDOutput) -> Outcome {
         guard !journalCorrupt else { return .blocked(String(localized: "Önceki LED oturumu okunamıyor.")) }
-        guard session == nil else { return .blocked(String(localized: "Önceki LED oturumu geri yüklenmeyi bekliyor.")) }
         guard output != .blinkingOrange, backend.supportedOutputs.contains(output) else {
             return .blocked(String(localized: "Bu LED çıktısı backend tarafından desteklenmiyor."))
+        }
+        if let current = session {
+            // Switching colours during a test writes the new one directly and keeps the original
+            // baseline; restoring in between doubled every press (two settle waits).
+            guard current.stage == .active else {
+                return .blocked(String(localized: "Önceki LED oturumu geri yüklenmeyi bekliyor."))
+            }
+            guard current.requested != output else { return .unchanged }
+            var next = current
+            next.requested = output; next.stage = .pending
+            do { try save(next) } catch { return .blocked(String(localized: "LED geri dönüş kaydı oluşturulamadı.")) }
+            session = next
+            return write(output, session: next)
         }
         let baseline: MagSafeLEDOutput
         do { baseline = try backend.read() }
@@ -80,6 +94,11 @@ final class MagSafeLEDControlCoordinator {
         do { try save(next) }
         catch { return .blocked(String(localized: "LED geri dönüş kaydı oluşturulamadı.")) }
         session = next
+        return write(output, session: next)
+    }
+
+    private func write(_ output: MagSafeLEDOutput, session pending: Session) -> Outcome {
+        var next = pending
         do {
             try backend.write(output)
             guard try backend.read() == output else {
