@@ -116,6 +116,8 @@ xcrun swiftc Sources/ChargeMate/HelperInstallState.swift Tests/HelperInstallStat
 .build/checks/helper-install-state-tests
 xcrun swiftc Sources/ChargeMate/UpdateCheck.swift Tests/UpdateCheckTests.swift -o .build/checks/update-check-tests
 .build/checks/update-check-tests
+xcrun swiftc Sources/ChargeMate/UpdateCheck.swift Sources/ChargeMate/HelperInstallState.swift Sources/ChargeMate/UpdateInstaller.swift Tests/UpdateInstallerTests.swift -o .build/checks/update-installer-tests
+.build/checks/update-installer-tests
 xcrun swiftc Sources/ChargeMate/ChargeControllerDetector.swift Tests/ChargeControllerDetectorTests.swift -o .build/checks/charge-controller-detector-tests
 .build/checks/charge-controller-detector-tests
 xcrun swiftc Sources/ChargeMate/LongTermHistory.swift Sources/ChargeMate/HistoryCSV.swift Tests/HistoryCSVTests.swift -o .build/checks/history-csv-tests

@@ -18,7 +18,6 @@
 "%90" = "%90";
 "%90 ve üstünde geçen süre" = "%90 ve üstünde geçen süre";
 "%95" = "%95";
-"%@ aşağı" = "%@ aşağı";
 "%@ boyutunu %@ yap" = "%@ boyutunu %@ yap";
 "%@ bu Mac'te okunamadı." = "%@ bu Mac'te okunamadı.";
 "%@ dakikası" = "%@ dakikası";
@@ -31,7 +30,6 @@
 "%@ saati" = "%@ saati";
 "%@ seçildi." = "%@ seçildi.";
 "%@ uygulamasını kapat" = "%@ uygulamasını kapat";
-"%@ yukarı" = "%@ yukarı";
 "%@ · %@" = "%@ · %@";
 "%@ · %@ ekle" = "%@ · %@ ekle";
 "%@ · %@ · %@" = "%@ · %@ · %@";
@@ -54,6 +52,7 @@
 "%lld öğe gizlendi" = "%lld öğe gizlendi";
 "%lld%%" = "%lld%%";
 "%lld. %@" = "%lld. %@";
+"(tümü)" = "(tümü)";
 "8 eylem hazır" = "8 eylem hazır";
 "8 saatlik güvenlik süresi doldu" = "8 saatlik güvenlik süresi doldu";
 ":" = ":";
@@ -83,6 +82,7 @@
 "Ana simge stili" = "Ana simge stili";
 "Anlık güç" = "Anlık güç";
 "Apple Kestirmeler" = "Apple Kestirmeler";
+"Apple onayı (notarization) doğrulanamadı." = "Apple onayı (notarization) doğrulanamadı.";
 "Arayüz ayarları sıfırlandı; geçmiş ve sistem limiti korundu." = "Arayüz ayarları sıfırlandı; geçmiş ve sistem limiti korundu.";
 "Arayüz ayarlarını sıfırla" = "Arayüz ayarlarını sıfırla";
 "Arayüz sıfırlama; geçmişi, macOS’un şarj hedefini ve kontrol işlem kayıtlarını değiştirmez. Geçmiş temizleme ayrı ve geri alınabilir bir işlemdir." = "Arayüz sıfırlama; geçmişi, macOS’un şarj hedefini ve kontrol işlem kayıtlarını değiştirmez. Geçmiş temizleme ayrı ve geri alınabilir bir işlemdir.";
@@ -97,10 +97,11 @@
 "Aynı zamandaki daha öncelikli görev çalıştırıldı." = "Aynı zamandaki daha öncelikli görev çalıştırıldı.";
 "Açık" = "Açık";
 "Açıklama" = "Açıklama";
-"Açıksa Cellkeep yalnızca GitHub'daki son sürüm numarasını sorar. Veri göndermez, hiçbir şey indirmez veya kurmaz." = "Açıksa Cellkeep yalnızca GitHub'daki son sürüm numarasını sorar. Veri göndermez, hiçbir şey indirmez veya kurmaz.";
+"Açıksa Cellkeep yalnızca GitHub'daki son sürüm numarasını sorar ve veri göndermez. Güncellemeyi yalnızca siz “Güncelle”ye bastığınızda indirir; imzası ve Apple onayı doğrulanmadan kurmaz." = "Açıksa Cellkeep yalnızca GitHub'daki son sürüm numarasını sorar ve veri göndermez. Güncellemeyi yalnızca siz “Güncelle”ye bastığınızda indirir; imzası ve Apple onayı doğrulanmadan kurmaz.";
 "Açılır Panel" = "Açılır Panel";
 "Açılır paneli kişiselleştirin" = "Açılır paneli kişiselleştirin";
 "Açılış" = "Açılış";
+"Aşağı taşı" = "Aşağı taşı";
 "Batarya" = "Batarya";
 "Batarya MacBook’a güç sağlıyor. Adaptör bağlı değil." = "Batarya MacBook’a güç sağlıyor. Adaptör bağlı değil.";
 "Batarya MacBook’u besliyor" = "Batarya MacBook’u besliyor";
@@ -160,6 +161,7 @@
 "Birden çok çekirdek kullanıldığında yüzde 100'ü aşabilir." = "Birden çok çekirdek kullanıldığında yüzde 100'ü aşabilir.";
 "Birini seçin" = "Birini seçin";
 "Bitiş" = "Bitiş";
+"Bitti" = "Bitti";
 "Boyutu değiştir" = "Boyutu değiştir";
 "Bozuk LED oturum kaydı otomatik geri yüklenemez." = "Bozuk LED oturum kaydı otomatik geri yüklenemez.";
 "Boş menüde erişim için durum simgesi gösterilir." = "Boş menüde erişim için durum simgesi gösterilir.";
@@ -180,6 +182,7 @@
 "Bu eylem hedef yüzdesi kullanmaz." = "Bu eylem hedef yüzdesi kullanmaz.";
 "Bu filtrede kayıt yok" = "Bu filtrede kayıt yok";
 "Bu kontrol henüz etkin değil; doğrulanmış işlem durumu bekleniyor." = "Bu kontrol henüz etkin değil; doğrulanmış işlem durumu bekleniyor.";
+"Bu kopya imzalı bir sürüm değil; güncellemeyi sürüm sayfasından indirin." = "Bu kopya imzalı bir sürüm değil; güncellemeyi sürüm sayfasından indirin.";
 "Bu sağ tık eylemi henüz kullanılamıyor. Menü ayarlarından başka bir eylem seçin." = "Bu sağ tık eylemi henüz kullanılamıyor. Menü ayarlarından başka bir eylem seçin.";
 "Bu ışık çıkışı desteklenmiyor." = "Bu ışık çıkışı desteklenmiyor.";
 "Bu şarj limiti desteklenmiyor." = "Bu şarj limiti desteklenmiyor.";
@@ -188,6 +191,7 @@
 "Cellkeep %@ · Bu Mac’te saklanır" = "Cellkeep %@ · Bu Mac’te saklanır";
 "Cellkeep Durumunu Al" = "Cellkeep Durumunu Al";
 "Cellkeep başka bir pil denetleyicisi algıladığında donanım değişikliğini kilitler; izleme ve geçmiş çalışmaya devam eder." = "Cellkeep başka bir pil denetleyicisi algıladığında donanım değişikliğini kilitler; izleme ve geçmiş çalışmaya devam eder.";
+"Cellkeep bu konumdan güncellenemiyor. Uygulamayı Applications klasörüne taşıyın veya sürümü sayfasından indirin." = "Cellkeep bu konumdan güncellenemiyor. Uygulamayı Applications klasörüne taşıyın veya sürümü sayfasından indirin.";
 "Cellkeep denetimi kullanılamıyor." = "Cellkeep denetimi kullanılamıyor.";
 "Cellkeep durumları" = "Cellkeep durumları";
 "Cellkeep durumu" = "Cellkeep durumu";
@@ -250,6 +254,7 @@
 "Döngü sayısı" = "Döngü sayısı";
 "Düzen kaydedilemedi: %@" = "Düzen kaydedilemedi: %@";
 "Düzenle" = "Düzenle";
+"Düzenleme moduna girmek için bir karta uzun basın." = "Düzenleme moduna girmek için bir karta uzun basın.";
 "Düşük Güç Modu" = "Düşük Güç Modu";
 "Düşük Güç Modu açıkken görünen bilgi" = "Düşük Güç Modu açıkken görünen bilgi";
 "Düşük Güç Modu rengi" = "Düşük Güç Modu rengi";
@@ -259,6 +264,7 @@
 "DİĞER" = "DİĞER";
 "Eklenen döngü" = "Eklenen döngü";
 "Ekran" = "Ekran";
+"Elektrik" = "Elektrik";
 "Elle başlatılan işlem öncelikli olduğu için görev atlandı." = "Elle başlatılan işlem öncelikli olduğu için görev atlandı.";
 "En yüksek etkinliğe sahip uygulamalar" = "En yüksek etkinliğe sahip uygulamalar";
 "En yüksek sıcaklık" = "En yüksek sıcaklık";
@@ -277,6 +283,7 @@
 "Gelişmiş" = "Gelişmiş";
 "Genel" = "Genel";
 "Geniş" = "Geniş";
+"Geniş yap" = "Geniş yap";
 "Geri al" = "Geri al";
 "Geri alınabilir geçmiş yedeği yok." = "Geri alınabilir geçmiş yedeği yok.";
 "Gerilim" = "Gerilim";
@@ -305,6 +312,7 @@
 "GitHub'a bağlanılamadı." = "GitHub'a bağlanılamadı.";
 "Gizle" = "Gizle";
 "Grafik aralığı" = "Grafik aralığı";
+"Grafik ekle" = "Grafik ekle";
 "GÖRÜNÜM" = "GÖRÜNÜM";
 "Gönderildi" = "Gönderildi";
 "Görev adı 1–80 karakter olmalı." = "Görev adı 1–80 karakter olmalı.";
@@ -327,6 +335,12 @@
 "Güncel güç durumu bilinmiyor" = "Güncel güç durumu bilinmiyor";
 "Güncel güç ölçümü bekleniyor." = "Güncel güç ölçümü bekleniyor.";
 "Güncel şarj durumunun açıklaması" = "Güncel şarj durumunun açıklaması";
+"Güncelle: %@" = "Güncelle: %@";
+"Güncelleme dosyası açılamadı." = "Güncelleme dosyası açılamadı.";
+"Güncelleme doğrulanamadı; kurulmadı. %@" = "Güncelleme doğrulanamadı; kurulmadı. %@";
+"Güncelleme hazırlanamadı." = "Güncelleme hazırlanamadı.";
+"Güncelleme indirilemedi." = "Güncelleme indirilemedi.";
+"Güncelleme indiriliyor…" = "Güncelleme indiriliyor…";
 "Günlük batarya sağlığı grafiği" = "Günlük batarya sağlığı grafiği";
 "Günlük özetler bu Mac’te 400 güne kadar saklanır; yalnızca Cellkeep açıkken kaydedilen ölçümlerden hesaplanır." = "Günlük özetler bu Mac’te 400 güne kadar saklanır; yalnızca Cellkeep açıkken kaydedilen ölçümlerden hesaplanır.";
 "Günlük özetler dışa aktarıldı: %lld gün." = "Günlük özetler dışa aktarıldı: %lld gün.";
@@ -391,10 +405,14 @@
 "Kararlı Cellkeep durum adını döndürür." = "Kararlı Cellkeep durum adını döndürür.";
 "Kararlı otomasyon durum adı" = "Kararlı otomasyon durum adı";
 "Kare" = "Kare";
+"Kare yap" = "Kare yap";
 "Kart ekle" = "Kart ekle";
-"Kart eklemek, kaldırmak ve sıralamak için paneldeki Düzenle düğmesini kullanın. Kompakt boyutta da seçtiğiniz kartlar korunur." = "Kart eklemek, kaldırmak ve sıralamak için paneldeki Düzenle düğmesini kullanın. Kompakt boyutta da seçtiğiniz kartlar korunur.";
+"Kart eklemek, kaldırmak ve sıralamak için paneldeki bir karta uzun basın veya sağ tıklayıp “Kartları düzenle”yi seçin. Kompakt boyutta da seçtiğiniz kartlar korunur." = "Kart eklemek, kaldırmak ve sıralamak için paneldeki bir karta uzun basın veya sağ tıklayıp “Kartları düzenle”yi seçin. Kompakt boyutta da seçtiğiniz kartlar korunur.";
 "Kart kataloğu" = "Kart kataloğu";
-"Kart yok. Düzenle düğmesiyle kart ekleyebilirsiniz." = "Kart yok. Düzenle düğmesiyle kart ekleyebilirsiniz.";
+"Kart yok. Düzenleme modunda alttan kart ekleyebilirsiniz." = "Kart yok. Düzenleme modunda alttan kart ekleyebilirsiniz.";
+"Kartları düzenle" = "Kartları düzenle";
+"Kartları sürükleyerek sıralayın; köşedeki düğmelerle kaldırın veya boyutunu değiştirin." = "Kartları sürükleyerek sıralayın; köşedeki düğmelerle kaldırın veya boyutunu değiştirin.";
+"Kartı kaldır" = "Kartı kaldır";
 "Kataloğu sağa kaydır" = "Kataloğu sağa kaydır";
 "Kataloğu sola kaydır" = "Kataloğu sola kaydır";
 "Kaydediliyor…" = "Kaydediliyor…";
@@ -461,7 +479,6 @@
 "Maksimum kapasitenin tasarıma oranı, %" = "Maksimum kapasitenin tasarıma oranı, %";
 "Manuel deneme otomatik ışık ayarını duraklatır. Denemeden sonra üstteki 'Uygula' ile devam ettirin. 'Başlangıca dön' önceki rengi geri yükler." = "Manuel deneme otomatik ışık ayarını duraklatır. Denemeden sonra üstteki 'Uygula' ile devam ettirin. 'Başlangıca dön' önceki rengi geri yükler.";
 "Menü ikonu yüklenemedi (%@); yedek çizim kullanılıyor." = "Menü ikonu yüklenemedi (%@); yedek çizim kullanılıyor.";
-"Menü kartlarını düzenle" = "Menü kartlarını düzenle";
 "Menü panelini açılışta göster" = "Menü panelini açılışta göster";
 "Menü Çubuğu" = "Menü Çubuğu";
 "Menü çubuğu öğeleri kataloğu" = "Menü çubuğu öğeleri kataloğu";
@@ -520,6 +537,7 @@
 "Rehberi yeniden tamamla" = "Rehberi yeniden tamamla";
 "Saat aralığında kapalı" = "Saat aralığında kapalı";
 "Saat dilimi" = "Saat dilimi";
+"Satır seçmek için bir karta uzun basıp düzenleme moduna girin." = "Satır seçmek için bir karta uzun basıp düzenleme moduna girin.";
 "Saydamlığı azalt" = "Saydamlığı azalt";
 "Sayısal Celsius değeri" = "Sayısal Celsius değeri";
 "Sağ tık" = "Sağ tık";
@@ -553,9 +571,9 @@
 "Son ölçüm: %@%@" = "Son ölçüm: %@%@";
 "Spotlight indeksleme" = "Spotlight indeksleme";
 "Sürükleyerek hedefi belirleyin · Seçili hedef %%%lld" = "Sürükleyerek hedefi belirleyin · Seçili hedef %%%lld";
-"Sürükleyerek sırala" = "Sürükleyerek sırala";
 "Sürüm %@ (%@) · bağımsız macOS uygulaması." = "Sürüm %@ (%@) · bağımsız macOS uygulaması.";
 "Sürüm %@ sayfasını aç" = "Sürüm %@ sayfasını aç";
+"Sürüm veya paket kimliği beklenen değil." = "Sürüm veya paket kimliği beklenen değil.";
 "Sürüyor" = "Sürüyor";
 "Sıcaklık" = "Sıcaklık";
 "Sıcaklık grafiği" = "Sıcaklık grafiği";
@@ -641,9 +659,11 @@
 "Yeni dil, Cellkeep yeniden başlayınca geçerli olur." = "Yeni dil, Cellkeep yeniden başlayınca geçerli olur.";
 "Yeni görev" = "Yeni görev";
 "Yeni sürüm var: %@" = "Yeni sürüm var: %@";
+"Yeni sürüm var: %@ · Güncelle" = "Yeni sürüm var: %@ · Güncelle";
 "Yeni çalışma %@ kimliğiyle kaydedildi. Doğrulanmış writer olmadığı için sistem ayarı değiştirilmedi." = "Yeni çalışma %@ kimliğiyle kaydedildi. Doğrulanmış writer olmadığı için sistem ayarı değiştirilmedi.";
 "Yeni çalışma kaydedilemedi: %@" = "Yeni çalışma kaydedilemedi: %@";
 "Yeni çalışma olarak dene" = "Yeni çalışma olarak dene";
+"Yeniden başlatılıyor…" = "Yeniden başlatılıyor…";
 "Yeniden deneme eski kaydı değiştirmez; yeni bir çalışma kimliği oluşturur." = "Yeniden deneme eski kaydı değiştirmez; yeni bir çalışma kimliği oluşturur.";
 "Yeniden denetle" = "Yeniden denetle";
 "Yenileme aralığı sensör örneklemesini değiştirmez. Geniş menülerde sağdaki öğeler +N altında toplanır; tüm değerler açıklamada bulunur." = "Yenileme aralığı sensör örneklemesini değiştirmez. Geniş menülerde sağdaki öğeler +N altında toplanır; tüm değerler açıklamada bulunur.";
@@ -659,6 +679,7 @@
 "Yerel şarj yardımcısının yanıtı sınırı aştı." = "Yerel şarj yardımcısının yanıtı sınırı aştı.";
 "Yerleşim ve davranış" = "Yerleşim ve davranış";
 "Yeşil" = "Yeşil";
+"Yukarı taşı" = "Yukarı taşı";
 "Yönetici izni bekleniyor…" = "Yönetici izni bekleniyor…";
 "Yönetici izniyle yardımcı süreçler ve arka plan servisleri (yeni ve varsa eski ChargeMate sürümünden kalanlar) kaldırılır, giriş öğesi kayıttan silinir. Tek bir yönetici onayı istenir. İşlem bitince uygulamayı Çöp Sepeti'ne sürüklemeniz istenir. Bu adım geri alınamaz." = "Yönetici izniyle yardımcı süreçler ve arka plan servisleri (yeni ve varsa eski ChargeMate sürümünden kalanlar) kaldırılır, giriş öğesi kayıttan silinir. Tek bir yönetici onayı istenir. İşlem bitince uygulamayı Çöp Sepeti'ne sürüklemeniz istenir. Bu adım geri alınamaz.";
 "Yüksek Enerji Kullanımı:" = "Yüksek Enerji Kullanımı:";
@@ -674,6 +695,8 @@
 "bilinmiyor" = "bilinmiyor";
 "bir web sayfası çalışıyor" = "bir web sayfası çalışıyor";
 "geniş" = "geniş";
+"gizle" = "gizle";
+"göster" = "göster";
 "iOS stilinde yüzde pilin içinde gösterilir." = "iOS stilinde yüzde pilin içinde gösterilir.";
 "iOS tarzı" = "iOS tarzı";
 "kapat" = "kapat";
@@ -715,6 +738,8 @@
 "sayfaları ekrana çiziyor" = "sayfaları ekrana çiziyor";
 "ses çalıyor" = "ses çalıyor";
 "sonraki çalışma yok" = "sonraki çalışma yok";
+"tümünü gizle" = "tümünü gizle";
+"tümünü göster" = "tümünü göster";
 "yardımcı işlem" = "yardımcı işlem";
 "·" = "·";
 "Çakışma nedeniyle atlandı" = "Çakışma nedeniyle atlandı";
@@ -761,8 +786,11 @@
 "İki haftada bir" = "İki haftada bir";
 "İki haftalık kalibrasyon" = "İki haftalık kalibrasyon";
 "İki uygulama aynı şarj sınırını yazarsa birbirini bozar; bu yüzden düğmeler kilitli." = "İki uygulama aynı şarj sınırını yazarsa birbirini bozar; bu yüzden düğmeler kilitli.";
+"İmza bu uygulamanın geliştiricisine ait değil." = "İmza bu uygulamanın geliştiricisine ait değil.";
+"İmza ve Apple onayı doğrulanıyor…" = "İmza ve Apple onayı doğrulanıyor…";
 "İncele" = "İncele";
 "İncele…" = "İncele…";
+"İndirilen dosya yayınlanan sağlama değeriyle uyuşmuyor; kurulmadı." = "İndirilen dosya yayınlanan sağlama değeriyle uyuşmuyor; kurulmadı.";
 "İptal" = "İptal";
 "İptal bekleniyor…" = "İptal bekleniyor…";
 "İptal edildi" = "İptal edildi";

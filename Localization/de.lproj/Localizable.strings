@@ -18,7 +18,6 @@
 "%90" = "90 %";
 "%90 ve üstünde geçen süre" = "Zeit bei 90 % oder mehr";
 "%95" = "95 %";
-"%@ aşağı" = "%@ nach unten";
 "%@ boyutunu %@ yap" = "%@ %@ machen";
 "%@ bu Mac'te okunamadı." = "%@ konnte auf diesem Mac nicht gelesen werden.";
 "%@ dakikası" = "%@ Minute";
@@ -31,7 +30,6 @@
 "%@ saati" = "%@ Stunde";
 "%@ seçildi." = "%@ ausgewählt.";
 "%@ uygulamasını kapat" = "%@ beenden";
-"%@ yukarı" = "%@ nach oben";
 "%@ · %@" = "%@ · %@";
 "%@ · %@ ekle" = "%@ · %@ hinzufügen";
 "%@ · %@ · %@" = "%@ · %@ · %@";
@@ -54,6 +52,7 @@
 "%lld öğe gizlendi" = "%lld Elemente ausgeblendet";
 "%lld%%" = "%lld %%";
 "%lld. %@" = "%lld. %@";
+"(tümü)" = "(alle)";
 "8 eylem hazır" = "8 Aktionen bereit";
 "8 saatlik güvenlik süresi doldu" = "8-Stunden-Sicherheitsgrenze erreicht";
 ":" = ":";
@@ -83,6 +82,7 @@
 "Ana simge stili" = "Stil des Hauptsymbols";
 "Anlık güç" = "Momentanleistung";
 "Apple Kestirmeler" = "Apple Kurzbefehle";
+"Apple onayı (notarization) doğrulanamadı." = "Die Apple-Beglaubigung konnte nicht geprüft werden.";
 "Arayüz ayarları sıfırlandı; geçmiş ve sistem limiti korundu." = "Die Oberflächeneinstellungen wurden zurückgesetzt; Verlauf und Systemlimit blieben erhalten.";
 "Arayüz ayarlarını sıfırla" = "Oberflächeneinstellungen zurücksetzen";
 "Arayüz sıfırlama; geçmişi, macOS’un şarj hedefini ve kontrol işlem kayıtlarını değiştirmez. Geçmiş temizleme ayrı ve geri alınabilir bir işlemdir." = "Das Zurücksetzen der Oberfläche ändert weder den Verlauf noch das macOS-Ladeziel oder die Vorgangsprotokolle. Das Löschen des Verlaufs ist eine eigene Aktion, die rückgängig gemacht werden kann.";
@@ -97,10 +97,11 @@
 "Aynı zamandaki daha öncelikli görev çalıştırıldı." = "Stattdessen wurde eine Aufgabe mit höherer Priorität zur selben Zeit ausgeführt.";
 "Açık" = "Hell";
 "Açıklama" = "Beschreibung";
-"Açıksa Cellkeep yalnızca GitHub'daki son sürüm numarasını sorar. Veri göndermez, hiçbir şey indirmez veya kurmaz." = "Wenn aktiviert, fragt Cellkeep GitHub nur nach der neuesten Versionsnummer. Es sendet keine Daten und lädt oder installiert nie etwas.";
+"Açıksa Cellkeep yalnızca GitHub'daki son sürüm numarasını sorar ve veri göndermez. Güncellemeyi yalnızca siz “Güncelle”ye bastığınızda indirir; imzası ve Apple onayı doğrulanmadan kurmaz." = "Wenn aktiviert, fragt Cellkeep GitHub nur nach der neuesten Versionsnummer und sendet keine Daten. Ein Update wird nur geladen, wenn du auf „Aktualisieren“ drückst, und erst nach Prüfung von Signatur und Apple-Beglaubigung installiert.";
 "Açılır Panel" = "Popover-Fenster";
 "Açılır paneli kişiselleştirin" = "Das Popover-Fenster anpassen";
 "Açılış" = "Start";
+"Aşağı taşı" = "Nach unten";
 "Batarya" = "Batterie";
 "Batarya MacBook’a güç sağlıyor. Adaptör bağlı değil." = "Die Batterie versorgt das MacBook. Das Netzteil ist nicht angeschlossen.";
 "Batarya MacBook’u besliyor" = "Die Batterie versorgt das MacBook";
@@ -160,6 +161,7 @@
 "Birden çok çekirdek kullanıldığında yüzde 100'ü aşabilir." = "Kann 100 Prozent überschreiten, wenn mehr als ein Kern genutzt wird.";
 "Birini seçin" = "Eine auswählen";
 "Bitiş" = "Ende";
+"Bitti" = "Fertig";
 "Boyutu değiştir" = "Größe ändern";
 "Bozuk LED oturum kaydı otomatik geri yüklenemez." = "Ein beschädigter LED-Sitzungseintrag kann nicht automatisch wiederhergestellt werden.";
 "Boş menüde erişim için durum simgesi gösterilir." = "Bei leerem Menü wird ein Statussymbol angezeigt, damit die App erreichbar bleibt.";
@@ -180,6 +182,7 @@
 "Bu eylem hedef yüzdesi kullanmaz." = "Diese Aktion verwendet keinen Zielprozentsatz.";
 "Bu filtrede kayıt yok" = "Keine Einträge für diesen Filter";
 "Bu kontrol henüz etkin değil; doğrulanmış işlem durumu bekleniyor." = "Diese Steuerung ist noch nicht aktiv; warte auf einen überprüften Vorgangszustand.";
+"Bu kopya imzalı bir sürüm değil; güncellemeyi sürüm sayfasından indirin." = "Diese Kopie ist keine signierte Version; lade das Update von der Versionsseite.";
 "Bu sağ tık eylemi henüz kullanılamıyor. Menü ayarlarından başka bir eylem seçin." = "Diese Rechtsklick-Aktion ist noch nicht verfügbar. Wähle in den Menüeinstellungen eine andere Aktion.";
 "Bu ışık çıkışı desteklenmiyor." = "Diese Lichtausgabe wird nicht unterstützt.";
 "Bu şarj limiti desteklenmiyor." = "Dieses Ladelimit wird nicht unterstützt.";
@@ -188,6 +191,7 @@
 "Cellkeep %@ · Bu Mac’te saklanır" = "Cellkeep %@ · Auf diesem Mac gespeichert";
 "Cellkeep Durumunu Al" = "Cellkeep-Status abrufen";
 "Cellkeep başka bir pil denetleyicisi algıladığında donanım değişikliğini kilitler; izleme ve geçmiş çalışmaya devam eder." = "Erkennt Cellkeep eine andere Batteriesteuerung, sperrt es Hardwareänderungen; Überwachung und Verlauf laufen weiter.";
+"Cellkeep bu konumdan güncellenemiyor. Uygulamayı Applications klasörüne taşıyın veya sürümü sayfasından indirin." = "Cellkeep kann sich an diesem Ort nicht aktualisieren. Verschiebe die App in den Ordner „Programme“ oder lade die Version von ihrer Seite.";
 "Cellkeep denetimi kullanılamıyor." = "Die Cellkeep-Steuerung ist nicht verfügbar.";
 "Cellkeep durumları" = "Cellkeep-Zustände";
 "Cellkeep durumu" = "Cellkeep-Status";
@@ -250,6 +254,7 @@
 "Döngü sayısı" = "Zyklenzahl";
 "Düzen kaydedilemedi: %@" = "Das Layout konnte nicht gespeichert werden: %@";
 "Düzenle" = "Bearbeiten";
+"Düzenleme moduna girmek için bir karta uzun basın." = "Halte eine Karte gedrückt, um den Bearbeitungsmodus zu öffnen.";
 "Düşük Güç Modu" = "Stromsparmodus";
 "Düşük Güç Modu açıkken görünen bilgi" = "Wird angezeigt, solange der Stromsparmodus aktiv ist";
 "Düşük Güç Modu rengi" = "Farbe im Stromsparmodus";
@@ -259,6 +264,7 @@
 "DİĞER" = "SONSTIGES";
 "Eklenen döngü" = "Hinzugekommene Zyklen";
 "Ekran" = "Display";
+"Elektrik" = "Elektrik";
 "Elle başlatılan işlem öncelikli olduğu için görev atlandı." = "Die Aufgabe wurde übersprungen, weil ein manuell gestarteter Vorgang Vorrang hat.";
 "En yüksek etkinliğe sahip uygulamalar" = "Apps mit der höchsten Aktivität";
 "En yüksek sıcaklık" = "Höchsttemperatur";
@@ -277,6 +283,7 @@
 "Gelişmiş" = "Erweitert";
 "Genel" = "Allgemein";
 "Geniş" = "Breit";
+"Geniş yap" = "Breit machen";
 "Geri al" = "Widerrufen";
 "Geri alınabilir geçmiş yedeği yok." = "Es gibt keine Verlaufssicherung zum Wiederherstellen.";
 "Gerilim" = "Spannung";
@@ -305,6 +312,7 @@
 "GitHub'a bağlanılamadı." = "Keine Verbindung zu GitHub möglich.";
 "Gizle" = "Ausblenden";
 "Grafik aralığı" = "Diagrammzeitraum";
+"Grafik ekle" = "Diagramm hinzufügen";
 "GÖRÜNÜM" = "DARSTELLUNG";
 "Gönderildi" = "Gesendet";
 "Görev adı 1–80 karakter olmalı." = "Der Aufgabenname muss 1–80 Zeichen lang sein.";
@@ -327,6 +335,12 @@
 "Güncel güç durumu bilinmiyor" = "Aktueller Energiezustand unbekannt";
 "Güncel güç ölçümü bekleniyor." = "Warte auf einen aktuellen Leistungsmesswert.";
 "Güncel şarj durumunun açıklaması" = "Beschreibung des aktuellen Ladezustands";
+"Güncelle: %@" = "Auf %@ aktualisieren";
+"Güncelleme dosyası açılamadı." = "Die Update-Datei konnte nicht geöffnet werden.";
+"Güncelleme doğrulanamadı; kurulmadı. %@" = "Das Update konnte nicht geprüft werden; es wurde nicht installiert. %@";
+"Güncelleme hazırlanamadı." = "Das Update konnte nicht vorbereitet werden.";
+"Güncelleme indirilemedi." = "Das Update konnte nicht geladen werden.";
+"Güncelleme indiriliyor…" = "Update wird geladen …";
 "Günlük batarya sağlığı grafiği" = "Diagramm des täglichen Batteriezustands";
 "Günlük özetler bu Mac’te 400 güne kadar saklanır; yalnızca Cellkeep açıkken kaydedilen ölçümlerden hesaplanır." = "Tägliche Zusammenfassungen werden bis zu 400 Tage auf diesem Mac gespeichert und nur aus Messwerten berechnet, die bei geöffnetem Cellkeep erfasst wurden.";
 "Günlük özetler dışa aktarıldı: %lld gün." = "Tägliche Zusammenfassungen exportiert: %lld Tage.";
@@ -391,10 +405,14 @@
 "Kararlı Cellkeep durum adını döndürür." = "Gibt den stabilen Cellkeep-Zustandsnamen zurück.";
 "Kararlı otomasyon durum adı" = "Stabiler Zustandsname für Automationen";
 "Kare" = "Quadratisch";
+"Kare yap" = "Quadratisch machen";
 "Kart ekle" = "Karte hinzufügen";
-"Kart eklemek, kaldırmak ve sıralamak için paneldeki Düzenle düğmesini kullanın. Kompakt boyutta da seçtiğiniz kartlar korunur." = "Verwende die Taste „Bearbeiten“ im Fenster, um Karten hinzuzufügen, zu entfernen und umzusortieren. Deine Karten bleiben auch in der kompakten Größe erhalten.";
+"Kart eklemek, kaldırmak ve sıralamak için paneldeki bir karta uzun basın veya sağ tıklayıp “Kartları düzenle”yi seçin. Kompakt boyutta da seçtiğiniz kartlar korunur." = "Zum Hinzufügen, Entfernen oder Sortieren halte eine Karte im Fenster gedrückt oder klicke mit rechts und wähle „Karten bearbeiten“. Deine Karten bleiben auch in der kompakten Größe erhalten.";
 "Kart kataloğu" = "Kartenkatalog";
-"Kart yok. Düzenle düğmesiyle kart ekleyebilirsiniz." = "Keine Karten. Du kannst Karten mit der Taste „Bearbeiten“ hinzufügen.";
+"Kart yok. Düzenleme modunda alttan kart ekleyebilirsiniz." = "Keine Karten. Im Bearbeitungsmodus kannst du unten Karten hinzufügen.";
+"Kartları düzenle" = "Karten bearbeiten";
+"Kartları sürükleyerek sıralayın; köşedeki düğmelerle kaldırın veya boyutunu değiştirin." = "Ziehe Karten zum Sortieren; mit den Eckknöpfen entfernst du sie oder änderst die Größe.";
+"Kartı kaldır" = "Karte entfernen";
 "Kataloğu sağa kaydır" = "Katalog nach rechts scrollen";
 "Kataloğu sola kaydır" = "Katalog nach links scrollen";
 "Kaydediliyor…" = "Wird gespeichert …";
@@ -461,7 +479,6 @@
 "Maksimum kapasitenin tasarıma oranı, %" = "Maximale Kapazität im Verhältnis zum Design, %";
 "Manuel deneme otomatik ışık ayarını duraklatır. Denemeden sonra üstteki 'Uygula' ile devam ettirin. 'Başlangıca dön' önceki rengi geri yükler." = "Ein manueller Test pausiert die automatische Lichteinstellung. Setze sie danach oben mit „Anwenden“ fort. „Zurück zum Anfang“ stellt die vorherige Farbe wieder her.";
 "Menü ikonu yüklenemedi (%@); yedek çizim kullanılıyor." = "Das Menüsymbol konnte nicht geladen werden (%@); es wird eine Ersatzgrafik verwendet.";
-"Menü kartlarını düzenle" = "Menükarten bearbeiten";
 "Menü panelini açılışta göster" = "Menüfenster beim Start anzeigen";
 "Menü Çubuğu" = "Menüleiste";
 "Menü çubuğu öğeleri kataloğu" = "Katalog der Menüleistenelemente";
@@ -520,6 +537,7 @@
 "Rehberi yeniden tamamla" = "Anleitung erneut durchgehen";
 "Saat aralığında kapalı" = "In einem Zeitraum aus";
 "Saat dilimi" = "Zeitzone";
+"Satır seçmek için bir karta uzun basıp düzenleme moduna girin." = "Halte eine Karte gedrückt, um in den Bearbeitungsmodus zu wechseln und Zeilen zu wählen.";
 "Saydamlığı azalt" = "Transparenz reduzieren";
 "Sayısal Celsius değeri" = "Zahlenwert in Celsius";
 "Sağ tık" = "Rechtsklick";
@@ -553,9 +571,9 @@
 "Son ölçüm: %@%@" = "Letzter Messwert: %@%@";
 "Spotlight indeksleme" = "Spotlight-Indizierung";
 "Sürükleyerek hedefi belirleyin · Seçili hedef %%%lld" = "Zum Festlegen des Ziels ziehen · Ausgewähltes Ziel %lld %%";
-"Sürükleyerek sırala" = "Zum Umsortieren ziehen";
 "Sürüm %@ (%@) · bağımsız macOS uygulaması." = "Version %@ (%@) · unabhängige macOS-App.";
 "Sürüm %@ sayfasını aç" = "Seite der Version %@ öffnen";
+"Sürüm veya paket kimliği beklenen değil." = "Version oder Bundle-ID entsprechen nicht der Erwartung.";
 "Sürüyor" = "Läuft";
 "Sıcaklık" = "Temperatur";
 "Sıcaklık grafiği" = "Diagramm Temperatur";
@@ -641,9 +659,11 @@
 "Yeni dil, Cellkeep yeniden başlayınca geçerli olur." = "Die neue Sprache gilt nach dem Neustart von Cellkeep.";
 "Yeni görev" = "Neue Aufgabe";
 "Yeni sürüm var: %@" = "Neue Version verfügbar: %@";
+"Yeni sürüm var: %@ · Güncelle" = "Neue Version verfügbar: %@ · Aktualisieren";
 "Yeni çalışma %@ kimliğiyle kaydedildi. Doğrulanmış writer olmadığı için sistem ayarı değiştirilmedi." = "Eine neue Ausführung wurde mit der ID %@ gespeichert. Die Systemeinstellung wurde nicht geändert, da kein überprüfter Schreiber vorhanden ist.";
 "Yeni çalışma kaydedilemedi: %@" = "Die neue Ausführung konnte nicht gespeichert werden: %@";
 "Yeni çalışma olarak dene" = "Als neue Ausführung versuchen";
+"Yeniden başlatılıyor…" = "Wird neu gestartet …";
 "Yeniden deneme eski kaydı değiştirmez; yeni bir çalışma kimliği oluşturur." = "Ein erneuter Versuch ändert den alten Eintrag nicht; er erzeugt eine neue Ausführungs-ID.";
 "Yeniden denetle" = "Erneut prüfen";
 "Yenileme aralığı sensör örneklemesini değiştirmez. Geniş menülerde sağdaki öğeler +N altında toplanır; tüm değerler açıklamada bulunur." = "Das Aktualisierungsintervall ändert die Sensorabfrage nicht. In breiten Menüs werden Elemente rechts unter +N zusammengefasst; alle Werte stehen in der Beschreibung.";
@@ -659,6 +679,7 @@
 "Yerel şarj yardımcısının yanıtı sınırı aştı." = "Die Antwort des nativen Lade-Helfers hat die Größengrenze überschritten.";
 "Yerleşim ve davranış" = "Layout und Verhalten";
 "Yeşil" = "Grün";
+"Yukarı taşı" = "Nach oben";
 "Yönetici izni bekleniyor…" = "Warte auf Administratorberechtigung …";
 "Yönetici izniyle yardımcı süreçler ve arka plan servisleri (yeni ve varsa eski ChargeMate sürümünden kalanlar) kaldırılır, giriş öğesi kayıttan silinir. Tek bir yönetici onayı istenir. İşlem bitince uygulamayı Çöp Sepeti'ne sürüklemeniz istenir. Bu adım geri alınamaz." = "Mit Administratorberechtigung werden Hilfsprozesse und Hintergrunddienste (neue und etwaige Reste der alten ChargeMate-Version) entfernt und das Anmeldeobjekt wird abgemeldet. Es ist nur eine einzige Administratorbestätigung nötig. Danach wirst du gebeten, die App in den Papierkorb zu ziehen. Dieser Schritt kann nicht rückgängig gemacht werden.";
 "Yüksek Enerji Kullanımı:" = "Hoher Energieverbrauch:";
@@ -674,6 +695,8 @@
 "bilinmiyor" = "unbekannt";
 "bir web sayfası çalışıyor" = "eine Webseite läuft";
 "geniş" = "breit";
+"gizle" = "ausblenden";
+"göster" = "einblenden";
 "iOS stilinde yüzde pilin içinde gösterilir." = "Im iOS-Stil wird der Prozentwert in der Batterie angezeigt.";
 "iOS tarzı" = "iOS-Stil";
 "kapat" = "schließen";
@@ -715,6 +738,8 @@
 "sayfaları ekrana çiziyor" = "zeichnet Seiten auf den Bildschirm";
 "ses çalıyor" = "spielt Audio ab";
 "sonraki çalışma yok" = "keine nächste Ausführung";
+"tümünü gizle" = "alle ausblenden";
+"tümünü göster" = "alle einblenden";
 "yardımcı işlem" = "Hilfsprozess";
 "·" = "·";
 "Çakışma nedeniyle atlandı" = "Wegen eines Konflikts übersprungen";
@@ -761,8 +786,11 @@
 "İki haftada bir" = "Alle zwei Wochen";
 "İki haftalık kalibrasyon" = "Zweiwöchentliche Kalibrierung";
 "İki uygulama aynı şarj sınırını yazarsa birbirini bozar; bu yüzden düğmeler kilitli." = "Wenn zwei Apps dasselbe Ladelimit schreiben, stören sie sich gegenseitig; deshalb sind die Tasten gesperrt.";
+"İmza bu uygulamanın geliştiricisine ait değil." = "Die Signatur gehört nicht zum Entwickler dieser App.";
+"İmza ve Apple onayı doğrulanıyor…" = "Signatur und Apple-Beglaubigung werden geprüft …";
 "İncele" = "Prüfen";
 "İncele…" = "Prüfen …";
+"İndirilen dosya yayınlanan sağlama değeriyle uyuşmuyor; kurulmadı." = "Die geladene Datei passt nicht zur veröffentlichten Prüfsumme; sie wurde nicht installiert.";
 "İptal" = "Abbrechen";
 "İptal bekleniyor…" = "Warte auf Abbruch …";
 "İptal edildi" = "Abgebrochen";

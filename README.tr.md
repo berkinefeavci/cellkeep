@@ -42,11 +42,11 @@
 - **Zamanlamalar (Schedules).** Bir sınır uygulama, güç modu değiştirme ve benzeri için tekrarlı veya tek seferlik eylemler; filtrelenebilir çalıştırma geçmişiyle.
 - **Apple Kısayolları (Shortcuts) eylemleri.** Pil yüzdesi, sıcaklık ve durum okuma; sınır uygulama, Doldur başlatma/iptal etme, güç modu değiştirme veya MagSafe LED ayarlama için sekiz App Intent.
 - **Çıkış ile yüksek enerjili uygulamalar.** Enerji listesi yardımcı süreçleri sahibi uygulama altında toplar, gerçek ikonu gösterir ve listeden doğrudan bir uygulamayı kapatmanıza izin verir.
-- **İsteğe bağlı güncelleme haberi.** Varsayılan olarak kapalıdır. Ayarlar → Hakkında'dan açılırsa Cellkeep haftada en fazla bir kez GitHub'dan son sürüm numarasını sorar ve sayfasına bağlantı verir. Hiçbir şey indirilmez veya gönderilmez; bkz. [PRIVACY.md](PRIVACY.md).
+- **İsteğe bağlı güncelleme.** Varsayılan olarak kapalıdır. Ayarlar → Hakkında'dan açılırsa Cellkeep haftada en fazla bir kez GitHub'dan son sürüm numarasını sorar. **Güncelle**'ye basınca o sürümü indirir; sağlama değerini, Developer ID imzasını ve Apple onayını doğruladıktan sonra kendini değiştirip yeniden açılır. Hiçbir veri gönderilmez; bkz. [PRIVACY.md](PRIVACY.md).
 - **Çakışma koruması.** Başka bir şarj limiti aracı çalışıyor ya da kuruluysa (AlDente, Battery Toolkit, BatFi, batt, battery, bclm) Cellkeep izlemeye devam eder ama kendi limit yazmalarını kilitler; iki uygulama aynı ayar için çekişmez.
 - **Genel kısayol (isteğe bağlı).** Varsayılan olarak kapalıdır. Ayarlar → Genel’den ⌃⌥⌘B veya ⌃⌥⌘C seçilirse panel her yerden açılıp kapanır; Erişilebilirlik izni gerekmez ve yalnızca o tuş birleşimini görür.
 - **Diller.** İngilizce, Türkçe, Almanca, Fransızca ve İspanyolca; Cellkeep macOS dilinizi izler, desteklenmeyen dillerde İngilizceye döner.
-- **Özelleştirilebilir panel.** Sürükleyerek sıralama, kart ekleme/çıkarma, kare veya geniş widget seçimi.
+- **Özelleştirilebilir panel.** Bir karta uzun basın (veya sağ tık → Kartları düzenle): sürükleyerek sıralama, kart ekleme/çıkarma, kare/geniş seçimi ve batarya bilgileri kartında hangi satırların görüneceği.
 
 ### Planlanan; donanımda doğrulama gerekiyor
 

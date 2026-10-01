@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.4
+
+- In-app update: "Update" downloads the new release, checks its checksum, Developer ID signature and Apple notarization, then replaces Cellkeep and relaunches it. If any check fails, nothing is installed and the release page is offered.
+- Panel edit mode: long-press a card (or right-click → Edit cards) to edit; the Edit button is gone. Remove and resize buttons sit on the card corners instead of covering the title, cards are dragged to reorder, and missing cards and charts are added from chips at the bottom.
+- Battery info card: in edit mode, tick which rows to show (health, battery, electrical, power adapter), one by one or a whole group.
+- MagSafe Light: "Apply" waits until the current light helper is installed and says how to install it, instead of hanging with an older helper.
+
 ## 1.1.3
 
 - Menu bar panel: the locked Discharge action is a small icon, so "Limit" and "Top Up" keep their full labels in every language.

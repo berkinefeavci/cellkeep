@@ -166,19 +166,41 @@ extension View {
     func editModeJiggle(active: Bool) -> some View { modifier(EditModeJiggle(active: active)) }
 }
 
-/// Small circular affordance badge overlaid on a card corner in edit mode (remove/resize).
+/// True while the menu-bar panel is in edit mode; cards with optional rows show their toggles.
+private struct PanelEditingKey: EnvironmentKey { static let defaultValue = false }
+extension EnvironmentValues {
+    var panelEditing: Bool {
+        get { self[PanelEditingKey.self] }
+        set { self[PanelEditingKey.self] = newValue }
+    }
+}
+
+extension View {
+    /// Drag source only while `enabled`, so dragging inside a card (e.g. a chart) does nothing
+    /// outside edit mode.
+    @ViewBuilder
+    func draggable(when enabled: Bool, _ provider: @escaping () -> NSItemProvider) -> some View {
+        if enabled { onDrag(provider) } else { self }
+    }
+}
+
+/// Small circular badge placed on a card corner in edit mode (remove/resize).
 struct WidgetEditBadge: View {
     let systemImage: String
     var tint: Color = .primary
+    /// Solid fill (e.g. red for remove); nil uses a neutral glass circle.
+    var fill: Color? = nil
     let action: () -> Void
     var body: some View {
         Button(action: action) {
             Image(systemName: systemImage)
-                .font(.system(size: 10, weight: .bold))
+                .font(.system(size: 10, weight: .heavy))
                 .foregroundStyle(tint)
-                .frame(width: 22, height: 22)
-                .background(.ultraThinMaterial, in: Circle())
-                .overlay(Circle().strokeBorder(.white.opacity(0.4), lineWidth: 0.8))
+                .frame(width: 20, height: 20)
+                .background {
+                    if let fill { Circle().fill(fill) } else { Circle().fill(.ultraThinMaterial) }
+                }
+                .overlay(Circle().strokeBorder(.white.opacity(fill == nil ? 0.4 : 0.85), lineWidth: 1))
         }
         .buttonStyle(.plain)
         .shadow(color: .black.opacity(0.18), radius: 2, y: 1)
@@ -761,10 +783,76 @@ private struct FlowRouteView: View {
     }
 }
 
+/// Rows the wide "Battery info" card can show, grouped like the dashboard. Which rows are visible
+/// is a per-user choice made in panel edit mode; the defaults match the earlier fixed card.
+enum QuickStat: String, CaseIterable, Identifiable {
+    case designCapacity, fullCapacity, hardwarePercentage, cycles
+    case temperature, timeRemaining
+    case current, voltage, batteryPower, systemPower
+    case adapterPower, adapterVoltage, adapterCurrent
+
+    enum Group: CaseIterable {
+        case health, battery, electrical, adapter
+        var title: String {
+            switch self {
+            case .health: return String(localized: "Batarya sağlığı")
+            case .battery: return String(localized: "Batarya")
+            case .electrical: return String(localized: "Elektrik")
+            case .adapter: return String(localized: "Güç adaptörü")
+            }
+        }
+        var members: [QuickStat] { QuickStat.allCases.filter { $0.group == self } }
+    }
+
+    static let storageKey = "quickStatsVisible"
+    static let defaultVisible: [QuickStat] = [.fullCapacity, .cycles, .temperature, .timeRemaining,
+                                              .batteryPower, .systemPower, .adapterPower]
+    static var defaultStorage: String { defaultVisible.map(\.rawValue).joined(separator: ",") }
+
+    static func visible(from storage: String) -> Set<QuickStat> {
+        Set(storage.split(separator: ",").compactMap { QuickStat(rawValue: String($0)) })
+    }
+    static func storage(for visible: Set<QuickStat>) -> String {
+        allCases.filter(visible.contains).map(\.rawValue).joined(separator: ",")
+    }
+
+    var id: String { rawValue }
+    var group: Group {
+        switch self {
+        case .designCapacity, .fullCapacity, .hardwarePercentage, .cycles: return .health
+        case .temperature, .timeRemaining: return .battery
+        case .current, .voltage, .batteryPower, .systemPower: return .electrical
+        case .adapterPower, .adapterVoltage, .adapterCurrent: return .adapter
+        }
+    }
+    var icon: String {
+        switch self {
+        case .designCapacity: return "battery.100percent"
+        case .fullCapacity: return "heart"
+        case .hardwarePercentage: return "cpu"
+        case .cycles: return "clock.arrow.circlepath"
+        case .temperature: return "thermometer.medium"
+        case .timeRemaining: return "clock"
+        case .current: return "bolt.horizontal"
+        case .voltage: return "bolt"
+        case .batteryPower: return "battery.75percent"
+        case .systemPower: return "laptopcomputer"
+        case .adapterPower: return "powerplug.portrait.fill"
+        case .adapterVoltage: return "bolt.circle"
+        case .adapterCurrent: return "arrow.left.and.right.circle"
+        }
+    }
+}
+
 struct QuickStatsView: View {
     @EnvironmentObject var battery: BatteryMonitor
+    @Environment(\.panelEditing) private var editing
+    @AppStorage(QuickStat.storageKey) private var visibleStorage = QuickStat.defaultStorage
     /// Kare (yarım genişlik) varyant: yalnızca en önemli iki istatistik, büyük punto.
     var square: Bool = false
+
+    private var visible: Set<QuickStat> { QuickStat.visible(from: visibleStorage) }
+
     var body: some View {
         if square {
             VStack(alignment: .leading, spacing: 10) {
@@ -777,20 +865,106 @@ struct QuickStatsView: View {
             .frame(maxWidth: .infinity, minHeight: 150, maxHeight: 150, alignment: .topLeading)
             .modifier(GlassSurface())
         } else {
+            let groups = QuickStat.Group.allCases.filter { group in editing || group.members.contains(where: visible.contains) }
             VStack(spacing: 10) {
-                stat(String(localized: "Maksimum kapasite"), icon: "heart", value: String(localized: "\(battery.snapshot.reading(.fullCapacity).text(digits: 0)) · \(battery.snapshot.reading(.health).text())"))
-                stat(String(localized: "Döngü sayısı"), icon: "clock.arrow.circlepath", value: battery.snapshot.reading(.cycles).text(digits: 0))
-                Divider()
-                stat(String(localized: "Batarya sıcaklığı"), icon: "thermometer.medium", value: battery.temperatureText).help(battery.snapshot.temperatureSource)
-                stat(battery.snapshot.isCharging ? String(localized: "Tam doluma kalan") : String(localized: "Kalan süre"), icon: "clock", value: battery.snapshot.reading(.timeRemaining).text(digits: 0))
-                Divider()
-                stat(String(localized: "Batarya gücü"), icon: "battery.100percent", value: battery.snapshot.reading(.batteryPower).text())
-                stat(String(localized: "Sistem yükü"), icon: "laptopcomputer", value: battery.snapshot.reading(.systemPower).text())
-                Divider()
-                stat(String(localized: "Adaptör gücü"), icon: "powerplug.portrait.fill", value: "\(battery.snapshot.reading(.adapterPower).text()) / \(battery.snapshot.reading(.adapterRatedPower).text())")
+                ForEach(Array(groups.enumerated()), id: \.offset) { index, group in
+                    if index > 0 { Divider() }
+                    if editing { groupHeader(group) }
+                    ForEach(group.members.filter { editing || visible.contains($0) }) { item in
+                        row(item)
+                    }
+                }
+                if groups.isEmpty {
+                    Text("Satır seçmek için bir karta uzun basıp düzenleme moduna girin.")
+                        .font(.system(size: 11)).foregroundStyle(.secondary)
+                }
             }
         }
     }
+
+    private func groupHeader(_ group: QuickStat.Group) -> some View {
+        let members = Set(group.members)
+        let all = members.isSubset(of: visible)
+        return Button {
+            var next = visible
+            if all { next.subtract(members) } else { next.formUnion(members) }
+            visibleStorage = QuickStat.storage(for: next)
+        } label: {
+            HStack(spacing: 8) {
+                checkmark(all)
+                Text(group.title).font(.system(size: 11, weight: .semibold))
+                Text("(tümü)").font(.system(size: 10)).foregroundStyle(.secondary)
+                Spacer()
+            }.contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("\(group.title): \(all ? String(localized: "tümünü gizle") : String(localized: "tümünü göster"))")
+    }
+
+    @ViewBuilder private func row(_ item: QuickStat) -> some View {
+        let shown = visible.contains(item)
+        if editing {
+            Button {
+                var next = visible
+                if shown { next.remove(item) } else { next.insert(item) }
+                visibleStorage = QuickStat.storage(for: next)
+            } label: {
+                HStack(spacing: 8) {
+                    checkmark(shown)
+                    stat(item).opacity(shown ? 1 : 0.55)
+                }.contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("\(title(item)): \(shown ? String(localized: "gizle") : String(localized: "göster"))")
+        } else {
+            stat(item)
+        }
+    }
+
+    private func checkmark(_ on: Bool) -> some View {
+        Image(systemName: on ? "checkmark.circle.fill" : "circle")
+            .font(.system(size: 13))
+            .foregroundStyle(on ? Color.green : Color.secondary)
+            .frame(width: 16)
+    }
+
+    private func title(_ item: QuickStat) -> String {
+        switch item {
+        case .designCapacity: return String(localized: "Tasarım kapasitesi")
+        case .fullCapacity: return String(localized: "Maksimum kapasite")
+        case .hardwarePercentage: return String(localized: "Donanım yüzdesi")
+        case .cycles: return String(localized: "Döngü sayısı")
+        case .temperature: return String(localized: "Batarya sıcaklığı")
+        case .timeRemaining: return battery.snapshot.isCharging ? String(localized: "Tam doluma kalan") : String(localized: "Kalan süre")
+        case .current: return String(localized: "Akım")
+        case .voltage: return String(localized: "Gerilim")
+        case .batteryPower: return String(localized: "Batarya gücü")
+        case .systemPower: return String(localized: "Sistem yükü")
+        case .adapterPower: return String(localized: "Adaptör gücü")
+        case .adapterVoltage: return String(localized: "Adaptör voltajı")
+        case .adapterCurrent: return String(localized: "Adaptör akımı")
+        }
+    }
+
+    private func value(_ item: QuickStat) -> String {
+        let s = battery.snapshot
+        switch item {
+        case .designCapacity: return s.reading(.designCapacity).text(digits: 0)
+        case .fullCapacity: return String(localized: "\(s.reading(.fullCapacity).text(digits: 0)) · \(s.reading(.health).text())")
+        case .hardwarePercentage: return s.reading(.hardwarePercentage).text(digits: 0)
+        case .cycles: return s.reading(.cycles).text(digits: 0)
+        case .temperature: return battery.temperatureText
+        case .timeRemaining: return s.reading(.timeRemaining).text(digits: 0)
+        case .current: return s.reading(.current).text(digits: 0)
+        case .voltage: return s.reading(.voltage).text(digits: 2)
+        case .batteryPower: return s.reading(.batteryPower).text()
+        case .systemPower: return s.reading(.systemPower).text()
+        case .adapterPower: return "\(s.reading(.adapterPower).text()) / \(s.reading(.adapterRatedPower).text())"
+        case .adapterVoltage: return s.reading(.adapterVoltage).text()
+        case .adapterCurrent: return s.reading(.adapterCurrent).text(digits: 2)
+        }
+    }
+
     private func squareStat(_ title: String, icon: String, value: String) -> some View {
         HStack(spacing: 8) {
             Image(systemName: icon).font(.system(size: 14)).foregroundStyle(Color.primary.opacity(0.72)).frame(width: 16)
@@ -800,13 +974,15 @@ struct QuickStatsView: View {
             }
         }
     }
-    private func stat(_ title: String, icon: String, value: String) -> some View {
+    private func stat(_ item: QuickStat) -> some View {
         HStack(spacing: 8) {
-            Image(systemName: icon).frame(width: 15)
-            Text(title)
+            Image(systemName: item.icon).frame(width: 15)
+            Text(title(item))
             Spacer(minLength: 8)
-            Text(battery.snapshot.available ? value : "—").foregroundStyle(.primary).fontWeight(.medium).monospacedDigit()
-        }.font(.system(size: 11)).foregroundStyle(Color.primary.opacity(0.72))
+            Text(battery.snapshot.available ? value(item) : "—").foregroundStyle(.primary).fontWeight(.medium).monospacedDigit()
+        }
+        .font(.system(size: 11)).foregroundStyle(Color.primary.opacity(0.72))
+        .help(item == .temperature ? battery.snapshot.temperatureSource : "")
     }
 }
 
