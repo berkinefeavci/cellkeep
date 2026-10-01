@@ -18,6 +18,9 @@ struct PopoverView: View {
     @State private var editing = false
     @State private var draft: [PlacedWidget] = []
     @State private var dragging: PanelWidget?
+    @State private var dragOffset: CGSize = .zero
+    @State private var cardFrames: [PanelWidget: CGRect] = [:]
+    private static let cardSpace = "panelCards"
     @State private var saveError: String?
     @State private var galleryOpen = false
     @State private var footerHovered = false
@@ -94,13 +97,17 @@ struct PopoverView: View {
                             Text(notice).font(.caption).foregroundStyle(.orange)
                         }
                         ForEach(Array(PopoverLayout.rows(for: visibleItems).enumerated()), id: \.offset) { _, row in
-                            rowView(row)
+                            // The row holding the card being dragged draws above the others.
+                            rowView(row).zIndex(Self.widgets(in: row).contains { $0 == dragging } ? 1 : 0)
                         }
                         if (editing ? draft : layout.items).isEmpty {
                             Text("Kart yok. Düzenleme modunda alttan kart ekleyebilirsiniz.").font(.callout).foregroundStyle(.secondary).chargeCard()
                         }
                         if editing {
-                            editTray
+                            Text("Kartları sürükleyerek sıralayın; kaldırmak için eksiye basın, boyutunu sağ alt köşeden değiştirin.")
+                                .font(.system(size: 10)).foregroundStyle(.secondary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .fixedSize(horizontal: false, vertical: true)
                         } else {
                             VStack(spacing: 12) {
                                 HStack { ReadOnlyBadge(); Spacer(); HistoryRangePicker() }
@@ -116,14 +123,21 @@ struct PopoverView: View {
                             .onHover { inside in withAnimation(.easeOut(duration: 0.15)) { footerHovered = inside } }
                         }
                     }.padding(16)
+                    .coordinateSpace(name: Self.cardSpace)
+                    .onPreferenceChange(PanelCardFramesKey.self) { cardFrames = $0 }
                 }
+                .overlayPreferenceValue(PanelEditAnchorsKey.self) { anchors in editOverlay(anchors) }
             }.scrollIndicators(.never, axes: .vertical).clipped().zIndex(0)
+            if editing {
+                editBar.transition(.move(edge: .bottom).combined(with: .opacity))
+            }
         }
         .frame(width: (PanelSizeMode(rawValue: panelSizeMode) ?? .normal).width)
         .modifier(WindowSurface())
         .onReceive(NotificationCenter.default.publisher(for: .chargeMatePanelClosed)) { _ in
             editing = false; draft = []; dragging = nil; limitEditor = false; galleryOpen = false
         }
+        .onReceive(NotificationCenter.default.publisher(for: .chargeMatePanelLongPress)) { _ in startEditing() }
         .onExitCommand { AppDelegate.shared?.closePanel() }
         .preferredColorScheme(appearance == "dark" ? .dark : appearance == "light" ? .light : nil)
     }
@@ -135,7 +149,13 @@ struct PopoverView: View {
 
     private func toggleSize(_ widget: PanelWidget) {
         guard let index = draft.firstIndex(where: { $0.widget == widget }) else { return }
-        draft[index].size = draft[index].size == .square ? .wide : .square
+        setSize(widget, draft[index].size == .square ? .wide : .square)
+    }
+
+    private func setSize(_ widget: PanelWidget, _ size: WidgetSize) {
+        guard let index = draft.firstIndex(where: { $0.widget == widget }), draft[index].size != size,
+              widget.supportedSizes.contains(size) else { return }
+        withAnimation(.easeOut(duration: 0.2)) { draft[index].size = size }
     }
 
     private var visibleItems: [PlacedWidget] {
@@ -169,35 +189,33 @@ struct PopoverView: View {
     private func cardRow(_ item: PlacedWidget) -> some View {
         widgetContent(item)
             .environment(\.panelEditing, editing)
-            .editModeJiggle(active: editing && !reduceMotion)
-            // Badges sit on the card's corners, half outside, so they never cover its text.
-            .overlay(alignment: .topLeading) {
-                if editing {
-                    WidgetEditBadge(systemImage: "minus", tint: .white, fill: .red) {
-                        withAnimation(.easeOut(duration: 0.15)) { draft.removeAll { $0.widget == item.widget } }
-                    }
-                    .offset(x: -7, y: -7)
-                    .accessibilityLabel("\(item.widget.title) kaldır")
-                    .help("Kartı kaldır")
+            // Unrotated bounds for the remove badge and resize handle (drawn in editOverlay).
+            .anchorPreference(key: PanelEditAnchorsKey.self, value: .bounds) { bounds in
+                editing ? [PanelEditAnchor(widget: item.widget, size: item.size,
+                                           resizable: item.widget.supportedSizes.count > 1, bounds: bounds)] : []
+            }
+            .editModeJiggle(active: editing && !reduceMotion, wide: item.size == .wide)
+            .background {
+                GeometryReader { proxy in
+                    Color.clear.preference(key: PanelCardFramesKey.self,
+                                           value: editing ? [item.widget: proxy.frame(in: .named(Self.cardSpace))] : [:])
                 }
             }
-            .overlay(alignment: .topTrailing) {
-                if editing && item.widget.supportedSizes.count > 1 {
-                    WidgetEditBadge(systemImage: item.size == .square ? "rectangle" : "square") {
-                        toggleSize(item.widget)
-                    }
-                    .offset(x: 7, y: -7)
-                    .accessibilityLabel("\(item.widget.title) boyutunu \(item.size == .square ? String(localized: "geniş") : String(localized: "kare")) yap")
-                    .help(item.size == .square ? String(localized: "Geniş yap") : String(localized: "Kare yap"))
-                }
-            }
+            // The whole card, not just its text, takes the long press and the drag.
+            .contentShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .offset(dragging == item.widget ? dragOffset : .zero)
+            .scaleEffect(dragging == item.widget ? 1.03 : 1)
+            .shadow(color: .black.opacity(dragging == item.widget ? 0.25 : 0), radius: 10, y: 4)
+            .zIndex(dragging == item.widget ? 1 : 0)
+            // A SwiftUI drag, not AppKit drag-and-drop: `onDrag` on these cards kept the panel
+            // re-laying out every frame (100% CPU) for as long as edit mode had been entered.
+            .gesture(DragGesture(minimumDistance: 6, coordinateSpace: .named(Self.cardSpace))
+                .onChanged { value in dragging = item.widget; dragOffset = value.translation }
+                .onEnded { value in drop(item.widget, at: value.location) },
+                     including: editing ? .all : .subviews)
             .simultaneousGesture(LongPressGesture(minimumDuration: 0.6).onEnded { _ in startEditing() })
             .contextMenu {
                 if !editing { Button("Kartları düzenle") { startEditing() } }
-            }
-            .draggable(when: editing) {
-                dragging = item.widget
-                return NSItemProvider(object: item.widget.rawValue as NSString)
             }
             .accessibilityElement(children: .contain)
             .accessibilityAction(named: Text("Kartları düzenle")) { startEditing() }
@@ -208,10 +226,27 @@ struct PopoverView: View {
                 guard editing, item.widget.supportedSizes.count > 1 else { return }
                 toggleSize(item.widget)
             }
-            .onDrop(of: ["public.utf8-plain-text"], isTargeted: nil) { _ in
-                guard editing, let source = dragging else { return false }
-                draft = PopoverLayout.move(source, before: item.widget, in: draft); dragging = nil; return true
-            }
+    }
+
+    /// Drops `source` on the card under `location`: moving down places it after that card,
+    /// moving up places it before, so a one-step move works in both directions.
+    private func drop(_ source: PanelWidget, at location: CGPoint) {
+        defer { withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) { dragging = nil; dragOffset = .zero } }
+        guard let target = cardFrames.first(where: { $0.key != source && $0.value.contains(location) })?.key,
+              let from = draft.firstIndex(where: { $0.widget == source }),
+              let to = draft.firstIndex(where: { $0.widget == target }) else { return }
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+            // After removing the source, index `to` is just past the target when moving down
+            // and the target itself when moving up.
+            draft.insert(draft.remove(at: from), at: to)
+        }
+    }
+
+    private static func widgets(in row: WidgetRow) -> [PanelWidget] {
+        switch row {
+        case .wide(let a), .squareSingle(let a): return [a.widget]
+        case .squarePair(let a, let b): return [a.widget, b.widget]
+        }
     }
 
     private func startEditing() {
@@ -221,6 +256,7 @@ struct PopoverView: View {
     }
 
     private func finishEditing(save: Bool) {
+        guard editing else { return }
         if save {
             do { savedLayout = try PopoverLayout.encode(draft) }
             catch { saveError = String(localized: "Düzen kaydedilemedi: \(error.localizedDescription)"); return }
@@ -229,51 +265,64 @@ struct PopoverView: View {
         draft = []; dragging = nil; galleryOpen = false
     }
 
-    /// Edit-mode footer: cards and charts not on the panel as one-tap chips, then Cancel / Done.
-    private var editTray: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            let missing = PanelWidget.allCases.filter { widget in !draft.contains { $0.widget == widget } }
-            let cards = missing.filter { !$0.isChart }
-            let charts = missing.filter(\.isChart)
-            if !cards.isEmpty { addRow(String(localized: "Kart ekle"), cards) }
-            if !charts.isEmpty { addRow(String(localized: "Grafik ekle"), charts) }
-            Text("Kartları sürükleyerek sıralayın; köşedeki düğmelerle kaldırın veya boyutunu değiştirin.")
-                .font(.system(size: 10)).foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
-            HStack(spacing: 8) {
-                Button("İptal") { finishEditing(save: false) }
-                    .popoverToolbarButtonStyle()
-                Spacer()
-                Button("Bitti") { finishEditing(save: true) }
-                    .popoverToolbarButtonStyle(active: true)
-                    .keyboardShortcut("s", modifiers: .command)
+    /// Remove badges and resize handles, drawn above the glass so the cards never cover them.
+    private func editOverlay(_ anchors: [PanelEditAnchor]) -> some View {
+        GeometryReader { proxy in
+            ForEach(anchors.filter { $0.widget != dragging }) { anchor in
+                let frame = proxy[anchor.bounds]
+                WidgetEditBadge(systemImage: "minus", tint: .white, fill: .red) {
+                    withAnimation(.easeOut(duration: 0.15)) { draft.removeAll { $0.widget == anchor.widget } }
+                }
+                // Centred on the corner, like Home Screen widgets, so it never covers the title.
+                .position(x: frame.minX + 1, y: frame.minY + 1)
+                .accessibilityLabel("\(anchor.widget.title) kaldır")
+                if anchor.resizable {
+                    WidgetResizeHandle(size: anchor.size) { setSize(anchor.widget, $0) }
+                        .position(x: frame.maxX + 12 - WidgetResizeHandle.extent / 2,
+                                  y: frame.maxY + 12 - WidgetResizeHandle.extent / 2)
+                        .accessibilityLabel("\(anchor.widget.title) boyutunu \(anchor.size == .square ? String(localized: "geniş") : String(localized: "kare")) yap")
+                }
             }
         }
     }
 
-    private func addRow(_ title: String, _ widgets: [PanelWidget]) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(title).font(.system(size: 11, weight: .semibold)).foregroundStyle(.secondary)
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 6) {
-                    ForEach(widgets) { widget in
-                        Button {
-                            withAnimation(.easeOut(duration: 0.15)) {
-                                draft.append(PlacedWidget(widget, size: widget.supportedSizes.contains(.wide) ? .wide : .square))
-                            }
-                        } label: {
-                            Label(widget.title, systemImage: "plus")
-                                .font(.system(size: 11, weight: .semibold))
-                                .padding(.horizontal, 10).padding(.vertical, 6)
-                                .background(Color.accentColor, in: Capsule())
-                                .foregroundStyle(.white)
-                        }
-                        .buttonStyle(.plain)
-                        .help(widget.detail)
-                    }
+    /// Edit-mode bar pinned under the cards, so Add, Cancel and Done are reachable without scrolling.
+    private var editBar: some View {
+        let missing = PanelWidget.allCases.filter { widget in !draft.contains { $0.widget == widget } }
+        return VStack(spacing: 0) {
+            Divider()
+            HStack(spacing: 8) {
+                Menu {
+                    let cards = missing.filter { !$0.isChart }, charts = missing.filter(\.isChart)
+                    if !cards.isEmpty { Section("Kartlar") { ForEach(cards) { addButton($0) } } }
+                    if !charts.isEmpty { Section("Grafikler") { ForEach(charts) { addButton($0) } } }
+                } label: {
+                    Label(missing.isEmpty ? String(localized: "Tümü panelde") : String(localized: "Kart ekle"), systemImage: "plus")
                 }
+                .menuStyle(.button).menuIndicator(.hidden)
+                .popoverToolbarButtonStyle()
+                .fixedSize()
+                .disabled(missing.isEmpty)
+                .help(missing.isEmpty ? String(localized: "Bütün kartlar ve grafikler zaten panelde.")
+                                      : String(localized: "Panelde olmayan bir kart ya da grafik ekle"))
+                Spacer(minLength: 0)
+                Button("İptal") { finishEditing(save: false) }
+                    .popoverToolbarButtonStyle()
+                Button("Bitti") { finishEditing(save: true) }
+                    .popoverToolbarButtonStyle(active: true)
+                    .keyboardShortcut("s", modifiers: .command)
+            }
+            .padding(.horizontal, 16).padding(.vertical, 12)
+        }
+    }
+
+    private func addButton(_ widget: PanelWidget) -> some View {
+        Button(widget.title) {
+            withAnimation(.easeOut(duration: 0.15)) {
+                draft.append(PlacedWidget(widget, size: widget.supportedSizes.contains(.wide) ? .wide : .square))
             }
         }
+        .help(widget.detail)
     }
 
     @ViewBuilder private func updateRow(_ update: UpdateCheck.Release) -> some View {

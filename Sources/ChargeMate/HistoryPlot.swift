@@ -4,6 +4,19 @@ import AppKit
 extension Notification.Name {
     static let chargeMatePanelClosed = Notification.Name("ChargeMatePanelClosed")
     static let chargeMateSettingsPage = Notification.Name("ChargeMateSettingsPage")
+    /// A long press on a chart inside the menu-bar panel; the chart's NSView takes the mouse, so
+    /// SwiftUI's own long-press gesture on the card never sees it.
+    static let chargeMatePanelLongPress = Notification.Name("ChargeMatePanelLongPress")
+}
+
+/// True while the menu-bar panel is in edit mode; cards with optional rows show their toggles
+/// and charts let the mouse through to the card. Lives here because check.sh builds this file alone.
+private struct PanelEditingKey: EnvironmentKey { static let defaultValue = false }
+extension EnvironmentValues {
+    var panelEditing: Bool {
+        get { self[PanelEditingKey.self] }
+        set { self[PanelEditingKey.self] = newValue }
+    }
 }
 
 /// All drawing inputs are values; pointer updates never fetch battery data.
@@ -15,6 +28,7 @@ struct HistoryPlot: View, Equatable {
     let detailProgress: Double
     var limitEvents: [LimitEvent] = []
     var onHoverChanged: (Bool) -> Void = { _ in }
+    @Environment(\.panelEditing) private var panelEditing
     @State private var selectedDate: Date?
     @State private var pointerMode = true
     @State private var missing = false
@@ -43,7 +57,8 @@ struct HistoryPlot: View, Equatable {
                 }
                 ChartInput(label: String(localized: "\(metric.title) grafiği"), value: selectionText,
                            onPointer: { inspect($0, plot: plot) }, onCommand: navigate,
-                           onKeyboardFocus: { onHoverChanged($0) }, onHoverChanged: onHoverChanged)
+                           onKeyboardFocus: { onHoverChanged($0) }, onHoverChanged: onHoverChanged,
+                           passthrough: panelEditing)
                 if let selection, let value = selection.value {
                     let position = data.position(selection, plot: plot)
                     VStack(spacing: 2) {
@@ -194,9 +209,12 @@ private struct ChartInput: NSViewRepresentable {
     let onCommand: (UInt16) -> Bool
     let onKeyboardFocus: (Bool) -> Void
     let onHoverChanged: (Bool) -> Void
+    /// While the panel is in edit mode the chart lets the mouse through to the card (drag to reorder).
+    var passthrough = false
     func makeNSView(context: Context) -> ChartTrackingView { ChartTrackingView() }
     func updateNSView(_ view: ChartTrackingView, context: Context) {
         view.onPointer = onPointer; view.onCommand = onCommand; view.onKeyboardFocus = onKeyboardFocus; view.onHoverChanged = onHoverChanged
+        view.passthrough = passthrough
         view.setAccessibilityElement(true); view.setAccessibilityRole(.image)
         view.setAccessibilityLabel(label); view.setAccessibilityValue(value)
         view.setAccessibilityHelp(String(localized: "Fareyle inceleyin veya tıklayıp yön tuşlarını kullanın. Home/End ilk/son ölçüm; Escape seçimi temizler."))
@@ -204,12 +222,18 @@ private struct ChartInput: NSViewRepresentable {
 }
 
 final class ChartTrackingView: NSView {
+    /// Set by the app delegate: true for the menu-bar panel, where a long press starts edit mode.
+    static var isPanelWindow: (NSWindow) -> Bool = { _ in false }
     var onPointer: (CGPoint?) -> Void = { _ in }
     var onCommand: (UInt16) -> Bool = { _ in false }
     var onKeyboardFocus: (Bool) -> Void = { _ in }
     var onHoverChanged: (Bool) -> Void = { _ in }
+    var passthrough = false
     private var movementMonitor: Any?
+    private var longPress: Timer?
+    private var pressOrigin: NSPoint?
     override var isFlipped: Bool { true }
+    override func hitTest(_ point: NSPoint) -> NSView? { passthrough ? nil : super.hitTest(point) }
     override var acceptsFirstResponder: Bool { true }
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
     override func updateTrackingAreas() {
@@ -223,7 +247,7 @@ final class ChartTrackingView: NSView {
         reconcileHover()
     }
     override func viewWillMove(toWindow newWindow: NSWindow?) {
-        if newWindow == nil { resetHover() }
+        if newWindow == nil { resetHover(); cancelLongPress() }
         super.viewWillMove(toWindow: newWindow)
     }
     override func mouseMoved(with event: NSEvent) { updatePointer(event.locationInWindow) }
@@ -233,8 +257,21 @@ final class ChartTrackingView: NSView {
         window?.makeFirstResponder(self)
         onKeyboardFocus(false)
         mouseMoved(with: event)
+        pressOrigin = event.locationInWindow
+        longPress?.invalidate()
+        longPress = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: false) { [weak self] _ in
+            guard let self, let window = self.window, Self.isPanelWindow(window) else { return }
+            NotificationCenter.default.post(name: .chargeMatePanelLongPress, object: nil)
+        }
     }
-    override func mouseDragged(with event: NSEvent) { mouseMoved(with: event) }
+    override func mouseDragged(with event: NSEvent) {
+        if let origin = pressOrigin, hypot(event.locationInWindow.x - origin.x, event.locationInWindow.y - origin.y) > 4 {
+            cancelLongPress()
+        }
+        mouseMoved(with: event)
+    }
+    override func mouseUp(with event: NSEvent) { cancelLongPress() }
+    private func cancelLongPress() { longPress?.invalidate(); longPress = nil; pressOrigin = nil }
     override func keyDown(with event: NSEvent) {
         onKeyboardFocus(true)
         if !onCommand(event.keyCode) { super.keyDown(with: event) }

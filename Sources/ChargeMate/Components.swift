@@ -137,51 +137,44 @@ private struct HoverSurface: ViewModifier {
     }
 }
 
-/// Modern widget-editor motion (iOS/macOS Home Screen style): while editing, a card gently
-/// rocks side to side so it visually reads as "movable". Honors Reduce Motion by swapping the
-/// repeating rotation for a static highlighted border instead.
+/// Home Screen-style edit motion, kept cheap: on entering edit mode each card wobbles a few
+/// times and settles. A never-ending wobble re-renders every glass card each frame (about 60% CPU
+/// with nine cards), and a `repeatForever` animation is also hard to stop reliably. This one is a
+/// finite `repeatCount`, so it ends on its own. The angle keeps edge travel to about a point
+/// (smaller for wide cards); each card has its own tempo so neighbours move out of step.
+/// Reduce Motion skips the wobble and keeps only the border.
 private struct EditModeJiggle: ViewModifier {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     let active: Bool
-    @State private var tilted = false
+    let wide: Bool
+    @State private var tilt = 0.0
+    @State private var tempo = Double.random(in: 0.12...0.16)
     func body(content: Content) -> some View {
         content
-            .rotationEffect(.degrees(active && !reduceMotion ? (tilted ? 0.7 : -0.7) : 0))
+            .rotationEffect(.degrees(tilt))
             .overlay(
                 RoundedRectangle(cornerRadius: 20, style: .continuous)
                     .strokeBorder(Color.accentColor.opacity(active ? 0.16 : 0), lineWidth: 1)
             )
-            .onAppear { startIfNeeded() }
-            .onChange(of: active) { _ in startIfNeeded() }
-            .onChange(of: reduceMotion) { _ in startIfNeeded() }
+            .onAppear { if active { wobble() } }
+            .onChange(of: active) { on in
+                if on { wobble() } else { withAnimation(.easeOut(duration: 0.15)) { tilt = 0 } }
+            }
     }
-    private func startIfNeeded() {
-        guard active, !reduceMotion else { tilted = false; return }
-        withAnimation(.easeInOut(duration: 0.16).repeatForever(autoreverses: true)) { tilted.toggle() }
+    private func wobble() {
+        guard !reduceMotion else { return }
+        let angle = wide ? 0.35 : 0.8, swings = 5
+        tilt = -angle
+        withAnimation(.easeInOut(duration: tempo).repeatCount(swings, autoreverses: true)) { tilt = angle }
+        DispatchQueue.main.asyncAfter(deadline: .now() + tempo * Double(swings)) {
+            withAnimation(.easeOut(duration: 0.2)) { tilt = 0 }
+        }
     }
 }
 
 extension View {
     /// Applies the edit-mode jiggle/highlight to a widget card.
-    func editModeJiggle(active: Bool) -> some View { modifier(EditModeJiggle(active: active)) }
-}
-
-/// True while the menu-bar panel is in edit mode; cards with optional rows show their toggles.
-private struct PanelEditingKey: EnvironmentKey { static let defaultValue = false }
-extension EnvironmentValues {
-    var panelEditing: Bool {
-        get { self[PanelEditingKey.self] }
-        set { self[PanelEditingKey.self] = newValue }
-    }
-}
-
-extension View {
-    /// Drag source only while `enabled`, so dragging inside a card (e.g. a chart) does nothing
-    /// outside edit mode.
-    @ViewBuilder
-    func draggable(when enabled: Bool, _ provider: @escaping () -> NSItemProvider) -> some View {
-        if enabled { onDrag(provider) } else { self }
-    }
+    func editModeJiggle(active: Bool, wide: Bool) -> some View { modifier(EditModeJiggle(active: active, wide: wide)) }
 }
 
 /// Small circular badge placed on a card corner in edit mode (remove/resize).
@@ -192,18 +185,80 @@ struct WidgetEditBadge: View {
     var fill: Color? = nil
     let action: () -> Void
     var body: some View {
-        Button(action: action) {
-            Image(systemName: systemImage)
-                .font(.system(size: 10, weight: .heavy))
-                .foregroundStyle(tint)
-                .frame(width: 20, height: 20)
-                .background {
-                    if let fill { Circle().fill(fill) } else { Circle().fill(.ultraThinMaterial) }
-                }
-                .overlay(Circle().strokeBorder(.white.opacity(fill == nil ? 0.4 : 0.85), lineWidth: 1))
+        Image(systemName: systemImage)
+            .font(.system(size: 10, weight: .heavy))
+            .foregroundStyle(tint)
+            .frame(width: 20, height: 20)
+            .background {
+                if let fill { Circle().fill(fill) } else { Circle().fill(.ultraThinMaterial) }
+            }
+            .overlay(Circle().strokeBorder(.white.opacity(fill == nil ? 0.4 : 0.85), lineWidth: 1))
+            .shadow(color: .black.opacity(0.18), radius: 2, y: 1)
+            .frame(width: 28, height: 28)
+            .contentShape(Circle())
+            .onTapGesture(perform: action)
+            .accessibilityElement()
+            .accessibilityAddTraits(.isButton)
+            .accessibilityAction(.default) { action() }
+    }
+}
+
+/// Where each card sits while the panel is in edit mode. The remove badge and resize handle are
+/// drawn from these anchors in an overlay above the glass container: inside it, the glass is
+/// composited on top of them, and overlays hanging off a card's edge kept SwiftUI re-laying out
+/// the panel every frame.
+struct PanelEditAnchor: Identifiable {
+    let widget: PanelWidget
+    let size: WidgetSize
+    let resizable: Bool
+    let bounds: Anchor<CGRect>
+    var id: PanelWidget { widget }
+}
+
+/// Card frames in the panel's card space while editing, for finding the drop target of a drag.
+struct PanelCardFramesKey: PreferenceKey {
+    static let defaultValue: [PanelWidget: CGRect] = [:]
+    static func reduce(value: inout [PanelWidget: CGRect], nextValue: () -> [PanelWidget: CGRect]) {
+        value.merge(nextValue()) { $1 }
+    }
+}
+
+struct PanelEditAnchorsKey: PreferenceKey {
+    static let defaultValue: [PanelEditAnchor] = []
+    static func reduce(value: inout [PanelEditAnchor], nextValue: () -> [PanelEditAnchor]) { value += nextValue() }
+}
+
+/// Home Screen widget-style resize grip on a card's bottom-right corner: an arc that follows the
+/// card's corner. Drag left to make the card square, right to make it wide; a click toggles.
+struct WidgetResizeHandle: View {
+    let size: WidgetSize
+    let onChange: (WidgetSize) -> Void
+    static let extent: CGFloat = 38
+    private static let cornerRadius: CGFloat = 20
+    var body: some View {
+        let e = Self.extent, r = Self.cornerRadius + 3
+        // The arc's centre is the card corner's centre: `cornerRadius` in from the card's corner,
+        // which sits 12 pt in from this view's bottom-right.
+        let centre = CGPoint(x: e - 12 - Self.cornerRadius, y: e - 12 - Self.cornerRadius)
+        ZStack {
+            Path { path in
+                path.addArc(center: centre, radius: r, startAngle: .degrees(8), endAngle: .degrees(82), clockwise: false)
+            }
+            .stroke(Color.white.opacity(0.92), style: StrokeStyle(lineWidth: 4.5, lineCap: .round))
+            .shadow(color: .black.opacity(0.35), radius: 2, y: 1)
         }
-        .buttonStyle(.plain)
-        .shadow(color: .black.opacity(0.18), radius: 2, y: 1)
+        .frame(width: e, height: e)
+        .contentShape(Rectangle())
+        .gesture(DragGesture(minimumDistance: 0).onEnded { value in
+            let dx = value.translation.width
+            if abs(dx) < 6, abs(value.translation.height) < 6 { onChange(size == .square ? .wide : .square) }
+            else if dx < -24 { onChange(.square) }
+            else if dx > 24 { onChange(.wide) }
+        })
+        .onHover { inside in inside ? NSCursor.resizeLeftRight.push() : NSCursor.pop() }
+        .accessibilityElement()
+        .accessibilityAddTraits(.isButton)
+        .accessibilityAction { onChange(size == .square ? .wide : .square) }
     }
 }
 
@@ -1409,11 +1464,16 @@ struct MetricChartView: View {
         let now = battery.history.last?.date ?? Date()
         VStack(alignment: .leading, spacing: square ? 4 : 0) {
             if square {
-                HStack(spacing: 5) {
-                    Image(systemName: metric.icon).font(.system(size: 11)).foregroundStyle(metric.color)
-                    Text(metric.title).font(.system(size: 11, weight: .medium)).foregroundStyle(.secondary).lineLimit(1)
+                // Only the header is inset; the plot runs edge to edge like the wide card's.
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(spacing: 5) {
+                        Image(systemName: metric.icon).font(.system(size: 11)).foregroundStyle(metric.color)
+                        Text(metric.title).font(.system(size: 11, weight: .medium)).foregroundStyle(.secondary).lineLimit(1)
+                    }
+                    Text(metric.text(battery.snapshot)).font(.system(size: 22, weight: .bold, design: .rounded)).monospacedDigit()
                 }
-                Text(metric.text(battery.snapshot)).font(.system(size: 22, weight: .bold, design: .rounded)).monospacedDigit()
+                .padding(.horizontal, 12).padding(.top, 12)
+                Spacer(minLength: 0)
             } else {
                 HStack {
                     Text(metric.title).font(.system(size: 12, weight: .medium)).foregroundStyle(Color.primary.opacity(0.72))
@@ -1424,7 +1484,7 @@ struct MetricChartView: View {
                 .padding(.horizontal, 14).padding(.top, 14).padding(.bottom, 9)
             }
             AnimatedHistoryPlot(samples: samples, now: now, selectedHours: hours, progress: zoomProgress,
-                                metric: metric, height: square ? 56 : height, limitEvents: battery.limitEvents,
+                                metric: metric, height: square ? 78 : height, limitEvents: battery.limitEvents,
                                 onHoverChanged: square ? { _ in } : updateOverview)
                 .allowsHitTesting(!square)
             if !square, let error = battery.historyError {
@@ -1432,9 +1492,6 @@ struct MetricChartView: View {
                     .padding(.horizontal, 14).padding(.bottom, 14)
             }
         }
-            .padding(.horizontal, square ? 12 : 0)
-            .padding(.top, square ? 12 : 0)
-            .padding(.bottom, square ? 12 : 0)
             .frame(maxWidth: .infinity, minHeight: square ? 150 : nil, maxHeight: square ? 150 : nil, alignment: .leading)
             .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
             .modifier(GlassSurface())

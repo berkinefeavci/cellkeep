@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.5
+
+- Panel edit mode no longer freezes Cellkeep. Cards used AppKit drag-and-drop, which kept the panel re-laying out every frame (100% CPU) from entering edit mode, so pressing Done hung the app. Cards are now dragged with a plain SwiftUI gesture.
+- Long-press anywhere on a card to edit, including on charts (before, only the text took the press).
+- Remove and resize controls are drawn above the cards instead of behind them.
+- Resize from the card's bottom-right corner like a Home Screen widget: drag left for square, right for wide, or click to switch.
+- Calmer wobble: on entering edit mode each card wobbles briefly and settles, each at its own tempo, instead of shaking non-stop.
+- Square chart cards draw the chart edge to edge, like the wide ones; only the title and value are inset.
+- Add card, Cancel and Done sit in a bar pinned to the bottom of the panel; "Add card" lists every card and chart not on the panel.
+
 ## 1.1.4
 
 - In-app update: "Update" downloads the new release, checks its checksum, Developer ID signature and Apple notarization, then replaces Cellkeep and relaunches it. If any check fails, nothing is installed and the release page is offered.

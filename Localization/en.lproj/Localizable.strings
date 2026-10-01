@@ -283,7 +283,6 @@
 "Gelişmiş" = "Advanced";
 "Genel" = "General";
 "Geniş" = "Wide";
-"Geniş yap" = "Make wide";
 "Geri al" = "Undo";
 "Geri alınabilir geçmiş yedeği yok." = "There is no history backup to restore.";
 "Gerilim" = "Voltage";
@@ -312,7 +311,6 @@
 "GitHub'a bağlanılamadı." = "Could not connect to GitHub.";
 "Gizle" = "Hide";
 "Grafik aralığı" = "Chart range";
-"Grafik ekle" = "Add chart";
 "GÖRÜNÜM" = "APPEARANCE";
 "Gönderildi" = "Sent";
 "Görev adı 1–80 karakter olmalı." = "Task name must be 1–80 characters.";
@@ -405,14 +403,11 @@
 "Kararlı Cellkeep durum adını döndürür." = "Returns the stable Cellkeep state name.";
 "Kararlı otomasyon durum adı" = "Stable state name for automations";
 "Kare" = "Square";
-"Kare yap" = "Make square";
 "Kart ekle" = "Add card";
 "Kart eklemek, kaldırmak ve sıralamak için paneldeki bir karta uzun basın veya sağ tıklayıp “Kartları düzenle”yi seçin. Kompakt boyutta da seçtiğiniz kartlar korunur." = "To add, remove or reorder cards, long-press a card in the panel or right-click it and choose “Edit cards”. Your cards are kept in the compact size too.";
 "Kart kataloğu" = "Card catalog";
 "Kart yok. Düzenleme modunda alttan kart ekleyebilirsiniz." = "No cards. In edit mode you can add cards at the bottom.";
 "Kartları düzenle" = "Edit cards";
-"Kartları sürükleyerek sıralayın; köşedeki düğmelerle kaldırın veya boyutunu değiştirin." = "Drag cards to reorder; use the corner buttons to remove or resize them.";
-"Kartı kaldır" = "Remove card";
 "Kataloğu sağa kaydır" = "Scroll catalog right";
 "Kataloğu sola kaydır" = "Scroll catalog left";
 "Kaydediliyor…" = "Saving…";
@@ -851,3 +846,9 @@
 "Şu anda ne oluyor?" = "What is happening right now?";
 "—" = "—";
 "“%@” silindi." = "“%@” was deleted.";
+"Bütün kartlar ve grafikler zaten panelde." = "All cards and charts are already on the panel.";
+"Grafikler" = "Charts";
+"Kartlar" = "Cards";
+"Kartları sürükleyerek sıralayın; kaldırmak için eksiye basın, boyutunu sağ alt köşeden değiştirin." = "Drag cards to reorder; press minus to remove, resize from the bottom-right corner.";
+"Panelde olmayan bir kart ya da grafik ekle" = "Add a card or chart that isn’t on the panel";
+"Tümü panelde" = "All on panel";

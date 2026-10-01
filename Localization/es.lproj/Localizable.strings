@@ -283,7 +283,6 @@
 "Gelişmiş" = "Avanzado";
 "Genel" = "General";
 "Geniş" = "Ancho";
-"Geniş yap" = "Hacer ancha";
 "Geri al" = "Deshacer";
 "Geri alınabilir geçmiş yedeği yok." = "No hay ninguna copia del historial para restaurar.";
 "Gerilim" = "Voltaje";
@@ -312,7 +311,6 @@
 "GitHub'a bağlanılamadı." = "No se pudo conectar con GitHub.";
 "Gizle" = "Ocultar";
 "Grafik aralığı" = "Rango del gráfico";
-"Grafik ekle" = "Añadir gráfico";
 "GÖRÜNÜM" = "APARIENCIA";
 "Gönderildi" = "Enviado";
 "Görev adı 1–80 karakter olmalı." = "El nombre de la tarea debe tener de 1 a 80 caracteres.";
@@ -405,14 +403,11 @@
 "Kararlı Cellkeep durum adını döndürür." = "Devuelve el nombre de estado estable de Cellkeep.";
 "Kararlı otomasyon durum adı" = "Nombre de estado estable para automatizaciones";
 "Kare" = "Cuadrado";
-"Kare yap" = "Hacer cuadrada";
 "Kart ekle" = "Añadir tarjeta";
 "Kart eklemek, kaldırmak ve sıralamak için paneldeki bir karta uzun basın veya sağ tıklayıp “Kartları düzenle”yi seçin. Kompakt boyutta da seçtiğiniz kartlar korunur." = "Para añadir, quitar u ordenar tarjetas, mantén pulsada una tarjeta del panel o haz clic derecho y elige «Editar tarjetas». Tus tarjetas se conservan también en el tamaño compacto.";
 "Kart kataloğu" = "Catálogo de tarjetas";
 "Kart yok. Düzenleme modunda alttan kart ekleyebilirsiniz." = "No hay tarjetas. En modo edición puedes añadirlas abajo.";
 "Kartları düzenle" = "Editar tarjetas";
-"Kartları sürükleyerek sıralayın; köşedeki düğmelerle kaldırın veya boyutunu değiştirin." = "Arrastra las tarjetas para ordenarlas; usa los botones de las esquinas para quitarlas o cambiar su tamaño.";
-"Kartı kaldır" = "Quitar tarjeta";
 "Kataloğu sağa kaydır" = "Desplazar el catálogo a la derecha";
 "Kataloğu sola kaydır" = "Desplazar el catálogo a la izquierda";
 "Kaydediliyor…" = "Guardando…";
@@ -851,3 +846,9 @@
 "Şu anda ne oluyor?" = "¿Qué está pasando ahora?";
 "—" = "—";
 "“%@” silindi." = "Se eliminó «%@».";
+"Bütün kartlar ve grafikler zaten panelde." = "Todas las tarjetas y gráficos ya están en el panel.";
+"Grafikler" = "Gráficos";
+"Kartlar" = "Tarjetas";
+"Kartları sürükleyerek sıralayın; kaldırmak için eksiye basın, boyutunu sağ alt köşeden değiştirin." = "Arrastra las tarjetas para ordenarlas; pulsa menos para quitar y cambia el tamaño desde la esquina inferior derecha.";
+"Panelde olmayan bir kart ya da grafik ekle" = "Añadir una tarjeta o gráfico que no esté en el panel";
+"Tümü panelde" = "Todo en el panel";
