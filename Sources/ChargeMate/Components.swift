@@ -1464,11 +1464,16 @@ struct MetricChartView: View {
         let now = battery.history.last?.date ?? Date()
         VStack(alignment: .leading, spacing: square ? 4 : 0) {
             if square {
-                HStack(spacing: 5) {
-                    Image(systemName: metric.icon).font(.system(size: 11)).foregroundStyle(metric.color)
-                    Text(metric.title).font(.system(size: 11, weight: .medium)).foregroundStyle(.secondary).lineLimit(1)
+                // Only the header is inset; the plot runs edge to edge like the wide card's.
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(spacing: 5) {
+                        Image(systemName: metric.icon).font(.system(size: 11)).foregroundStyle(metric.color)
+                        Text(metric.title).font(.system(size: 11, weight: .medium)).foregroundStyle(.secondary).lineLimit(1)
+                    }
+                    Text(metric.text(battery.snapshot)).font(.system(size: 22, weight: .bold, design: .rounded)).monospacedDigit()
                 }
-                Text(metric.text(battery.snapshot)).font(.system(size: 22, weight: .bold, design: .rounded)).monospacedDigit()
+                .padding(.horizontal, 12).padding(.top, 12)
+                Spacer(minLength: 0)
             } else {
                 HStack {
                     Text(metric.title).font(.system(size: 12, weight: .medium)).foregroundStyle(Color.primary.opacity(0.72))
@@ -1479,7 +1484,7 @@ struct MetricChartView: View {
                 .padding(.horizontal, 14).padding(.top, 14).padding(.bottom, 9)
             }
             AnimatedHistoryPlot(samples: samples, now: now, selectedHours: hours, progress: zoomProgress,
-                                metric: metric, height: square ? 56 : height, limitEvents: battery.limitEvents,
+                                metric: metric, height: square ? 78 : height, limitEvents: battery.limitEvents,
                                 onHoverChanged: square ? { _ in } : updateOverview)
                 .allowsHitTesting(!square)
             if !square, let error = battery.historyError {
@@ -1487,9 +1492,6 @@ struct MetricChartView: View {
                     .padding(.horizontal, 14).padding(.bottom, 14)
             }
         }
-            .padding(.horizontal, square ? 12 : 0)
-            .padding(.top, square ? 12 : 0)
-            .padding(.bottom, square ? 12 : 0)
             .frame(maxWidth: .infinity, minHeight: square ? 150 : nil, maxHeight: square ? 150 : nil, alignment: .leading)
             .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
             .modifier(GlassSurface())

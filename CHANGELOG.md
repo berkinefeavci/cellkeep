@@ -7,6 +7,7 @@
 - Remove and resize controls are drawn above the cards instead of behind them.
 - Resize from the card's bottom-right corner like a Home Screen widget: drag left for square, right for wide, or click to switch.
 - Calmer wobble: on entering edit mode each card wobbles briefly and settles, each at its own tempo, instead of shaking non-stop.
+- Square chart cards draw the chart edge to edge, like the wide ones; only the title and value are inset.
 - Add card, Cancel and Done sit in a bar pinned to the bottom of the panel; "Add card" lists every card and chart not on the panel.
 
 ## 1.1.4
