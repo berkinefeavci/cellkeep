@@ -739,6 +739,7 @@
 "Ölçüm toplanıyor…" = "Collecting readings…";
 "Ölçüm toplanıyor… (ölçüm: %lld)" = "Collecting readings… (readings: %lld)";
 "Ölçümleri oku" = "Read measurements";
+"Önce aşağıdaki 'Işık denetimini etkinleştir' ile ışık yardımcısını kurun veya güncelleyin; yönetici şifresi bir kez istenir." = "First install or update the light helper with 'Enable light control' below; your administrator password is asked once.";
 "Önceden etkinleştirilmiş Cellkeep LED denetimiyle MagSafe ışığını değiştirir." = "Changes the MagSafe light through Cellkeep's previously enabled LED control.";
 "Önceden etkinleştirilmiş Cellkeep yardımcısıyla macOS güç modunu değiştirir." = "Changes the macOS power mode through Cellkeep's previously enabled helper.";
 "Önceden etkinleştirilmiş LED denetimi gerekir" = "Requires previously enabled LED control";
