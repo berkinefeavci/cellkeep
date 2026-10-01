@@ -95,8 +95,15 @@ struct MagSafeLEDSettingsView: View {
             }
             Button("Uygula") { applyPolicy(policy.wrappedValue) }
                 .chargeMateButtonStyle()
-                .disabled(isWorking || battery.otherControllerRunning)
+                .disabled(isWorking || battery.otherControllerRunning || !helperInstalled)
             if battery.otherControllerRunning { Text("Başka bir şarj uygulaması açıkken ışık denetimi bekler.").font(.caption) }
+            if !helperInstalled && !isWorking {
+                // An older helper (from Cellkeep 1.0) still answers on the socket but is not trusted
+                // any more; sending it the policy only produced an unclear wait.
+                Text("Önce aşağıdaki 'Işık denetimini etkinleştir' ile ışık yardımcısını kurun veya güncelleyin; yönetici şifresi bir kez istenir.")
+                    .font(.caption).foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
             if isWorking { ProgressView(String(localized: "Ayar uygulanıyor…")) }
             if !testMessage.isEmpty { Text(testMessage).font(.caption).foregroundStyle(.secondary) }
 
@@ -229,6 +236,11 @@ struct MagSafeLEDSettingsView: View {
 
     private func applyPolicy(_ selected: MagSafeLEDPolicy) {
         guard !isWorking else { return }
+        guard MagSafeLEDHardwareService.installed() else {
+            helperInstalled = false
+            testMessage = String(localized: "LED yardımcısı kurulmamış. Önce denetimi etkinleştirin.")
+            return
+        }
         let start = startMinute, end = endMinute
         isWorking = true
         testMessage = String(localized: "Ayar kaydediliyor…")

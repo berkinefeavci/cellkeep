@@ -739,6 +739,7 @@
 "Ölçüm toplanıyor…" = "Ölçüm toplanıyor…";
 "Ölçüm toplanıyor… (ölçüm: %lld)" = "Ölçüm toplanıyor… (ölçüm: %lld)";
 "Ölçümleri oku" = "Ölçümleri oku";
+"Önce aşağıdaki 'Işık denetimini etkinleştir' ile ışık yardımcısını kurun veya güncelleyin; yönetici şifresi bir kez istenir." = "Önce aşağıdaki 'Işık denetimini etkinleştir' ile ışık yardımcısını kurun veya güncelleyin; yönetici şifresi bir kez istenir.";
 "Önceden etkinleştirilmiş Cellkeep LED denetimiyle MagSafe ışığını değiştirir." = "Önceden etkinleştirilmiş Cellkeep LED denetimiyle MagSafe ışığını değiştirir.";
 "Önceden etkinleştirilmiş Cellkeep yardımcısıyla macOS güç modunu değiştirir." = "Önceden etkinleştirilmiş Cellkeep yardımcısıyla macOS güç modunu değiştirir.";
 "Önceden etkinleştirilmiş LED denetimi gerekir" = "Önceden etkinleştirilmiş LED denetimi gerekir";
