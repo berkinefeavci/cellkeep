@@ -2,7 +2,7 @@
 
 🇹🇷 [Türkçe README](README.tr.md)
 
-**Free, open-source battery care for Apple Silicon MacBooks.** Keep your battery at 80–100% with macOS's own charge-limit control, see where every watt goes, and watch your battery's health over months — from a small menu-bar app with no subscription, no account and no telemetry.
+**Free, open-source battery care for Apple Silicon MacBooks.** Set macOS's 80–100% charge limit, see live power flow, and watch your battery's health over months — from a small menu-bar app with no subscription, no account and no telemetry.
 
 <p align="center">
   <a href="../../releases/latest"><img alt="Download the latest release" src="https://img.shields.io/github/v/release/berkinefeavci/cellkeep?label=Download&style=for-the-badge"></a>
@@ -71,7 +71,7 @@ These are shown in the UI as locked and marked **"Yakında"** (Coming soon). The
 
 ### With Homebrew
 
-Once the `berkinefeavci/homebrew-cellkeep` tap is published (see [Packaging/homebrew](Packaging/homebrew/README.md)):
+The [Cellkeep Homebrew tap](https://github.com/berkinefeavci/homebrew-cellkeep) is available:
 
 ```sh
 brew install --cask berkinefeavci/cellkeep/cellkeep

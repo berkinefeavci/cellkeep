@@ -2,7 +2,7 @@
 
 🇬🇧 [English README](README.md)
 
-**Apple Silicon MacBook'lar için ücretsiz ve açık kaynak batarya bakımı.** Bataryanı macOS'un kendi şarj sınırı denetimiyle %80–100 arasında tut, her watt'ın nereye gittiğini gör ve batarya sağlığını aylar boyunca izle — abonelik, hesap ya da veri toplama olmadan, küçük bir menü çubuğu uygulamasıyla.
+**Apple Silicon MacBook'lar için ücretsiz ve açık kaynak batarya bakımı.** macOS'un %80–100 şarj sınırını ayarla, canlı güç akışını gör ve batarya sağlığını aylar boyunca izle — abonelik, hesap ya da veri toplama olmadan, küçük bir menü çubuğu uygulamasıyla.
 
 <p align="center">
   <a href="../../releases/latest"><img alt="Son sürümü indir" src="https://img.shields.io/github/v/release/berkinefeavci/cellkeep?label=%C4%B0ndir&style=for-the-badge"></a>
@@ -71,7 +71,7 @@ Bunlar arayüzde kilitli olarak ve **"Yakında"** etiketiyle görünür. Bunlar 
 
 ### Homebrew ile
 
-`berkinefeavci/homebrew-cellkeep` deposu yayınlandığında (bkz. [Packaging/homebrew](Packaging/homebrew/README.md)):
+[Cellkeep Homebrew deposu](https://github.com/berkinefeavci/homebrew-cellkeep) yayında:
 
 ```sh
 brew install --cask berkinefeavci/cellkeep/cellkeep
