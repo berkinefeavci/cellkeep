@@ -20,6 +20,8 @@ struct PopoverView: View {
     @State private var dragging: PanelWidget?
     @State private var saveError: String?
     @State private var galleryOpen = false
+    @State private var footerHovered = false
+    @ObservedObject private var installer = UpdateInstaller.shared
 
     init(showLimitEditor: Bool = false) {
         _limitEditor = State(initialValue: showLimitEditor)
@@ -95,36 +97,23 @@ struct PopoverView: View {
                             rowView(row)
                         }
                         if (editing ? draft : layout.items).isEmpty {
-                            Text("Kart yok. Düzenle düğmesiyle kart ekleyebilirsiniz.").font(.callout).foregroundStyle(.secondary).chargeCard()
+                            Text("Kart yok. Düzenleme modunda alttan kart ekleyebilirsiniz.").font(.callout).foregroundStyle(.secondary).chargeCard()
                         }
-                        HStack { ReadOnlyBadge(); Spacer(); HistoryRangePicker() }
-                        Text("Cellkeep \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "") · Bu Mac’te saklanır")
-                            .font(.system(size: 10)).foregroundStyle(.secondary)
-                        if let update = UpdateCheck.rememberedUpdate() {
-                            Button("Yeni sürüm var: \(update.version)") { NSWorkspace.shared.open(update.pageURL) }
-                                .buttonStyle(.link).font(.system(size: 10))
-                        }
-                        Divider()
-                        HStack(spacing: 8) {
-                            if editing {
-                                Button("Kart ekle") { galleryOpen = true }
-                                    .popoverToolbarButtonStyle()
-                                    .popover(isPresented: $galleryOpen) {
-                                        WidgetGallerySheet(draft: $draft) { galleryOpen = false }
-                                    }
-                                Spacer()
-                                Button("İptal") { editing = false; draft = []; dragging = nil; galleryOpen = false }
-                                    .popoverToolbarButtonStyle()
-                                Button("Kaydet") {
-                                    do { savedLayout = try PopoverLayout.encode(draft); editing = false; dragging = nil; galleryOpen = false }
-                                    catch { saveError = String(localized: "Düzen kaydedilemedi: \(error.localizedDescription)") }
-                                }.popoverToolbarButtonStyle().keyboardShortcut("s", modifiers: .command)
-                            } else {
-                                Spacer()
-                                Button("Düzenle") { draft = layout.items; editing = true; saveError = nil }
-                                    .popoverToolbarButtonStyle()
-                                    .accessibilityLabel("Menü kartlarını düzenle")
+                        if editing {
+                            editTray
+                        } else {
+                            VStack(spacing: 12) {
+                                HStack { ReadOnlyBadge(); Spacer(); HistoryRangePicker() }
+                                Text("Cellkeep \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "") · Bu Mac’te saklanır")
+                                    .font(.system(size: 10)).foregroundStyle(.secondary)
+                                if let update = UpdateCheck.rememberedUpdate() { updateRow(update) }
+                                Text("Düzenleme moduna girmek için bir karta uzun basın.")
+                                    .font(.system(size: 10)).foregroundStyle(.secondary)
+                                    .opacity(footerHovered ? 1 : 0)
+                                    .accessibilityHidden(true)
                             }
+                            .contentShape(Rectangle())
+                            .onHover { inside in withAnimation(.easeOut(duration: 0.15)) { footerHovered = inside } }
                         }
                     }.padding(16)
                 }
@@ -178,49 +167,127 @@ struct PopoverView: View {
     }
 
     private func cardRow(_ item: PlacedWidget) -> some View {
-        VStack(spacing: 6) {
-            if editing {
-                HStack {
-                    Image(systemName: "line.3.horizontal").help("Sürükleyerek sırala")
-                    Text(item.widget.title).font(.system(size: 11, weight: .semibold)).lineLimit(1)
-                    Spacer()
-                    Button { move(item.widget, by: -1) } label: { Image(systemName: "arrow.up") }
-                        .disabled(draft.first?.widget == item.widget).accessibilityLabel("\(item.widget.title) yukarı")
-                    Button { move(item.widget, by: 1) } label: { Image(systemName: "arrow.down") }
-                        .disabled(draft.last?.widget == item.widget).accessibilityLabel("\(item.widget.title) aşağı")
-                }.buttonStyle(IconCircleButtonStyle(size: 22)).padding(.horizontal, 6)
-                    .onDrag { dragging = item.widget; return NSItemProvider(object: item.widget.rawValue as NSString) }
-            }
-            ZStack(alignment: .topLeading) {
-                widgetContent(item).editModeJiggle(active: editing && !reduceMotion)
+        widgetContent(item)
+            .environment(\.panelEditing, editing)
+            .editModeJiggle(active: editing && !reduceMotion)
+            // Badges sit on the card's corners, half outside, so they never cover its text.
+            .overlay(alignment: .topLeading) {
                 if editing {
-                    WidgetEditBadge(systemImage: "minus.circle.fill", tint: .red) {
+                    WidgetEditBadge(systemImage: "minus", tint: .white, fill: .red) {
                         withAnimation(.easeOut(duration: 0.15)) { draft.removeAll { $0.widget == item.widget } }
                     }
-                    .padding(6)
+                    .offset(x: -7, y: -7)
                     .accessibilityLabel("\(item.widget.title) kaldır")
-                    if item.widget.supportedSizes.count > 1 {
-                        HStack {
-                            Spacer()
-                            WidgetEditBadge(systemImage: item.size == .square ? "rectangle" : "square") {
-                                toggleSize(item.widget)
+                    .help("Kartı kaldır")
+                }
+            }
+            .overlay(alignment: .topTrailing) {
+                if editing && item.widget.supportedSizes.count > 1 {
+                    WidgetEditBadge(systemImage: item.size == .square ? "rectangle" : "square") {
+                        toggleSize(item.widget)
+                    }
+                    .offset(x: 7, y: -7)
+                    .accessibilityLabel("\(item.widget.title) boyutunu \(item.size == .square ? String(localized: "geniş") : String(localized: "kare")) yap")
+                    .help(item.size == .square ? String(localized: "Geniş yap") : String(localized: "Kare yap"))
+                }
+            }
+            .simultaneousGesture(LongPressGesture(minimumDuration: 0.6).onEnded { _ in startEditing() })
+            .contextMenu {
+                if !editing { Button("Kartları düzenle") { startEditing() } }
+            }
+            .draggable(when: editing) {
+                dragging = item.widget
+                return NSItemProvider(object: item.widget.rawValue as NSString)
+            }
+            .accessibilityElement(children: .contain)
+            .accessibilityAction(named: Text("Kartları düzenle")) { startEditing() }
+            .accessibilityAction(named: Text("Kaldır")) { if editing { draft.removeAll { $0.widget == item.widget } } }
+            .accessibilityAction(named: Text("Yukarı taşı")) { if editing { move(item.widget, by: -1) } }
+            .accessibilityAction(named: Text("Aşağı taşı")) { if editing { move(item.widget, by: 1) } }
+            .accessibilityAction(named: Text("Boyutu değiştir")) {
+                guard editing, item.widget.supportedSizes.count > 1 else { return }
+                toggleSize(item.widget)
+            }
+            .onDrop(of: ["public.utf8-plain-text"], isTargeted: nil) { _ in
+                guard editing, let source = dragging else { return false }
+                draft = PopoverLayout.move(source, before: item.widget, in: draft); dragging = nil; return true
+            }
+    }
+
+    private func startEditing() {
+        guard !editing else { return }
+        draft = layout.items; saveError = nil
+        withAnimation(.easeOut(duration: 0.18)) { editing = true }
+    }
+
+    private func finishEditing(save: Bool) {
+        if save {
+            do { savedLayout = try PopoverLayout.encode(draft) }
+            catch { saveError = String(localized: "Düzen kaydedilemedi: \(error.localizedDescription)"); return }
+        }
+        withAnimation(.easeOut(duration: 0.18)) { editing = false }
+        draft = []; dragging = nil; galleryOpen = false
+    }
+
+    /// Edit-mode footer: cards and charts not on the panel as one-tap chips, then Cancel / Done.
+    private var editTray: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            let missing = PanelWidget.allCases.filter { widget in !draft.contains { $0.widget == widget } }
+            let cards = missing.filter { !$0.isChart }
+            let charts = missing.filter(\.isChart)
+            if !cards.isEmpty { addRow(String(localized: "Kart ekle"), cards) }
+            if !charts.isEmpty { addRow(String(localized: "Grafik ekle"), charts) }
+            Text("Kartları sürükleyerek sıralayın; köşedeki düğmelerle kaldırın veya boyutunu değiştirin.")
+                .font(.system(size: 10)).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            HStack(spacing: 8) {
+                Button("İptal") { finishEditing(save: false) }
+                    .popoverToolbarButtonStyle()
+                Spacer()
+                Button("Bitti") { finishEditing(save: true) }
+                    .popoverToolbarButtonStyle(active: true)
+                    .keyboardShortcut("s", modifiers: .command)
+            }
+        }
+    }
+
+    private func addRow(_ title: String, _ widgets: [PanelWidget]) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title).font(.system(size: 11, weight: .semibold)).foregroundStyle(.secondary)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 6) {
+                    ForEach(widgets) { widget in
+                        Button {
+                            withAnimation(.easeOut(duration: 0.15)) {
+                                draft.append(PlacedWidget(widget, size: widget.supportedSizes.contains(.wide) ? .wide : .square))
                             }
-                            .accessibilityLabel("\(item.widget.title) boyutunu \(item.size == .square ? String(localized: "geniş") : String(localized: "kare")) yap")
+                        } label: {
+                            Label(widget.title, systemImage: "plus")
+                                .font(.system(size: 11, weight: .semibold))
+                                .padding(.horizontal, 10).padding(.vertical, 6)
+                                .background(Color.accentColor, in: Capsule())
+                                .foregroundStyle(.white)
                         }
-                        .padding(6)
+                        .buttonStyle(.plain)
+                        .help(widget.detail)
                     }
                 }
             }
         }
-        .accessibilityElement(children: .contain)
-        .accessibilityAction(named: Text("Kaldır")) { draft.removeAll { $0.widget == item.widget } }
-        .accessibilityAction(named: Text("Boyutu değiştir")) {
-            guard item.widget.supportedSizes.count > 1 else { return }
-            toggleSize(item.widget)
-        }
-        .onDrop(of: ["public.utf8-plain-text"], isTargeted: nil) { _ in
-            guard editing, let source = dragging else { return false }
-            draft = PopoverLayout.move(source, before: item.widget, in: draft); dragging = nil; return true
+    }
+
+    @ViewBuilder private func updateRow(_ update: UpdateCheck.Release) -> some View {
+        switch installer.phase {
+        case .working(let message):
+            ProgressView(message).controlSize(.small).font(.system(size: 10))
+        case .failed(let message):
+            Text(message).font(.system(size: 10)).foregroundStyle(.orange).multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+            Button("Sürüm \(update.version) sayfasını aç") { NSWorkspace.shared.open(update.pageURL) }
+                .buttonStyle(.link).font(.system(size: 10))
+        case .idle:
+            Button("Yeni sürüm var: \(update.version) · Güncelle") { installer.install(update) }
+                .buttonStyle(.link).font(.system(size: 10))
         }
     }
 
@@ -883,7 +950,7 @@ private struct AppearanceView: View {
                 }.pickerStyle(.segmented)
                 Divider()
                 TrailingToggle(title: String(localized: "Saydamlığı azalt"), isOn: $reduceTransparency)
-                Text("Kart eklemek, kaldırmak ve sıralamak için paneldeki Düzenle düğmesini kullanın. Kompakt boyutta da seçtiğiniz kartlar korunur.")
+                Text("Kart eklemek, kaldırmak ve sıralamak için paneldeki bir karta uzun basın veya sağ tıklayıp “Kartları düzenle”yi seçin. Kompakt boyutta da seçtiğiniz kartlar korunur.")
                     .font(.caption).foregroundStyle(.secondary)
         }.toggleStyle(.switch).chargeCard()
     }

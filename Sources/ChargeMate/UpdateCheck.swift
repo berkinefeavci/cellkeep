@@ -1,9 +1,8 @@
 import Foundation
 
 /// Opt-in "is there a newer release?" check against this repository's public GitHub releases.
-/// It is the only network request Cellkeep makes, it is off by default, it sends nothing but a
-/// plain GET for the latest release, and it never downloads or installs anything: a newer version
-/// is only shown with a link to its release page.
+/// It is off by default and sends nothing but a plain GET for the latest release. Downloading and
+/// installing happen only when the user presses "Update"; see `UpdateInstaller`.
 enum UpdateCheck {
     static let releasesAPI = URL(string: "https://api.github.com/repos/berkinefeavci/cellkeep/releases/latest")!
     static let checkInterval: TimeInterval = 7 * 24 * 60 * 60

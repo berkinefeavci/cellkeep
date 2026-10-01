@@ -4,6 +4,12 @@ enum PanelWidget: String, CaseIterable, Codable, Identifiable {
     case statusExplanation, powerFlow, significantEnergy, powerMode, specifications
     case chartLevel, chartTemperature, chartPower, chartHealth, chartCycles
     var id: String { rawValue }
+    var isChart: Bool {
+        switch self {
+        case .chartLevel, .chartTemperature, .chartPower, .chartHealth, .chartCycles: return true
+        case .statusExplanation, .powerFlow, .significantEnergy, .powerMode, .specifications: return false
+        }
+    }
     var detail: String {
         switch self {
         case .statusExplanation: return String(localized: "Güncel şarj durumunun açıklaması")
