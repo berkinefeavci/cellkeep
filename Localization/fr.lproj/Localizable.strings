@@ -142,7 +142,6 @@
 "Başlangıç LED durumu geri yüklenemedi." = "L’état d’origine de la LED n’a pas pu être restauré.";
 "Başlangıç LED durumu güvenle geri yüklenemiyor." = "L’état d’origine de la LED ne peut pas être restauré en toute sécurité.";
 "Başlangıç LED durumu okunamadı." = "L’état d’origine de la LED n’a pas pu être lu.";
-"Başlangıç durumu geri yükleniyor…" = "Restauration de l’état d’origine…";
 "Başlangıç rehberi" = "Premiers pas";
 "Başlangıç tarihi eksik." = "La date de début est manquante.";
 "Başlat" = "Démarrer";
@@ -431,7 +430,6 @@
 "Kestirmeler'i Aç" = "Ouvrir Raccourcis";
 "Kompakt" = "Compact";
 "Kompakt: 340 pt genişlik — dar ekranlar ve sade görünüm için." = "Compact : 340 pt de large — pour les écrans étroits et un affichage plus sobre.";
-"Komut gönderiliyor; kararlı geri okuma bekleniyor…" = "Envoi de la commande ; attente d’une relecture stable…";
 "Komutun geri okuması doğrulandı. Işığın gerçek rengini gözle kontrol edin." = "La relecture de la commande est vérifiée. Contrôlez vous-même la couleur réelle du voyant.";
 "Kontrol durumu işlem sırasında değişti. Ayar değiştirilmedi; güncel değeri inceleyip yeniden deneyin." = "L’état du contrôle a changé pendant l’opération. Le réglage n’a pas été modifié ; examinez la valeur actuelle et réessayez.";
 "Kontrol durumu yeniden okunamadı; ayar değiştirilmedi." = "L’état du contrôle n’a pas pu être relu ; le réglage n’a pas été modifié.";
@@ -764,7 +762,6 @@
 "Önceden etkinleştirilmiş Cellkeep yardımcısıyla macOS güç modunu değiştirir." = "Modifie le mode d’énergie de macOS via l’assistant Cellkeep activé au préalable.";
 "Önceden etkinleştirilmiş LED denetimi gerekir" = "Nécessite un contrôle LED activé au préalable";
 "Önceden etkinleştirilmiş helper gerekir" = "Nécessite un assistant activé au préalable";
-"Önceki LED durumu geri okuma ile doğrulandı." = "L’état LED précédent a été vérifié par relecture.";
 "Önceki LED oturumu geri yüklenmeyi bekliyor." = "La session LED précédente attend d’être restaurée.";
 "Önceki LED oturumu okunamıyor." = "La session LED précédente ne peut pas être lue.";
 "Önceki işlem kontrol edilmeli" = "L’opération précédente doit être vérifiée";
@@ -852,3 +849,8 @@
 "Kartları sürükleyerek sıralayın; kaldırmak için eksiye basın, boyutunu sağ alt köşeden değiştirin." = "Faites glisser les cartes pour les réordonner ; moins pour retirer, coin inférieur droit pour redimensionner.";
 "Panelde olmayan bir kart ya da grafik ekle" = "Ajouter une carte ou un graphique absent du panneau";
 "Tümü panelde" = "Tout est dans le panneau";
+"Işık macOS'a bırakıldı; rengi macOS seçer." = "Le voyant est rendu à macOS ; macOS choisit sa couleur.";
+"Işık macOS'a bırakılıyor…" = "Restitution du voyant à macOS…";
+"Işığın sabit kaldığı doğrulanıyor (yaklaşık 8 saniye)…" = "Vérification que le voyant reste stable (environ 8 secondes)…";
+"Kayıtlı ışık politikası yeniden uygulanıyor…" = "Réapplication de la règle de voyant enregistrée…";
+"Test bitti; kayıtlı ışık politikası yeniden uygulandı." = "Test terminé ; la règle de voyant enregistrée est de nouveau appliquée.";

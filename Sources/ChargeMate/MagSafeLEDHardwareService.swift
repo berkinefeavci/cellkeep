@@ -107,16 +107,38 @@ final class MagSafeLEDHardwareService {
 
     func apply(_ output: MagSafeLEDOutput) -> MagSafeLEDControlCoordinator.Outcome {
         guard Self.installed() else { return .blocked(String(localized: "LED yardımcısı kurulmamış.")) }
-        if coordinator.requiresRecovery {
-            let result = coordinator.restore()
-            guard result == .restored || result == .unchanged else { return result }
+        if output == .system {
+            // In system mode macOS picks the colour, so the light reads back green or orange, never
+            // "system": a verified write could never succeed. Hand the light to macOS instead.
+            do { try Self.configure(policy: .system, start: 0, end: 0); return .applied }
+            catch { return .blocked(error.localizedDescription) }
+        }
+        // A half-finished or unreadable test is settled by the saved policy, not by forcing the
+        // colour read before it (that colour may have been macOS's own choice).
+        if coordinator.requiresRecovery && !coordinator.sessionActive {
+            let resumed = resumeSavedPolicy()
+            guard resumed == .restored else { return resumed }
         }
         return coordinator.apply(output)
     }
 
+    /// Ends a manual test: the light goes back to the policy chosen on the MagSafe page.
     func restore() -> MagSafeLEDControlCoordinator.Outcome {
         guard Self.installed() else { return .blocked(String(localized: "LED yardımcısı kurulmamış.")) }
-        return coordinator.restore()
+        return resumeSavedPolicy()
+    }
+
+    private func resumeSavedPolicy() -> MagSafeLEDControlCoordinator.Outcome {
+        let defaults = UserDefaults.standard
+        let saved = MagSafeLEDPolicy(rawValue: defaults.string(forKey: MagSafeLEDPreferences.policyKey) ?? "") ?? .system
+        let start = defaults.object(forKey: "magSafeLEDStartMinute") as? Int ?? 1320
+        let end = defaults.object(forKey: "magSafeLEDEndMinute") as? Int ?? 480
+        do {
+            try Self.configure(policy: saved == .status ? .system : saved, start: start, end: end)
+            return .restored
+        } catch {
+            return .blocked(error.localizedDescription)
+        }
     }
 
     var requiresRecovery: Bool { coordinator.requiresRecovery }
