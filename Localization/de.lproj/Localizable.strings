@@ -283,7 +283,6 @@
 "Gelişmiş" = "Erweitert";
 "Genel" = "Allgemein";
 "Geniş" = "Breit";
-"Geniş yap" = "Breit machen";
 "Geri al" = "Widerrufen";
 "Geri alınabilir geçmiş yedeği yok." = "Es gibt keine Verlaufssicherung zum Wiederherstellen.";
 "Gerilim" = "Spannung";
@@ -312,7 +311,6 @@
 "GitHub'a bağlanılamadı." = "Keine Verbindung zu GitHub möglich.";
 "Gizle" = "Ausblenden";
 "Grafik aralığı" = "Diagrammzeitraum";
-"Grafik ekle" = "Diagramm hinzufügen";
 "GÖRÜNÜM" = "DARSTELLUNG";
 "Gönderildi" = "Gesendet";
 "Görev adı 1–80 karakter olmalı." = "Der Aufgabenname muss 1–80 Zeichen lang sein.";
@@ -405,14 +403,11 @@
 "Kararlı Cellkeep durum adını döndürür." = "Gibt den stabilen Cellkeep-Zustandsnamen zurück.";
 "Kararlı otomasyon durum adı" = "Stabiler Zustandsname für Automationen";
 "Kare" = "Quadratisch";
-"Kare yap" = "Quadratisch machen";
 "Kart ekle" = "Karte hinzufügen";
 "Kart eklemek, kaldırmak ve sıralamak için paneldeki bir karta uzun basın veya sağ tıklayıp “Kartları düzenle”yi seçin. Kompakt boyutta da seçtiğiniz kartlar korunur." = "Zum Hinzufügen, Entfernen oder Sortieren halte eine Karte im Fenster gedrückt oder klicke mit rechts und wähle „Karten bearbeiten“. Deine Karten bleiben auch in der kompakten Größe erhalten.";
 "Kart kataloğu" = "Kartenkatalog";
 "Kart yok. Düzenleme modunda alttan kart ekleyebilirsiniz." = "Keine Karten. Im Bearbeitungsmodus kannst du unten Karten hinzufügen.";
 "Kartları düzenle" = "Karten bearbeiten";
-"Kartları sürükleyerek sıralayın; köşedeki düğmelerle kaldırın veya boyutunu değiştirin." = "Ziehe Karten zum Sortieren; mit den Eckknöpfen entfernst du sie oder änderst die Größe.";
-"Kartı kaldır" = "Karte entfernen";
 "Kataloğu sağa kaydır" = "Katalog nach rechts scrollen";
 "Kataloğu sola kaydır" = "Katalog nach links scrollen";
 "Kaydediliyor…" = "Wird gespeichert …";
@@ -851,3 +846,9 @@
 "Şu anda ne oluyor?" = "Was passiert gerade?";
 "—" = "—";
 "“%@” silindi." = "„%@“ wurde gelöscht.";
+"Bütün kartlar ve grafikler zaten panelde." = "Alle Karten und Diagramme sind bereits im Fenster.";
+"Grafikler" = "Diagramme";
+"Kartlar" = "Karten";
+"Kartları sürükleyerek sıralayın; kaldırmak için eksiye basın, boyutunu sağ alt köşeden değiştirin." = "Karten zum Sortieren ziehen; mit Minus entfernen, Größe an der Ecke unten rechts ändern.";
+"Panelde olmayan bir kart ya da grafik ekle" = "Karte oder Diagramm hinzufügen, das noch fehlt";
+"Tümü panelde" = "Alle im Fenster";

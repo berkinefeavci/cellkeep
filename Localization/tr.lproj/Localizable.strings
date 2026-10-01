@@ -283,7 +283,6 @@
 "Gelişmiş" = "Gelişmiş";
 "Genel" = "Genel";
 "Geniş" = "Geniş";
-"Geniş yap" = "Geniş yap";
 "Geri al" = "Geri al";
 "Geri alınabilir geçmiş yedeği yok." = "Geri alınabilir geçmiş yedeği yok.";
 "Gerilim" = "Gerilim";
@@ -312,7 +311,6 @@
 "GitHub'a bağlanılamadı." = "GitHub'a bağlanılamadı.";
 "Gizle" = "Gizle";
 "Grafik aralığı" = "Grafik aralığı";
-"Grafik ekle" = "Grafik ekle";
 "GÖRÜNÜM" = "GÖRÜNÜM";
 "Gönderildi" = "Gönderildi";
 "Görev adı 1–80 karakter olmalı." = "Görev adı 1–80 karakter olmalı.";
@@ -405,14 +403,11 @@
 "Kararlı Cellkeep durum adını döndürür." = "Kararlı Cellkeep durum adını döndürür.";
 "Kararlı otomasyon durum adı" = "Kararlı otomasyon durum adı";
 "Kare" = "Kare";
-"Kare yap" = "Kare yap";
 "Kart ekle" = "Kart ekle";
 "Kart eklemek, kaldırmak ve sıralamak için paneldeki bir karta uzun basın veya sağ tıklayıp “Kartları düzenle”yi seçin. Kompakt boyutta da seçtiğiniz kartlar korunur." = "Kart eklemek, kaldırmak ve sıralamak için paneldeki bir karta uzun basın veya sağ tıklayıp “Kartları düzenle”yi seçin. Kompakt boyutta da seçtiğiniz kartlar korunur.";
 "Kart kataloğu" = "Kart kataloğu";
 "Kart yok. Düzenleme modunda alttan kart ekleyebilirsiniz." = "Kart yok. Düzenleme modunda alttan kart ekleyebilirsiniz.";
 "Kartları düzenle" = "Kartları düzenle";
-"Kartları sürükleyerek sıralayın; köşedeki düğmelerle kaldırın veya boyutunu değiştirin." = "Kartları sürükleyerek sıralayın; köşedeki düğmelerle kaldırın veya boyutunu değiştirin.";
-"Kartı kaldır" = "Kartı kaldır";
 "Kataloğu sağa kaydır" = "Kataloğu sağa kaydır";
 "Kataloğu sola kaydır" = "Kataloğu sola kaydır";
 "Kaydediliyor…" = "Kaydediliyor…";
@@ -851,3 +846,9 @@
 "Şu anda ne oluyor?" = "Şu anda ne oluyor?";
 "—" = "—";
 "“%@” silindi." = "“%@” silindi.";
+"Bütün kartlar ve grafikler zaten panelde." = "Bütün kartlar ve grafikler zaten panelde.";
+"Grafikler" = "Grafikler";
+"Kartlar" = "Kartlar";
+"Kartları sürükleyerek sıralayın; kaldırmak için eksiye basın, boyutunu sağ alt köşeden değiştirin." = "Kartları sürükleyerek sıralayın; kaldırmak için eksiye basın, boyutunu sağ alt köşeden değiştirin.";
+"Panelde olmayan bir kart ya da grafik ekle" = "Panelde olmayan bir kart ya da grafik ekle";
+"Tümü panelde" = "Tümü panelde";

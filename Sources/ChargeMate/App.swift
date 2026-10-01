@@ -183,6 +183,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(workspaceDidWake),
                                                           name: NSWorkspace.didWakeNotification, object: nil)
         installApplicationMenu()
+        ChartTrackingView.isPanelWindow = { $0 is MenuPanel }
         if UserDefaults.standard.bool(forKey: "showPanelAtLaunch") {
             DispatchQueue.main.async { [weak self] in self?.togglePanel(nil) }
         }
