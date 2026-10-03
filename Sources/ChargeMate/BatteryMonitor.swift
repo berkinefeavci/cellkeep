@@ -115,6 +115,14 @@ struct BatterySnapshot {
     }
 
     var powerFlow: PowerFlowPresentation { PowerFlowPresentation(snapshot: self) }
+
+    /// FullChargeCapacity / DesignCapacity, unclamped: the charge the gauge can deliver right now.
+    var usableCapacityText: String {
+        guard let full = reading(.fullCapacity).validValue,
+              let design = reading(.designCapacity).validValue, design > 0 else { return "—" }
+        let number = String(format: "%.1f", full / design * 100)
+        return String(localized: "%\(number)")
+    }
 }
 
 enum BatteryState: String { case charging, paused, discharging }
@@ -1414,10 +1422,16 @@ final class BatteryMonitor: ObservableObject, @unchecked Sendable {
         s.cycleCount = decode(.cycles, ["CycleCount"], valid: integer).map(Int.init)
         s.nominalChargeCapacity = full.map(Int.init)
         s.designCapacity = decode(.designCapacity, ["DesignCapacity"], valid: { integer($0) && $0 > 0 }).map(Int.init)
+        // Health follows macOS "Maximum Capacity": the reserve-inclusive nominal capacity over design,
+        // capped at 100. FullChargeCapacity is the usable charge; the gauge re-estimates it with
+        // temperature and load (±2–3 points a day), so it is shown separately, not as health.
         s.healthPercent = nil
-        if let full, let design = s.designCapacity {
-            s.healthPercent = full / Double(design) * 100
-            s.sources[.health] = "\(s.sources[.fullCapacity] ?? "") / \(s.sources[.designCapacity] ?? "")"
+        let nominal = decode(.health, ["NominalChargeCapacity"], valid: { integer($0) && $0 > 0 })
+        if let capacity = nominal ?? full, let design = s.designCapacity {
+            s.healthPercent = min(100, capacity / Double(design) * 100)
+            let source = nominal == nil ? s.sources[.fullCapacity] : "IOKit BatteryData.NominalChargeCapacity"
+            s.sources[.health] = "\(source ?? "") / \(s.sources[.designCapacity] ?? "") (≤100)"
+            s.invalidFields.remove(.health)
         }
         let telemetry = dict["PowerTelemetryData"] as? [String: Any] ?? [:]
         func external(_ field: BatteryField, _ container: [String: Any], _ prefix: String, _ key: String, scale: Double = 1) -> Double? {

@@ -986,7 +986,7 @@ struct QuickStatsView: View {
     private func title(_ item: QuickStat) -> String {
         switch item {
         case .designCapacity: return String(localized: "Tasarım kapasitesi")
-        case .fullCapacity: return String(localized: "Maksimum kapasite")
+        case .fullCapacity: return String(localized: "Kullanılabilir kapasite")
         case .hardwarePercentage: return String(localized: "Donanım yüzdesi")
         case .cycles: return String(localized: "Döngü sayısı")
         case .temperature: return String(localized: "Batarya sıcaklığı")
@@ -1005,7 +1005,7 @@ struct QuickStatsView: View {
         let s = battery.snapshot
         switch item {
         case .designCapacity: return s.reading(.designCapacity).text(digits: 0)
-        case .fullCapacity: return String(localized: "\(s.reading(.fullCapacity).text(digits: 0)) · \(s.reading(.health).text())")
+        case .fullCapacity: return String(localized: "\(s.reading(.fullCapacity).text(digits: 0)) · \(s.usableCapacityText)")
         case .hardwarePercentage: return s.reading(.hardwarePercentage).text(digits: 0)
         case .cycles: return s.reading(.cycles).text(digits: 0)
         case .temperature: return battery.temperatureText

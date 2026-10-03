@@ -40,7 +40,7 @@ import CoreGraphics
         precondition(longGap.segments.count == 1 && longGap.nearest(to: now.addingTimeInterval(-60))?.value == 1)
         let health = ChartData(samples: [ChartSample(date: now.addingTimeInterval(-60), value: 99),
                                          ChartSample(date: now, value: 100)], now: now, hours: 1, health: true)
-        precondition(health.yDomain == 99...100)
+        precondition(health.yDomain == 95...100)
         let noisyHealth = ChartData(samples: [
             ChartSample(date: now.addingTimeInterval(-7_100), value: 99),
             ChartSample(date: now.addingTimeInterval(-7_000), value: 101),
@@ -51,7 +51,12 @@ import CoreGraphics
             ChartSample(date: now, value: 99.5)
         ], now: now, hours: 24, health: true)
         precondition(noisyHealth.samples.map(\.value) == [99.5, 99.9, 99.5])
-        precondition(noisyHealth.yDomain == 99...100)
+        precondition(noisyHealth.yDomain == 95...100)
+        let dip = ChartData(samples: [ChartSample(date: now.addingTimeInterval(-60), value: 97.4),
+                                      ChartSample(date: now, value: 101.2)], now: now, hours: 1, health: true)
+        precondition(dip.samples.compactMap(\.value).allSatisfy { $0 <= 100 } && dip.yDomain == 95...100)
+        let worn = ChartData(samples: [ChartSample(date: now, value: 92.6)], now: now, hours: 1, health: true)
+        precondition(worn.yDomain == 92...100)
         let healthGap = ChartData(samples: [ChartSample(date: now.addingTimeInterval(-600), value: 99),
                                             ChartSample(date: now, value: 100)], now: now, hours: 1, health: true)
         precondition(healthGap.samples.count == 2)

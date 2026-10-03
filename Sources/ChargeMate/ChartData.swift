@@ -58,7 +58,8 @@ struct ChartData: Equatable {
         // Connecting the surrounding real measurements is linear interpolation;
         // no synthetic value is persisted or presented as a sensor sample.
         let valid = ordered.filter { $0.value?.isFinite == true }
-        samples = health ? Self.hourlyHealthSamples(valid) : valid
+        // Health is capped at 100 like macOS; this also tames older history saved before the cap.
+        samples = health ? Self.hourlyHealthSamples(valid.map { ChartSample(date: $0.date, value: min(100, $0.value!)) }) : valid
         // Use one shared time window for every metric. Missing periods stay empty.
         xDomain = start...now
         segments = samples.isEmpty ? [] : [Self.extendToBounds(samples, start: start, end: now)]
@@ -66,8 +67,9 @@ struct ChartData: Equatable {
         let low = values.min() ?? 0, high = values.max() ?? 1
         if percentage { yDomain = 0...100 }
         else if health {
-            let lower = max(0, floor(low))
-            let upper = max(lower + 1, ceil(high))
+            // At least five points tall: a one-point gauge re-estimate must not look like a cliff.
+            let upper = max(100, ceil(high))
+            let lower = max(0, min(floor(low), upper - Self.minimumHealthSpan))
             yDomain = lower...upper
         }
         else {
@@ -105,6 +107,8 @@ struct ChartData: Equatable {
                       width: max(1, size.width - left - right),
                       height: max(1, size.height - top - bottom))
     }
+
+    static let minimumHealthSpan = 5.0
 
     private static func hourlyHealthSamples(_ samples: [ChartSample]) -> [ChartSample] {
         func aggregate(_ bucket: [ChartSample]) -> ChartSample {

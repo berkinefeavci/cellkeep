@@ -16,7 +16,7 @@ struct LongTermHealthCard: View {
         battery.dailySummaries.compactMap { summary in
             guard let health = summary.healthPercent,
                   let date = LongTermHistory.date(of: summary.day, calendar: .current) else { return nil }
-            return HealthPoint(date: date, health: health)
+            return HealthPoint(date: date, health: min(100, health))
         }
     }
 
@@ -33,8 +33,8 @@ struct LongTermHealthCard: View {
             let points = healthPoints
             if points.count >= 2 {
                 let values = points.map(\.health)
-                let lower = (values.min()! - 1).rounded(.down)
-                let upper = (values.max()! + 1).rounded(.up)
+                let upper = 100.0
+                let lower = max(0, min(values.min()!.rounded(.down), upper - ChartData.minimumHealthSpan))
                 Chart(points) { point in
                     LineMark(x: .value("Gün", point.date, unit: .day), y: .value("Sağlık", point.health))
                         .foregroundStyle(.orange)
