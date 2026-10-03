@@ -354,7 +354,9 @@
 "Güç modu yardımcısı kurulamadı." = "No se pudo instalar el auxiliar del modo de energía.";
 "Hafta içi" = "Entre semana";
 "Hafta sonu tam dolum" = "Carga completa del fin de semana";
-"Haftada bir yeni sürüm denetle" = "Buscar una nueva versión una vez por semana";
+"Günde bir yeni sürüm denetle" = "Buscar una nueva versión una vez al día";
+"Yeni sürüm çıkınca bildirim göster" = "Avisarme cuando haya una nueva versión";
+"Güncellemek için tıklayın." = "Haz clic para actualizar.";
 "Hakkında" = "Acerca de";
 "Harici depolama" = "Almacenamiento externo";
 "Hata" = "Error";

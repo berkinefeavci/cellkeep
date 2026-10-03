@@ -354,7 +354,9 @@
 "Güç modu yardımcısı kurulamadı." = "The power mode helper could not be installed.";
 "Hafta içi" = "Weekdays";
 "Hafta sonu tam dolum" = "Weekend full charge";
-"Haftada bir yeni sürüm denetle" = "Check for a new version once a week";
+"Günde bir yeni sürüm denetle" = "Check for a new version once a day";
+"Yeni sürüm çıkınca bildirim göster" = "Notify me when a new version is available";
+"Güncellemek için tıklayın." = "Click to update.";
 "Hakkında" = "About";
 "Harici depolama" = "External storage";
 "Hata" = "Error";

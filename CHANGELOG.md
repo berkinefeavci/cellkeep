@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0
+
+- Cellkeep now tells you when a new version is out: one macOS notification per version. Clicking it opens Settings → About, where "Update" downloads, verifies and installs it as before, without visiting GitHub.
+- The release check runs once a day and is on unless you turned it off; a choice to keep it off is kept. Both the check and the notification can be turned off in Settings → About.
+- New app icon.
+
 ## 1.1.7
 
 - Maximum capacity now matches macOS: it uses the battery's nominal capacity over its design capacity and stops at 100%, the same way System Settings shows it. Before, Cellkeep used the full charge capacity, which the battery gauge re-estimates with temperature and load, so it moved between about 97% and 101% within a day.

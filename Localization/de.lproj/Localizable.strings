@@ -354,7 +354,9 @@
 "Güç modu yardımcısı kurulamadı." = "Der Energiemodus-Helfer konnte nicht installiert werden.";
 "Hafta içi" = "Wochentags";
 "Hafta sonu tam dolum" = "Vollladung am Wochenende";
-"Haftada bir yeni sürüm denetle" = "Einmal pro Woche nach einer neuen Version suchen";
+"Günde bir yeni sürüm denetle" = "Einmal täglich nach einer neuen Version suchen";
+"Yeni sürüm çıkınca bildirim göster" = "Bei einer neuen Version benachrichtigen";
+"Güncellemek için tıklayın." = "Zum Aktualisieren klicken.";
 "Hakkında" = "Über";
 "Harici depolama" = "Externer Speicher";
 "Hata" = "Fehler";

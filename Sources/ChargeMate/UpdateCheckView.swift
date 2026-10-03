@@ -1,9 +1,10 @@
 import AppKit
 import SwiftUI
 
-/// About-page controls for the opt-in release check. Off by default; see `UpdateCheck`.
+/// About-page controls for the daily release check and its notification; see `UpdateCheck`.
 struct UpdateCheckSection: View {
-    @AppStorage(UpdateCheck.Keys.automatic) private var automatic = false
+    @AppStorage(UpdateCheck.Keys.automatic) private var automatic = true
+    @AppStorage(UpdateCheck.Keys.notifications) private var notifications = true
     @State private var checking = false
     @State private var status: String?
     @State private var available: UpdateCheck.Release? = UpdateCheck.rememberedUpdate()
@@ -11,7 +12,8 @@ struct UpdateCheckSection: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            Toggle("Haftada bir yeni sürüm denetle", isOn: $automatic)
+            Toggle("Günde bir yeni sürüm denetle", isOn: $automatic)
+            Toggle("Yeni sürüm çıkınca bildirim göster", isOn: $notifications).disabled(!automatic)
             Text("Açıksa Cellkeep yalnızca GitHub'daki son sürüm numarasını sorar ve veri göndermez. Güncellemeyi yalnızca siz “Güncelle”ye bastığınızda indirir; imzası ve Apple onayı doğrulanmadan kurmaz.")
                 .font(.caption).foregroundStyle(.secondary).multilineTextAlignment(.center)
             HStack {

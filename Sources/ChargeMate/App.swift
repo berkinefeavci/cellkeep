@@ -99,8 +99,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
                     ?? .init(operationID: UUID(), status: .rejected, state: nil, message: String(localized: "Cellkeep kullanılamıyor."))
             })
         scheduleRuntime?.start()
-        // Opt-in only; a no-op unless the user enabled the weekly release check.
-        Task { await UpdateCheck.checkIfDue() }
+        // A no-op when the user turned the daily release check off.
+        UpdateNotifications.shared.start()
         GlobalHotKey.shared.action = { [weak self] in self?.togglePanel(nil) }
         GlobalHotKey.shared.apply(.current)
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)

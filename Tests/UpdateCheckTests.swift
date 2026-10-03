@@ -56,10 +56,20 @@ import Foundation
         precondition(UpdateCheck.rememberedUpdate(in: defaults, currentVersion: "1.1.0") == nil)
         defaults.set("https://evil.example/x", forKey: UpdateCheck.Keys.latestURL)
         precondition(UpdateCheck.rememberedUpdate(in: defaults, currentVersion: "1.0.0") == nil)
-        // Off by default: nothing runs and nothing is recorded.
+        // On by default; an explicit opt-out is kept.
         let blank = UserDefaults(suiteName: suite + ".off")!
         defer { blank.removePersistentDomain(forName: suite + ".off") }
-        precondition(!blank.bool(forKey: UpdateCheck.Keys.automatic))
+        precondition(UpdateCheck.automaticEnabled(in: blank) && UpdateCheck.notificationsEnabled(in: blank))
+        blank.set(false, forKey: UpdateCheck.Keys.automatic)
+        precondition(!UpdateCheck.automaticEnabled(in: blank))
+        // One notification per version, and none once notifications are turned off.
+        precondition(UpdateCheck.shouldNotify(release, in: blank, currentVersion: "1.0.0"))
+        precondition(!UpdateCheck.shouldNotify(release, in: blank, currentVersion: "1.1.0"))
+        blank.set("1.1.0", forKey: UpdateCheck.Keys.notifiedVersion)
+        precondition(!UpdateCheck.shouldNotify(release, in: blank, currentVersion: "1.0.0"))
+        blank.removeObject(forKey: UpdateCheck.Keys.notifiedVersion)
+        blank.set(false, forKey: UpdateCheck.Keys.notifications)
+        precondition(!UpdateCheck.shouldNotify(release, in: blank, currentVersion: "1.0.0"))
 
         print("Update check: version, trusted-URL, payload, schedule and opt-in assertions passed; no network.")
     }

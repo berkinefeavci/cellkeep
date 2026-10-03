@@ -1,17 +1,20 @@
 import Foundation
 
-/// Opt-in "is there a newer release?" check against this repository's public GitHub releases.
-/// It is off by default and sends nothing but a plain GET for the latest release. Downloading and
-/// installing happen only when the user presses "Update"; see `UpdateInstaller`.
+/// Daily "is there a newer release?" check against this repository's public GitHub releases.
+/// It is on unless the user turned it off, and sends nothing but a plain GET for the latest
+/// release. Downloading and installing happen only when the user presses "Update"; see
+/// `UpdateInstaller`.
 enum UpdateCheck {
     static let releasesAPI = URL(string: "https://api.github.com/repos/berkinefeavci/cellkeep/releases/latest")!
-    static let checkInterval: TimeInterval = 7 * 24 * 60 * 60
+    static let checkInterval: TimeInterval = 24 * 60 * 60
 
     enum Keys {
         static let automatic = "updateCheckAutomatic"
         static let lastCheck = "updateCheckLastDate"
         static let latestVersion = "updateCheckLatestVersion"
         static let latestURL = "updateCheckLatestURL"
+        static let notifications = "updateNotificationsEnabled"
+        static let notifiedVersion = "updateNotificationLastVersion"
     }
 
     struct Release: Equatable {
@@ -53,6 +56,25 @@ enum UpdateCheck {
     static func isTrustedReleasePage(_ url: URL) -> Bool {
         url.scheme == "https" && url.host == "github.com"
             && url.path.hasPrefix("/berkinefeavci/cellkeep/releases/")
+    }
+
+    /// On unless the user explicitly turned the toggle off.
+    static func automaticEnabled(in defaults: UserDefaults = .standard) -> Bool {
+        defaults.object(forKey: Keys.automatic) == nil || defaults.bool(forKey: Keys.automatic)
+    }
+
+    static func notificationsEnabled(in defaults: UserDefaults = .standard) -> Bool {
+        defaults.object(forKey: Keys.notifications) == nil || defaults.bool(forKey: Keys.notifications)
+    }
+
+    /// One notification per version: a release already announced is not announced again.
+    static func shouldNotify(_ release: Release, in defaults: UserDefaults = .standard,
+                             currentVersion: String = currentVersion) -> Bool {
+        guard notificationsEnabled(in: defaults), isNewer(release.version, than: currentVersion) else { return false }
+        if let notified = defaults.string(forKey: Keys.notifiedVersion), versionComponents(notified) != nil {
+            return isNewer(release.version, than: notified)
+        }
+        return true
     }
 
     static func parseLatestRelease(_ data: Data) -> Release? {
@@ -107,10 +129,11 @@ enum UpdateCheck {
         return result
     }
 
-    /// Called on launch: checks at most once a week, and only when the user turned it on.
-    static func checkIfDue(defaults: UserDefaults = .standard, now: Date = Date()) async {
-        guard defaults.bool(forKey: Keys.automatic),
-              isDue(lastCheck: defaults.object(forKey: Keys.lastCheck) as? Date, now: now) else { return }
-        _ = await check(defaults: defaults)
+    /// Called on launch and hourly while running: checks at most once a day, and not at all when
+    /// the user turned it off. Returns nil when no check ran.
+    static func checkIfDue(defaults: UserDefaults = .standard, now: Date = Date()) async -> Outcome? {
+        guard automaticEnabled(in: defaults),
+              isDue(lastCheck: defaults.object(forKey: Keys.lastCheck) as? Date, now: now) else { return nil }
+        return await check(defaults: defaults)
     }
 }
