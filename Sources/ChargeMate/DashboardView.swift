@@ -23,7 +23,8 @@ struct DashboardView: View {
                     (String(localized: "Kalan kapasite"), s.reading(.remainingCapacity).text(digits: 0))])
                 specCard(String(localized: "Batarya sağlığı"), icon: "heart.fill", rows: [
                     (String(localized: "Tasarım"), s.reading(.designCapacity).text(digits: 0)),
-                    (String(localized: "Maksimum"), s.reading(.fullCapacity).text(digits: 0)),
+                    (String(localized: "Tam şarj kapasitesi"), s.reading(.fullCapacity).text(digits: 0)),
+                    (String(localized: "Kullanılabilir kapasite"), s.usableCapacityText),
                     (String(localized: "Sağlık"), s.reading(.health).text()),
                     (String(localized: "Döngü sayısı"), s.reading(.cycles).text(digits: 0)),
                     (String(localized: "Donanım yüzdesi"), s.reading(.hardwarePercentage).text(digits: 0))])

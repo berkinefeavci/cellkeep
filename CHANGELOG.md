@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.7
+
+- Maximum capacity now matches macOS: it uses the battery's nominal capacity over its design capacity and stops at 100%, the same way System Settings shows it. Before, Cellkeep used the full charge capacity, which the battery gauge re-estimates with temperature and load, so it moved between about 97% and 101% within a day.
+- That full charge figure is still shown, as "Usable capacity" (for example 8500 mAh · 99.1%), next to the design capacity.
+- The capacity chart is at least five points tall (usually 95–100%) and never goes above 100%, so a one-point change no longer looks like a sudden drop. Older readings above 100% are drawn at 100%.
+
 ## 1.1.6
 
 - MagSafe Light tests no longer get stuck. Switching from one test colour to another writes the new colour directly; before, Cellkeep first restored the old colour and then wrote the new one, two waits of about 8 seconds each, and any hiccup left the page blocked until a restore.

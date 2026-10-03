@@ -437,6 +437,7 @@
 "Kontrol göstergeleri ve macOS pil durumu, doğrulanmış kaynakları hazır olduğunda kullanılabilir olacak." = "Control indicators and macOS battery condition will become available once their verified sources are ready.";
 "Kontrol yetenekleri" = "Control capabilities";
 "Koyu" = "Dark";
+"Kullanılabilir kapasite" = "Usable capacity";
 "Kullanılamıyor" = "Unavailable";
 "Kurulum gerekli" = "Setup required";
 "Kısayol kaydedilemedi; başka bir uygulama kullanıyor olabilir. Diğer seçeneği deneyin." = "The shortcut could not be registered; another app may be using it. Try the other option.";

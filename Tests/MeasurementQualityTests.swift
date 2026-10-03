@@ -30,8 +30,16 @@ import Foundation
                              "ExternalConnected": true, "FullChargeCapacity": 6200, "DesignCapacity": 6000,
                              "PowerTelemetryData": ["SystemPowerIn": 25000, "SystemLoad": 24000]])
         check(signed.amperage == -1000 && signed.wattage == -12 && signed.adapterWatts == 25 && signed.systemWatts == 24, "signed current and mW units")
-        check(abs(signed.healthPercent! - 103.333333333) < 0.0001, "health above 100 preserved")
-        check(signed.reading(.health, now: now).text() == "%103.3", "health display not clamped")
+        check(signed.healthPercent == 100, "health capped at 100 like macOS")
+        check(signed.reading(.health, now: now).text() == "%100.0", "health display capped")
+        check(signed.usableCapacityText == "%103.3", "usable capacity stays unclamped")
+        // Live Mac17,8 values: macOS reports 100 %, FullChargeCapacity alone would say 99.1 %.
+        let nominal = decode(["BatteryData": ["NominalChargeCapacity": 8744, "FullChargeCapacity": 8500, "DesignCapacity": 8579]])
+        check(nominal.healthPercent == 100, "health follows nominal capacity")
+        check(nominal.reading(.fullCapacity, now: now).text(digits: 0) == "8500 mAh", "full capacity stays usable charge")
+        check(nominal.usableCapacityText == "%99.1", "usable capacity from full charge capacity")
+        let worn = decode(["BatteryData": ["NominalChargeCapacity": 7722, "FullChargeCapacity": 7500, "DesignCapacity": 8579]])
+        check(abs(worn.healthPercent! - 90.01) < 0.01, "worn health below 100 is not rounded up")
         let invalid = decode(["Temperature": Double.nan, "Voltage": Double.infinity, "InstantAmperage": Double.nan,
                               "CurrentCapacity": 150, "CycleCount": -1, "DesignCapacity": Double.infinity,
                               "RemainingCapacity": Double(Int.max), "FullChargeCapacity": 6000,
