@@ -354,7 +354,9 @@
 "Güç modu yardımcısı kurulamadı." = "Güç modu yardımcısı kurulamadı.";
 "Hafta içi" = "Hafta içi";
 "Hafta sonu tam dolum" = "Hafta sonu tam dolum";
-"Haftada bir yeni sürüm denetle" = "Haftada bir yeni sürüm denetle";
+"Günde bir yeni sürüm denetle" = "Günde bir yeni sürüm denetle";
+"Yeni sürüm çıkınca bildirim göster" = "Yeni sürüm çıkınca bildirim göster";
+"Güncellemek için tıklayın." = "Güncellemek için tıklayın.";
 "Hakkında" = "Hakkında";
 "Harici depolama" = "Harici depolama";
 "Hata" = "Hata";
